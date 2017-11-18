@@ -1,0 +1,186 @@
+/* CSS by Owen Graham */
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400');
+
+* {
+	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
+	color: #000000;
+	font-size: 20px;
+	line-height: 20px;
+}
+
+body {
+	margin: 64px;
+	background: #FFFFFF;
+}
+
+a {
+	color: inherit;
+	/*text-decoration: none;*/
+}
+
+::selection {
+	color: inherit;
+	background: #C0C0C0;
+}
+
+:focus {
+	outline: 0;
+}
+
+input {
+	box-sizing: border-box;
+	border: 0;
+	display: inline;
+	margin: 0;
+	padding: 8px;
+	background: 0;
+}
+
+input[type='submit'] {
+	padding: 8px 0;
+	cursor: pointer;
+	width: 36px;
+	max-width: 12.5%;
+	margin-right: 8px;
+}
+
+input[type='text'] {
+	border-bottom: 1px solid;
+	width: 256px;
+	max-width: 75%;
+	transition: 0.25s;
+	border-bottom-color: rgba(0, 0, 0, 0.25);
+}
+
+input[type='text']:focus {
+	border-bottom-color: #000000;
+}
+
+input[type='radio'] {
+}
+
+#bod {
+	/*background: #FFFFFF;*/
+	padding: 16px;
+	margin: auto;
+	/*max-width: 324px;*/
+	max-width: initial;
+}
+
+#convert, #mode {
+	display: block;
+	margin: 8px 0px;
+	box-sizing: border-box;
+	padding: 8px;
+	/*border: 1px solid #000000;*/
+}
+
+#convert, #roman, #roman input {
+	text-align: center;
+}
+
+#mode {
+	margin: 0 12.5%;
+}
+
+#title, #footer {
+	display: block;
+	text-align: center;
+}
+
+input[type='radio'] {
+	opacity: 0;
+	position: absolute;   
+}
+
+input[type='radio'], label {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 5px;
+	cursor: pointer;
+}
+
+label {
+	position: relative;
+}
+
+input[type='radio'] + label:before {
+	content: '';
+	background-color: 0;
+	transition: 0.25s;
+	border: 1px solid #000000;
+	box-sizing: border-box;
+	display: inline-block;
+	vertical-align: middle;
+	width: 8px;
+	height: 8px;
+	padding: 2px;
+	margin-right: 8px;
+	text-align: center;
+	border-radius: 50%;
+}
+
+input[type='radio']:checked + label:before {
+	content: '';
+	background-color: #000000;
+}
+
+input[type='radio']:focus + label {
+  outline: 0;
+}
+
+@media only screen and (orientation: landscape) {
+	
+	* {
+		font-size: 16px;
+		line-height: 16px;
+	}
+	
+	body {
+		margin: 128px 0;
+	}
+	
+	#bod {
+		max-width: 576px;
+	}
+	
+	#convert, #mode {
+		margin: 8px;
+	}
+	
+	#doz {
+		display: flex;
+	}
+	
+}
+
+/* easter eggs */
+
+body.dark {
+	background: #000000;
+}
+
+body.dark * {
+	color: #FFFFFF;
+}
+
+body.dark input[type='text'] {
+	border-bottom-color: rgba(255, 255, 255, 0.25);
+}
+
+body.dark input[type='text']:focus {
+	border-bottom-color: #FFFFFF;
+}
+
+body.dark input[type='radio'] + label:before {
+	border-color: #FFFFFF;
+}
+
+body.dark input[type='radio']:checked + label:before {
+	background-color: #FFFFFF;
+}
+
+body.flip {
+	transform: rotate(180deg);
+}

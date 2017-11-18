@@ -1,0 +1,113 @@
+/* CSS by Owen Graham */
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700');
+
+* {
+	font-family: 'Ubuntu Mono', 'Consolas', monospace;
+}
+
+body {
+	color: #000000;
+	font-size: 96px;
+	line-height: 96px;
+	font-weight: 400;
+	text-decoration: none;
+	text-align: center;
+}
+
+body {
+	margin: 0;
+	background: #FFFFFF;
+}
+
+::selection {
+	color: #000000;
+	background: #C0C0C0;
+}
+
+::-webkit-scrollbar, ::-webkit-scrollbar-corner {
+	width: 12px;
+	height: 12px;
+	background: #FFFFFF;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #000000;
+}
+
+#clock {
+	display: flex;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	/*background: #FF80FF;*/
+}
+
+#face {
+	margin: auto;
+	min-width: 384px;
+	padding: 36px;
+	box-sizing: border-box;
+	border-radius: 96px;
+	border: 12px solid #000000;
+}
+
+#face > span {
+	font-weight: 700;
+	font-size: 96px;
+	line-height: 96px;
+}
+
+span#year {
+	display: block;
+}
+
+span#hour, span#minute {
+	font-weight: 300;
+	display: block;
+	font-size: 192px;
+	line-height: 144px;
+}
+
+span.c {
+	font-weight: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+#foot, #foot input {
+	color: #000000;
+	font-size: 24px;
+	line-height: 24px;
+	font-weight: 400;
+}
+
+#foot {
+	text-align: left;
+	padding: 0px 24px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 36px;
+	opacity: 0;
+	transition: opacity 1s;
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+
+#foot input {
+	background: 0;
+	border: 0;
+	outline: 0;
+	margin: 0px 12px;
+}
+
+#foot input:focus {
+	text-decoration: underline;
+}
+
+#foot:hover {
+	opacity: 1;
+}

@@ -1,0 +1,128 @@
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400');
+
+* {
+	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
+	color: #000000;
+	font-size: 20px;
+	line-height: 20px;
+}
+
+body {
+	margin: 64px;
+	background: #FFFFFF;
+}
+
+a {
+	color: inherit;
+	/*text-decoration: none;*/
+}
+
+::selection {
+	color: inherit;
+	background: #C0C0C0;
+}
+
+:focus {
+	outline: 0;
+}
+
+input {
+	box-sizing: border-box;
+	border: 0;
+	display: inline;
+	margin: 0;
+	padding: 8px;
+	background: 0;
+}
+
+#wrapper {
+	width: 75vw;
+	max-width: 100vh;
+	margin: auto;
+}
+
+#board {
+	cursor: pointer;
+	display: flex;
+	flex-direction: row;
+	background: #004080;
+}
+
+.col:hover {
+	background: #0060C0;
+}
+
+.col {
+	display: flex;
+	flex-direction: column-reverse;
+	height: 75vh;
+}
+
+.col, .cell {
+	width: 100%;
+}
+
+.cell {
+	height: 100%;
+}
+
+.cell span {
+	display: block;
+	margin: auto;
+	border-radius: 1024px;
+	background: #FFFFFF;
+	width:  9.375vh;
+	height: 9.375vh;
+	margin-top: 1.5625vh;
+	border: 0px solid #FFC000;
+	-box-sizing: border-box;
+}
+
+/* Cell occupation */
+.red .p1 span, .black .p2 span {
+	background: #C00000;
+}
+
+.red .p2 span, .black .p1 span {
+	background: #000000;
+}
+
+.p1 span, .p2 span {
+	animation: 0.125s ease-in move;
+}
+
+.select span {
+	border-width: 0.78125vh;
+	margin-top: 0.78125vh;
+}
+
+@keyframes move {
+	0%, 100% {
+		border-width: 1.5625vh;
+		margin-top: 0;
+	}
+}
+
+#options {
+	text-align: center;
+	margin-top: 8px;
+	display: flex;
+	flex-direction: horizontal;
+}
+
+#options > * {
+	cursor: pointer;
+	padding: 8px;
+	display: block;
+	background: #C09000;
+	width: 100%;
+}
+
+#options > :not(:first-child) {
+	margin-left: 8px;
+}
+
+#options > :hover {
+	background: #FFC000;
+}

@@ -1,0 +1,22 @@
+/* CSS by Owen Graham */
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700');
+
+* {
+	font-family: 'Ubuntu Mono', 'Consolas', monospace;
+	color: #000000;
+	font-size: 64px;
+	line-height: 64px;
+	text-decoration: none;
+	text-align: center;
+}
+
+body {
+	margin: 128px;
+	background: #FFFFFF;
+}
+
+::selection {
+	color: #000000;
+	background: #C0C0C0;
+}
