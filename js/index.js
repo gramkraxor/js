@@ -2,11 +2,11 @@
 
 var pages = [];
 
-var html = ".html";
+var HTML = ".html";
 
 function Page(file, name) {
 	var r = {};
-	r.file = (file.toLowerCase().endsWith(".html"))? file.substring(file.length - html.length) : file;
+	r.file = (file.toLowerCase().endsWith(HTML))? file.substring(file.length - HTML.length) : file;
 	r.name = (typeof name != "undefined")? name : r.file;
 	pages.push(r);
 }
@@ -23,7 +23,7 @@ Page("ttt");
 $(function() {
 	for (let i = 0; i < pages.length; i++) {
 		$("body").append($("<a>")
-			.attr("href", pages[i].file + html)
+			.attr("href", pages[i].file + (location.href.startsWith("file:")? HTML : ""))
 			.text(pages[i].name)
 		);
 	}
