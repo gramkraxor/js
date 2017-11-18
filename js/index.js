@@ -5,15 +5,20 @@ var pages = [];
 var html = ".html";
 
 function Page(file, name) {
-	this.file = (file.toLowerCase().endsWith(".html"))? file.substring(file.length - html.length) : file;
-	this.name = (typeof name != "undefined")? name : this.file;
-	pages.push(this);
+	var r = {};
+	r.file = (file.toLowerCase().endsWith(".html"))? file.substring(file.length - html.length) : file;
+	r.name = (typeof name != "undefined")? name : r.file;
+	pages.push(r);
 }
 
-new Page("dozer");
-new Page("clock");
-new Page("devx");
-new Page("scripter");
+Page("dozer");
+Page("clock");
+Page("devx");
+Page("scripter");
+Page("dozagon");
+Page("connect4");
+Page("phi");
+Page("ttt");
 
 $(function() {
 	for (let i = 0; i < pages.length; i++) {
@@ -21,8 +26,6 @@ $(function() {
 			.attr("href", pages[i].file + html)
 			.text(pages[i].name)
 		);
-		console.log(pages[i].file);
-		console.log(pages[i].name);
 	}
 	$("a").wrap($("<p>"));
 });
