@@ -36,7 +36,13 @@ input {
 	background: 0;
 }
 
-#board * {
+#board {
+}
+
+.grow,
+.g,
+.mrow,
+.m {
 	margin: 0;
 	line-height: 0;
 }
@@ -46,25 +52,19 @@ input {
 	display: block;
 }
 
-.gbox {
-	border-width: 2px;
-}
-
-.mbox {
-	border-width: 1px;
-}
-
 .g {
+	border-width: 6px;
 	padding: 12px;
 }
 
 .m {
 	width: 48px;
 	height: 48px;
+	border-width: 2px;
 }
 
-.gbox,
-.mbox {
+.g,
+.m {
 	display: inline-block;
 	border-style: solid;
 	border-color: #000000;
@@ -72,13 +72,13 @@ input {
 	border-bottom: 0;
 }
 
-.gbox:first-child,
-.mbox:first-child {
+.g:first-child,
+.m:first-child {
 	border-left: 0;
 }
 
-:first-child > .gbox,
-:first-child > .mbox {
+:first-child > .g,
+:first-child > .m {
 	border-top: 0;
 }
 
@@ -91,21 +91,24 @@ input {
 
 .x,
 .x-ish {
-	background: #FF4000;
+	background-color: #FF4000;
 	-webkit-mask-image: url("../assets/x.svg");
 	        mask-image: url("../assets/x.svg");
 }
 
 .o,
 .o-ish {
-	background: #0040FF;
+	background-color: #0040FF;
 	-webkit-mask-image: url("../assets/o.svg");
 	        mask-image: url("../assets/o.svg");
 }
 
-.x-ish,
+.x-ish {
+	background: #FFA080;
+}
+
 .o-ish {
-	opacity: 0.25;
+	background: #80A0FF;
 }
 
 .g.x *,

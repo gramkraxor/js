@@ -59,10 +59,7 @@ $(function() {
 	// make all the squares
 	for (let gy = 0; gy < rows; gy++) {
 		
-		var ROW = "row";
-		var BOX = "box";
-		var GROW = G + ROW;
-		var GBOX = G + BOX;
+		let GROW = "grow";
 		$("#board").append($("<div/>") // starting with the row divs
 			.addClass(GROW)
 		);
@@ -70,18 +67,14 @@ $(function() {
 		for (let gx = 0; gx < cols; gx++) {
 			
 			$("." + GROW).eq(gy).append($("<div/>")
-				.addClass(GBOX)
-				.append($("<div/>")
-					.attr("id", getName(gx, gy))
-					.addClass(G)
-				)
+				.attr("id", getName(gx, gy))
+				.addClass(G)
 			);
+			//if (gx == cols - 1) $("#board").append($("<br/>"));
 			
-			// now make the smaller ones
 			for (let my = 0; my < rows; my++) {
 				
-				var MROW = M + ROW;
-				var MBOX = M + BOX;
+				let MROW = "mrow";
 				$("#" + getName(gx, gy)).append($("<div/>")
 					.addClass(MROW)
 				);
@@ -89,11 +82,8 @@ $(function() {
 				for (let mx = 0; mx < cols; mx++) {
 					
 					$("#" + getName(gx, gy) + " ." + MROW).eq(my).append($("<div/>")
-						.addClass(MBOX)
-						.append($("<div/>")
-							.attr("id", getName(gx, gy, mx, my))
-							.addClass(M)
-						)
+						.attr("id", getName(gx, gy, mx, my))
+						.addClass(M)
 					);
 				}
 			}

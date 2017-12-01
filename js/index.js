@@ -23,7 +23,7 @@ Page("ttt");
 $(function() {
 	for (let i = 0; i < pages.length; i++) {
 		$("body").append($("<a>")
-			.attr("href", pages[i].file + (location.href.startsWith("file:")? HTML : ""))
+			.attr("href", pages[i].file + ((location.protocol == "file:")? HTML : ""))
 			.text(pages[i].name)
 		);
 	}

@@ -31,32 +31,20 @@ $(function() {
 		)
 	);
 	
-	// Set the command-line prompt to include the user"s IP Address
-	//$(".prompt").html("[" + codehelper_ip['IP'] + "@HTML5] # ");
+	// set the command-line prompt to include the user's IP address
 	$(".prompt").html(getPrompt());
 
-	// Initialize a new terminal object
+	// initialize a new terminal object
 	new Terminal("#input-line .cmdline", "#container output").init();
 	
 });
 
-var util = {};
-util.toArray = function(list) {
-	return Array.prototype.slice.call(list || [], 0);
-};
-
 var Terminal = function(cmdLineContainer, outputContainer) {
-	//window.URL = window.URL || window.webkitURL;
-	//window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
 
-	var cmdLine = document.querySelector(cmdLineContainer);
-	var output_ = document.querySelector(outputContainer);
-
-	/*const CMDS_ = [
-		"cat", "clear", "date", "echo", "help", "uname"
-	];*/
+	var $cmdLine = document.querySelector(cmdLineContainer);
+	var $output = document.querySelector(outputContainer);
 	
-	// Array of command objects
+	// array of command objects
 	var Cmds = [];
 	
 	var PushCmd = function(name, run) {
@@ -67,14 +55,15 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	}
 	
 	PushCmd("cat", function(args) {
+		cmd = "cat";
 		var url = args.join(" ");
 		if (!url) {
-			output("Usage: " + cmd + " https://s.codepen.io/...");
-			output("Example: " + cmd + " https://s.codepen.io/AndrewBarfield/pen/LEbPJx.js");
+			output("Usage: " + cmd + " http://...");
+			output("Example: " + cmd + " https://gramkraxor.github.io/js/js/devx.js");
 			return;
 		}
-		$.get( url, function(data) {
-			var encodedStr = data.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+		$.get(url, function(data) {
+			var encodedStr = data.replace(/[\u00A0-\uFFFF<>\&]/gim, function(i) {
 				 return "&#"+i.charCodeAt(0)+";";
 			});
 			output("<pre>" + encodedStr + "</pre>");
@@ -82,15 +71,15 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	});
 	
 	PushCmd("clear", function(args) {
-		output_.innerHTML = "";
+		$output.innerHTML = "";
 	});
 	
 	PushCmd("date", function(args) {
-		output( new Date() );
+		output(new Date());
 	});
 	
 	PushCmd("echo", function(args) {
-		output( args.join(" ") );
+		output(args.join(" "));
 	});
 	
 	PushCmd("help", function(args) {
@@ -113,19 +102,19 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	var histtemp = 0;
 
 	window.addEventListener("click", function(e) {
-		cmdLine.focus();
+		$cmdLine.focus();
 	}, false);
 	
 	/* I don't want this!
 	// Click handler
-	cmdLine.addEventListener("click", function(e) {
+	$cmdLine.addEventListener("click", function(e) {
 		this.value = this.value;
 		this.selectionStart = this.value.length;
 	}, false);
 	*/
 
-	// History handler
-	cmdLine.addEventListener("keydown", function(e) {
+	// history handler
+	$cmdLine.addEventListener("keydown", function(e) {
 		if (history.length) {
 			if (e.keyCode == 38 || e.keyCode == 40) {
 				if (history[histpos]) {
@@ -150,80 +139,40 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 			if (e.keyCode == 38 || e.keyCode == 40) {
 				e.preventDefault();
 				this.value = history[histpos] ? history[histpos] : histtemp;
-				this.value = this.value; // Sets cursor to end of input.
-				console.log($("#input-line .cmdline")[0].selectionStart);
+				this.value = this.value; // set cursor to end of input
 			}
 		}
 	}, false);
 
-	// Command entry handler
-	cmdLine.addEventListener("keydown", function(e) {
+	// command entry handler
+	$cmdLine.addEventListener("keydown", function(e) {
 
 		if (e.keyCode == 9) { // tab
 			e.preventDefault();
-			// Implement tab suggest.
+			// implement tab suggest
 		} else if (e.keyCode == 13) { // enter
-			// Save shell history.
+			// save shell history
 			if (this.value) {
 				history[history.length] = this.value;
 				histpos = history.length;
 			}
 
-			// Duplicate current input and append to output section.
+			// duplicate current input and append to output section
 			var line = this.parentNode.parentNode.cloneNode(true);
 			line.removeAttribute("id")
 			line.classList.add("line");
 			var input = line.querySelector("input.cmdline");
 			input.autofocus = false;
 			input.readOnly = true;
-			output_.appendChild(line);
+			$output.appendChild(line);
 
 			if (this.value && this.value.trim()) {
 				var args = this.value.split(" ").filter(function(val, i) {
 					return val;
 				});
 				var cmd = args[0].toLowerCase();
-				args = args.splice(1); // Remove cmd from arg list.
+				args = args.splice(1); // remove cmd from arg list
 			}
-
-			/*
-			switch (cmd) {
-				case "cat":
-					var url = args.join(" ");
-					if (!url) {
-						output("Usage: " + cmd + " https://s.codepen.io/...");
-						output("Example: " + cmd + " https://s.codepen.io/AndrewBarfield/pen/LEbPJx.js");
-						break;
-					}
-					$.get( url, function(data) {
-						var encodedStr = data.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
-							 return "&#"+i.charCodeAt(0)+";";
-						});
-						output("<pre>" + encodedStr + "</pre>");
-					});          
-					break;
-				case "clear":
-					output_.innerHTML = "";
-					this.value = "";
-					return;
-				case "date":
-					output( new Date() );
-					break;
-				case "echo":
-					output( args.join(" ") );
-					break;
-				case "help":
-					output("<div class='ls-files'>" + CMDS_.join("<br>") + "</div>");
-					break;
-				case "uname":
-					output(navigator.appVersion);
-					break;
-				default:
-					if (cmd) {
-						output(cmd + ": command not found");
-					}
-			};
-			*/
 			
 			for (let i = 0; i <= Cmds.length; i++) {
 				if (i == Cmds.length) {
@@ -238,8 +187,8 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 				}
 			}
 
-			window.scrollTo(0, getDocHeight_());
-			this.value = ""; // Clear/setup line for next input.
+			window.scrollTo(0, getDocHeight());
+			this.value = ""; // clear/setup line for next input
 			
 			// Update the terminal prompt
 			var prompt = this.parentNode.parentNode.querySelector("div.prompt");
@@ -247,34 +196,13 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 		}
 	}, false);
 
-	/*/
-	// Not sure what this is for...
-	function formatColumns_(entries) {
-		var maxName = entries[0].name;
-		util.toArray(entries).forEach(function(entry, i) {
-			if (entry.name.length > maxName.length) {
-				maxName = entry.name;
-			}
-		});
-
-		var height = entries.length <= 3 ?
-				"height: " + (entries.length * 15) + "px;" : "";
-
-		// 12px monospace font yields ~7px screen width.
-		var colWidth = maxName.length * 7;
-
-		return ["<div class='ls-files' style='-webkit-column-width:",
-						colWidth, "px;", height, "'>"];
-	}
-	//*/
-
 	//
 	function output(html) {
-		output_.insertAdjacentHTML("beforeEnd", "<p>" + html + "</p>");
+		$output.insertAdjacentHTML("beforeEnd", "<p>" + html + "</p>");
 	}
 
-	// Cross-browser impl to get document"s height.
-	function getDocHeight_() {
+	// cross-browser impl to get document"s height
+	function getDocHeight() {
 		var d = document;
 		return Math.max(
 				Math.max(d.body.scrollHeight, d.documentElement.scrollHeight),
@@ -291,8 +219,20 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 			function c(i) {
 					return (i < 10) ? "0" + i : i;
 			}
-			var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " " + c(d.getHours()) + ":" + c(d.getMinutes()) + ":" + c(d.getSeconds()) + " " + ((d.getTimezoneOffset() <= 0)? "+" : "-") + (c(Math.floor(Math.abs(d.getTimezoneOffset() / 60)))) + c(Math.floor(Math.abs(d.getTimezoneOffset())) % 60);
-			output("<img align='left' src='assets/devx.svg' width='100' height='100' style='padding: 0px 10px 20px 0px'><h2 style='letter-spacing: 4px'>HTML5 Web Terminal</h2><p>" + date + "</p><p>Enter 'help' for more information.</p><br/>");
+			var date =
+				d.getFullYear()    +"-" +
+				(d.getMonth() + 1) +"-" +
+				d.getDate()        +" " +
+				c(d.getHours())    +":" +
+				c(d.getMinutes())  +":" +
+				c(d.getSeconds())  + " " +
+				(
+					(d.getTimezoneOffset() <= 0)? "+" : "-") +
+					(c(Math.floor(Math.abs(d.getTimezoneOffset() / 60)))
+				) +
+				c(Math.floor(Math.abs(d.getTimezoneOffset())) % 60);
+			
+			output("<img align='left' src='assets/devx.svg' width='100' height='100' style='padding: 0px 10px 20px 0px'><h2 style='letter-spacing: 4px'>DEVX Terminal</h2><p>" + date + "</p><p>Enter 'help' for more information.</p><br/>");
 		},
 		//output: output
 	}
