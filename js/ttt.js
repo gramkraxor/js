@@ -29,32 +29,13 @@ $(function() {
 	
 	$("body").append($("<div/>")
 		.attr("id", "wrapper")
-		/*.append($("<div/>")
-			.attr("id", "turn")
-			.text("P1")
-		)*/
 		.append($("<div/>")
 			.attr("id", "board")
 		)
 		.append($("<div/>")
-			.attr("id", "options")
-			.addClass("subtitle")
-			/*.append($("<span/>")
-				.attr("id", "mode")
-				.click(function() {
-					tpm = !tpm;
-					if (tpm) {
-						$(this).text("P1 v P2");
-					} else {
-						$(this).text("P1 v AI");
-					}
-				})
-			)*/
-			.append($("<span/>")
-				.attr("id", "reset")
-				.text("RESET")
-				.click(function() { reset(); })
-			)
+			.attr("id", "reset")
+			.text("RESET")
+			.click(function() { reset(); })
 		)
 	);
 	$("#mode").click();
