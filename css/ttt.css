@@ -1,15 +1,13 @@
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400');
 
-* {
+body {
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
 	color: #000000;
-	font-size: 20px;
-	line-height: 20px;
-}
-
-body {
-	margin: 64px;
+	font-size: 16px;
+	line-height: 16px;
+	
+	margin: 0;
 	background: #FFFFFF;
 }
 
@@ -36,8 +34,29 @@ input {
 	background: 0;
 }
 
+#wrapper {
+	/*text-align: center;
+	margin: auto;
+	margin-top: 144px;*/
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.subtitle {
+	margin: 48px;
+	padding: 12px 36px;
+	cursor: pointer;
+}
+	
 #board * {
-	margin: 0;
+	/*margin: 0;*/
 	line-height: 0;
 }
 
@@ -55,7 +74,10 @@ input {
 }
 
 .g {
-	padding: 12px;
+	border: 6px solid transparent;
+	border-radius: 4px;
+	margin: 4px;
+	padding: 4px;
 }
 
 .m {
@@ -90,29 +112,47 @@ input {
 }
 
 .x,
-.x-ish {
+.x-ish .m:hover:not(.o) {
 	background: #FF4000;
 	-webkit-mask-image: url("../assets/x.svg");
 	        mask-image: url("../assets/x.svg");
 }
 
 .o,
-.o-ish {
+.o-ish .m:hover:not(.x) {
 	background: #0040FF;
 	-webkit-mask-image: url("../assets/o.svg");
 	        mask-image: url("../assets/o.svg");
 }
 
-.x-ish,
-.o-ish {
+.x-ish .m:hover:not(.x):not(.o),
+.o-ish .m:hover:not(.x):not(.o) {
 	opacity: 0.25;
+	cursor: pointer;
 }
 
-.g.x *,
-.g.o * {
+.x > *,
+.o > * {
 	visibility: hidden;
 }
-	
+
+.g.x-ish {
+	border-color: #FF4000;
+	border-color: #FFA080;
+}
+
+.g.o-ish {
+	border-color: #0040FF;
+	border-color: #80A0FF;
+}
+
+.g.nope {
+	border-color: transparent;
+}
+
+.cat {
+	visibility: hidden;
+}
 
 @keyframes move {
 	0%, 100% {

@@ -1,6 +1,6 @@
 /* 
  * Romulus, a JS Roman numeral converter
- * © MMXVII (2017) Owen Graham
+ * © MMXVII (2017) Gramkraxor
  */
 
 const Rom = {};
@@ -8,7 +8,7 @@ const Romulus = Rom;
 
 Rom.NAME = "Romulus";
 Rom.VERSION = 2;
-Rom.AUTHORS = [ "Owen Graham" ];
+Rom.AUTHORS = [ "Gramkraxor" ];
 Rom.YEAR = new Date().getFullYear();
 
 Rom.n = "N";
@@ -42,7 +42,7 @@ Rom.cent = new Rom.Place(Rom.HUNDREDS);
 Rom.dec  = new Rom.Place(Rom.TENS);
 Rom.un   = new Rom.Place(Rom.ONES);
 
-Rom.numeral = function(n, nulla) { // nulla determines whether to allow N as output
+Rom.numeral = function(n, nulla) { // nulla determines whether to allow "N" as output
 	if (typeof n != "number" || isNaN(n)) return "";
 	if (n < 0) n *= -1;
 	if (n == 0 && nulla) return Rom.n;
@@ -88,4 +88,7 @@ function $R(v) {
 	return Rom.numeral(v);
 }
 
-//console.log(Rom.NAME + " version " + $R(Rom.VERSION) + " by " + Rom.AUTHORS[0] + "\nCopyright \u00A9 " + $R(Rom.YEAR) + " (Arabic " + Rom.YEAR + ")");
+
+Rom.log = function() {
+	console.log(Rom.NAME + " version " + $R(Rom.VERSION) + " by " + Rom.AUTHORS[0] + "\nCopyright \u00A9 " + $R(Rom.YEAR) + " (Hindu-Arabic " + Rom.YEAR + ")");
+}

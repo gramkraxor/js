@@ -2,24 +2,26 @@
 const
 cols = 3,
 rows = 3,
-connect = 3;
-
-var board = [],
-won = false,
-tpm = true,
-turn = 1;
-
-function und(v) {
-	return typeof v == "undefined";
-}
-
-const
+connect = 3,
 G = "g",
-M = "m";
+M = "m",
+X = "x",
+O = "o",
+open = "open",
+cat  = "cat",
+Xish = "x-ish",
+Oish = "o-ish",
+nope = "nope";
+
+var
+gboard = [],
+mboard = [],
+turn,
+posPos;
 
 function getName(gx, gy, mx, my) {
 	var r = G + gx + gy;
-	if (!und(my)) r += M + mx + my;
+	if (!isNaN(my)) r += M + mx + my;
 	return r;
 }
 
@@ -27,16 +29,17 @@ $(function() {
 	
 	$("body").append($("<div/>")
 		.attr("id", "wrapper")
-		.append($("<div/>")
+		/*.append($("<div/>")
 			.attr("id", "turn")
 			.text("P1")
-		)
+		)*/
 		.append($("<div/>")
 			.attr("id", "board")
 		)
 		.append($("<div/>")
 			.attr("id", "options")
-			.append($("<span/>")
+			.addClass("subtitle")
+			/*.append($("<span/>")
 				.attr("id", "mode")
 				.click(function() {
 					tpm = !tpm;
@@ -46,7 +49,7 @@ $(function() {
 						$(this).text("P1 v AI");
 					}
 				})
-			)
+			)*/
 			.append($("<span/>")
 				.attr("id", "reset")
 				.text("RESET")
@@ -93,147 +96,170 @@ $(function() {
 						.append($("<div/>")
 							.attr("id", getName(gx, gy, mx, my))
 							.addClass(M)
+							.click(function() {
+								onClick(gx, gy, mx, my);
+							})
 						)
 					);
 				}
 			}
-			
-			
-			
-			/*$("#board").append($("<div/>")
-				.attr("id", "col-" + x) // columns are divs with id col-x
-				.addClass("col")        // and class col
-				.click(function() { onClick(x); })
-			);
-			board[x] = [];
-			for (let y = 0; y < rows; y++) {
-				board[x][y] = 0;
-				$("#col-" + x).append($("<div/>")
-					.attr("class", "row-" + y + " cell") // cells are divs with id cxry
-					.attr("id", "c" + x + "r" + y)       // and id cxry
-					.append($("<span/>"))
-				);
-			}*/
 		}
 	}
-	$("#g00m00").addClass("x");//////
-	$("#g22").addClass("o");//////
+	
+	reset();
 });
 
 function repl(s, o, n) {
-	if (o != n) while (s.includes(o)) s = s.replace(o, n);
-	return s;
+	return s.split(o).join(n);
 }
 
-function def(x) {
-	return typeof x != "undefined";
+function eq(a, b) {
+	return JSON.stringify(a) == JSON.stringify(b);
 }
 
-function cell(col, row) {
-	return "c" + col + "r" + row;
-}
-
-function $cell(col, row) {
-	return $("#" + cell(col, row));
-}
-
-function reset() {
-	cls = ["p1", "p2", "select"];
-	for (let c = 0; c < cls.length; c++) $("." + cls[c]).removeClass(cls[c]);
-	for (let x = 0; x < cols; x++) for (let y = 0; y < rows; y++) board[x][y] = 0;
-	won = false;
-}
-
-function X(gx, gy, mx, my) {
-	let x = "x";
-	if (und(gy)) return x;
-	$("#" + getName(gx, gy, mx, my)).addClass(x);
-}
-
-function O(gx, gy, mx, my) {
-	let o = "o";
-	if (und(gy)) return o;
-	$("#" + getName(gx, gy, mx, my)).addClass(o);
-}
-
-// when a column gets clicked
-function onClick(col) {
-	if (!won) {
-		if (tpm) {
-			if (drop(col, turn)) {
-				if (turn == 2) {
-					turn = 1;
-				} else {
-					turn = 2;
-				}
-			}
-			return;
-		} else if (turn == 1) {
-			//if (drop(col, 1)) ai();
-		}
-	}
-}
-
-// try to drop a piece in a col, return success boolean
-// returns false if game over
-function drop(col, p) {
-	for (let row = 0; row < rows; row++) {
-		if (board[col][row] == 0) {
-			board[col][row] = p;
-			$cell(col, row).addClass("p" + p)
-			return !bingo(p);
-		}
+function has(arr, x) {
+	for (let i = 0; i < arr.length; i++) {
+		if (eq(arr[i], x)) return true;
 	}
 	return false;
 }
 
-// check if anyone's connected four
-function bingo(p) {
-	if (!def(p)) {
-		bingo(1);
-		bingo(2);
+function draw(p, gx, gy, mx, my) {
+	getCell(gx, gy, mx, my).addClass(p);
+	if (!isNaN(my)) {
+		mboard[gx][gy][mx][my] = p;
+	} else {
+		gboard[gx][gy] = p;
 	}
-	var cells = []; // counter, stores winning cells
-	var check = function(a, b) {
-		if (board[a][b] == p) {
-			cells.push($cell(a, b));
-			if (cells.length == connect) {
-				win(p, cells);
-				return true;
+}
+
+function getCell(gx, gy, mx, my) {
+	return $("#" + getName(gx, gy, mx, my));
+}
+
+function reset() {
+	
+	gboard = [];
+	mboard = [];
+	for (let gx = 0; gx < cols; gx++) {
+		gboard.push([]);
+		mboard.push([]);
+		for (let gy = 0; gy < rows; gy++) {
+			gboard[gx].push(open);
+			mboard[gx].push([]);
+			for (let mx = 0; mx < cols; mx++) {
+				mboard[gx][gy].push([]);
+				for (let my = 0; my < rows; my++) {
+					mboard[gx][gy][mx].push(open);
+				}
 			}
-		} else {
-			cells = [];
 		}
-		return false;
 	}
-	// check for horizontal wins
-	for (let y = 0; y < rows; y++) {
-		for (let x = 0; x < cols; x++) if (check(x, y)) return true;
-		cells = [];
+	
+	let classes = [ X, O, open, cat, Xish, Oish, nope ];
+	for (let i = 0; i < classes.length; i++) {
+		c = classes[i];
+		$("." + c).removeClass(c);
 	}
-	// check for vertical wins
+	
+	turn = X;
+	freebie();
+	drawish();
+	$(".g").addClass(nope);
+}
+
+function onClick(gx, gy, mx, my) {
+	if (!(has(posPos, [gx, gy]) && mboard[gx][gy][mx][my] == open)) return;
+	draw(turn, gx, gy, mx, my);
+	if (bingo(turn, gx, gy)) {
+		draw(turn, gx, gy);
+		if (bingo(turn)) {
+			victory();
+		}
+	}
+	let full = true;
 	for (let x = 0; x < cols; x++) {
-		for (let y = 0; y < rows; y++) if (check(x, y)) return true;
-		cells = [];
-	}
-	// positive diagonal wins
-	for (let x = 0; x < cols - connect + 1; x++) {
-		for (let y = 0; y < rows - connect + 1; y++) {
-			for (let i = 0; i < connect; i++) if (check(x + i, y + i)) return true;
-			cells = [];
+		for (let y = 0; y < rows; y++) {
+			if (mboard[gx][gy][x][y] == open) full = false;
 		}
 	}
-	// negative diagonal wins
-	for (let x = 0; x < cols - connect + 1; x++) {
-		for (let y = connect - 1; y < rows; y++) {
-			for (let i = 0; i < connect; i++) if (check(x + i, y - i)) return true;
-			cells = [];
+	if (full && gboard[gx][gy] == open) {
+		gboard[gx][gy] = cat;
+		getCell(gx, gy).addClass(cat);
+	}
+	
+	turn = (turn == O)? X : O;
+	posPos = [];
+	if (gboard[mx][my] == open) {
+		posPos.push([mx, my]);
+	} else {
+		freebie();
+	}
+	removeish();
+	drawish();
+}
+
+function victory() {
+	//console.log("VICTORY FOR " + turn.toUpperCase());
+	$("#board").addClass(turn);
+}
+
+function freebie() {
+	posPos = [];
+	for (let gx = 0; gx < cols; gx++) {
+		for (let gy = 0; gy < rows; gy++) {
+			if (gboard[gx][gy] == open) posPos.push([gx, gy]);
 		}
 	}
 }
 
-function win(p, cells) {
-	won = true;
-	console.log("P" + p + ", YOU WIN!!!");
-	for (let i = 0; i < cells.length; i++) cells[i].addClass("select");
+function drawish() {
+	var ish = (turn == O)? Oish : Xish;
+	for (let i = 0; i < posPos.length; i++) getCell(posPos[i][0], posPos[i][1]).addClass(ish);
+}
+
+function removeish() {
+	$("." + Xish).removeClass(Xish);
+	$("." + Oish).removeClass(Oish);
+	$("." + nope).removeClass(nope);
+}
+
+function bingo(p, gx, gy) {
+	let board = (isNaN(gy))? gboard : mboard[gx][gy];
+	// check for horizontal wins
+	H0: for (let x0 = 0; x0 < cols - connect + 1; x0++) {
+		V: for (let y = 0; y < rows; y++) {
+			H: for (let x = x0; x < cols; x++) {
+				if (board[x][y] != p) continue V;
+			}
+			return true;
+		}
+	}
+	// check for vertical wins
+	V0: for (let y0 = 0; y0 < rows - connect + 1; y0++) {
+		H: for (let x = 0; x < cols; x++) {
+			V: for (let y = y0; y < rows; y++) {
+				if (board[x][y] != p) continue H;
+			}
+			return true;
+		}
+	}
+	// check for positive diagonal victory
+	H0: for (let x0 = 0; x0 < cols - connect + 1; x0++) {
+		V0: for (let y0 = 0; y0 < rows - connect + 1; y0++) {
+			I: for (let i = 0; i < rows - x0 && i < cols - y0; i++) {
+					if (board[x0 + i][y0 + i] != p) continue V0;
+			}
+			return true;
+		}
+	}
+	// check for negative diagonal victory
+	H0: for (let x0 = 0; x0 < cols - connect + 1; x0++) {
+		V0: for (let y0 = rows - 1; y0 >= connect - 1; y0--) {
+			I: for (let i = 0; i < connect; i++) {
+					if (board[x0 + i][y0 - i] != p) continue V0;
+			}
+			return true;
+		}
+	}
 }

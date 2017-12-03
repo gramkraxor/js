@@ -1,6 +1,9 @@
-/* JS by Owen Graham */
+/* JS by Gramkraxor */
 
 //TODO add option to select bases to show
+
+Doz.log();
+Rom.log();
 
 var
 name = Doz.NAME,
@@ -71,6 +74,7 @@ $(function() {
 				.attr("name", "roman")
 				.click(function() {
 					if ($(this).val() == Rom.n) $(this).val("");
+					setLabels($(this).attr("name"));
 				})
 				.keypress(function(e) {
 					if (e.which == 13) enter($(this).attr("name"));
@@ -182,7 +186,7 @@ function dozMode(s, m) {
 function enter(b) {
 	setLabels(b);
 	var mode = Doz.mode;
-	if (mode != getMode()) {
+	if (mode != getMode() && b == 0xC) {
 		$("#" + mode.a).prop("checked", true);
 		setLabels();
 	}
@@ -207,7 +211,6 @@ function enter(b) {
 		if (val == "0") val = "";
 		$("input[type='text'][name='" + bases[i].a[0] + "']").val(val);
 	}
-	console.log(v);
 	$("#roman input").val(repl(Rom.numeral(v, true), "*", "\u2022")); // replace dozenths (*) with bullet character
 }
 
@@ -233,14 +236,15 @@ function setMode(m) {
 }
 
 function setLabels(b) {
-	if (typeof b != "undefined") {
+	var r = b == "roman";
+	if (b && !r) {
 		b = getBase(b).r;
 		labelBase = b;
 	} else {
 		b = labelBase;
 	}
-	var v = $Doz(version,  b, Doz.mode);
-	var y = $Doz(copyYear, b, Doz.mode);
+	var v = r ? $R(version)  : $Doz(version,  b, Doz.mode);
+	var y = r ? $R(copyYear) : $Doz(copyYear, b, Doz.mode);
 	$("#title").html(title + " " + v);
 	$("#footer").html("&copy; " + y + " " + copy);
 	//$("#footer").html("&copy; " + $z(copyYear, Doz.mode) + " (" + copyYear + ") " + copy);
@@ -249,21 +253,21 @@ function setLabels(b) {
 function cheat(v) {
 	v = v.toLowerCase();
 	if (v.includes("light")) eggDarkMode(false);
-	if (v.includes("dark")) eggDarkMode();
+	if (v.includes("dark")) eggDarkMode(true);
 	if (v.includes("jeb_")) eggRainbow(!eggRainbowEnabled);
 	if (v.includes("grumm") || v.includes("dinnerbone")) eggFlip();
-	if (v.includes("po" + "rn")) eggP();
+	if (v.includes("\u0070\u006F\u0072\u006E")) eggP();
 }
 
 var eggRainbowHue = 0;
 var eggRainbowEnabled = false;
 
 function eggRainbow(b) {
-	if (b == false) {
+	if (!b) {
 		eggRainbowEnabled = false;
 		$("body").removeAttr("style");
 	}
-	if (b == true) eggRainbowEnabled = true;
+	if (b) eggRainbowEnabled = true;
 	if (eggRainbowEnabled) {
 		let l = $("body").hasClass("dark")? 25 : 75;
 		$("body").css("background", "hsl(" + eggRainbowHue++ + ", 100%, " + l + "%)");
@@ -274,7 +278,6 @@ function eggRainbow(b) {
 
 function eggDarkMode(b) {
 	let c = "dark";
-	if (typeof b == "undefined") b = true;
 	if (b) {
 		$("body").addClass(c);
 	} else {
@@ -291,9 +294,10 @@ function eggFlip() {
 	}
 }
 
-var eggPN = 6;
+var eggPN;
 
 function eggP() {
+	eggPN = 6;
 	$("body")
 		.append($("<center/>")
 			.attr("id", "eggp")
