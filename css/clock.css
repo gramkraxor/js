@@ -79,22 +79,26 @@ span.c {
 
 #foot, #foot input {
 	color: #000000;
-	font-size: 24px;
-	line-height: 24px;
-	font-weight: 400;
+	font-size: 48px;
+	line-height: 48px;
+	font-weight: 700;
 }
 
 #foot {
 	text-align: left;
-	padding: 0px 24px;
+	padding: 24px 24px;
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	height: 36px;
+	height: 144px;
 	opacity: 0;
 	transition: opacity 1s;
-	background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+	display: flex;
+	align-items: flex-end;
+	flex-direction: row;
+	justify-content: end;
 }
 
 #foot input {
@@ -102,9 +106,10 @@ span.c {
 	border: 0;
 	outline: 0;
 	margin: 0px 12px;
+	cursor: pointer;
 }
 
-#foot input:focus {
+#foot input:hover/*:focus*/ {
 	text-decoration: underline;
 }
 

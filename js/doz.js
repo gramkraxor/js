@@ -89,14 +89,14 @@ Doz.setMode = function(m) {
 
 // convert a string from a radix to an integer or an integer to a string with a radix
 Doz.convert = function(v, b, nb, m) { // nb can be used as m
-	if (nb && !m) m = Doz.getMode(nb);
+	if (nb && !m) var m = Doz.getMode(nb);
 	if (typeof v != "number" && typeof v != "string") return 0;
 	
 	if (typeof v == "string") {
 		if (nb) return Doz.stringBase(Doz.floatBase(v, b), nb);
 		return Doz.floatBase(v, b);
 	}
-	return Doz.stringBase(v, b);
+	return Doz.stringBase(v, b, m);
 }
 
 // gets an integer result from Doz.floatBase()

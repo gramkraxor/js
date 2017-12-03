@@ -1,7 +1,12 @@
 
-const mspf = 250;
+const mspf = 25; // milliseconds per frame
 const stageSize = new vector(576, 576);
 var bg = "#000000";
+
+// namespace objects
+const
+vectors = {},
+stage   = {};
 
 function und(x) {
 	return typeof x == "undefined";
@@ -24,6 +29,10 @@ function vector(x, y) {
 	return v;
 }
 
+vectors.add = function(v0, v1) {
+	return vector(v0.x + v1.x, v0.y + v1.y);
+}
+
 var bodies = [];
 
 function body(vpos, vvel, vsiz, nmas, scol) {
@@ -40,8 +49,6 @@ function body(vpos, vvel, vsiz, nmas, scol) {
 	return b;
 }
 
-stage = {};
-
 stage.fill = function(style) {
 	s().fillStyle = style;
 }
@@ -55,7 +62,16 @@ stage.rect = function(pos, siz, col) {
 
 // looping refresh drawing function
 function draw() {
+	var ctx = $("#stage")[0].getContext("2d");
+	ctx.fillStyle = bg;
+	ctx.fillRect(0, 0, stageSize.x, stageSize.y);
 	
+	for (let i = 0; i < bodies.length; i++) {
+		let b = bodies[i];
+		b.pos = vectors.add(b.pos, b.vel);
+		ctx.fillStyle = b.col;
+		ctx.fillRect(b.pos.x, b.pos.y, b.siz.x, b.siz.y);
+	}
 	
 	setTimeout(draw, mspf); // loop at proper fps
 }
@@ -75,10 +91,8 @@ $(function() {
 		)
 	);
 	
-	var ctx = $("#stage")[0].getContext("2d");
-	ctx.fillStyle = "#FF0000";
-	ctx.fillRect(0, 0, 24, 24);
-	
 	draw();
 	
 });
+
+body(vector(0, 0), vector(0.1, 0.1), vector(10, 10), 1, "#FF00FF");

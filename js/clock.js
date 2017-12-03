@@ -63,7 +63,7 @@ var sMode = new Setting("mode", [
 	new Option("Z\u0190",      function() { mode = zel; }),
 	new Option("ZE",           function() { mode = ze;  }),
 	new Option("AB",           function() { mode = ab;  }),
-	new Option("\u218A\u218B", function() { mode = xeu; })
+	new Option("\u218A\u218B", function() { mode = zeu; })
 ]);
 
 var xel = new Doz.Mode([ "X", "\u0190" ]);
