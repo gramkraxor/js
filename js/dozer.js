@@ -245,16 +245,9 @@ function setLabels(b) {
 	}
 	var v = r ? R$(version)  : Doz$(version,  b, Doz.mode);
 	var y = r ? R$(copyYear) : Doz$(copyYear, b, Doz.mode);
-<<<<<<< HEAD
-<<<<<<< HEAD
+	
 	$("#title").text(title + " " + v);
 	$("#footer").text(["\u00A9", y, copy].join(" "));
-=======
-=======
->>>>>>> e66057ddef00dbf68fc67e184765c8ef504971c7
-	$("#title").html(title + " " + v);
-	$("#footer").html("&copy; " + y + " " + copy);
->>>>>>> e66057ddef00dbf68fc67e184765c8ef504971c7
 	//$("#footer").html("&copy; " + $z(copyYear, Doz.mode) + " (" + copyYear + ") " + copy);
 }
 
