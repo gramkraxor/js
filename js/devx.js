@@ -1,8 +1,13 @@
 // DEVX
 
-var trm = {};
+const
+trm  = {},
+user = {},
+author = "Gramkraxor",
+year = new Date().getFullYear(),
+desc = "I've always wanted to make my own shell...";
+
 trm.name = "DEVX"
-var user = {};
 user.name = "user";
 
 function getPrompt() {
@@ -95,6 +100,11 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	
 	PushCmd("su", function(args) {
 		user.name = args[0];
+	});
+	
+	PushCmd("info", function(args) {
+		output(["(c)", year, author].join(" "));
+		output(desc);
 	});
 	
 	var history = [];

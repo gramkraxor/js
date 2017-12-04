@@ -1,6 +1,9 @@
-/* JS by Owen Graham */
+/* JS by Gramkraxor */
 
 var now = new Date();
+
+const AUTHORS = [ "Gramkraxor" ];
+const YEAR = new Date().getFullYear();
 
 function Meter(id, get) {
 	this.id = id;
@@ -81,7 +84,7 @@ var face = face1;
 
 var timeout = 216;
 
-$(document).ready(function() {
+$(function() {
 	$("body")
 		.append(
 			$("<div/>", {id: "clock"})
@@ -91,6 +94,10 @@ $(document).ready(function() {
 		)
 		.append(
 			$("<div/>", {id: "foot"})
+		)
+		.append(
+			$("<div/>", {id: "footer"})
+				.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
 		);
 	for (let i = 0; i < settings.length; i++) {
 		let s = settings[i];
@@ -138,8 +145,8 @@ function fix(n, max) {
 	if (typeof max == "undefined") {
 		var max = 1;
 	}
-	var v = $Doz(n, base, mode);
-	while (v.length < $Doz(max, base).length) {
+	var v = Doz$(n, base, mode);
+	while (v.length < Doz$(max, base).length) {
 		v = "0" + v;
 	}
 	return v;

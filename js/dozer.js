@@ -243,8 +243,8 @@ function setLabels(b) {
 	} else {
 		b = labelBase;
 	}
-	var v = r ? $R(version)  : $Doz(version,  b, Doz.mode);
-	var y = r ? $R(copyYear) : $Doz(copyYear, b, Doz.mode);
+	var v = r ? R$(version)  : Doz$(version,  b, Doz.mode);
+	var y = r ? R$(copyYear) : Doz$(copyYear, b, Doz.mode);
 	$("#title").html(title + " " + v);
 	$("#footer").html("&copy; " + y + " " + copy);
 	//$("#footer").html("&copy; " + $z(copyYear, Doz.mode) + " (" + copyYear + ") " + copy);

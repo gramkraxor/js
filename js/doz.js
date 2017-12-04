@@ -148,25 +148,25 @@ Doz.stringMode = function(s, m, a) {
 
 // shortcut functions //
 
-function $Doz(v, b, m) {
+function Doz$(v, b, m) {
 	return Doz.convert(v, b, m);
 }
 
-function $d(v) {
+function d$(v) {
 	return Doz.convert(v, Doz.d);
 }
 
-function $z(v, m) {
+function z$(v, m) {
 	if (typeof v == "string" && m) return Doz.stringMode(v, m);
 	if (typeof v == "number" && m) m = Doz.xe;
 	return Doz.convert(v, Doz.z, m);
 }
 
-function $x(v) {
+function x$(v) {
 	return Doz.convert(v, Doz.x);
 }
 
 
 Doz.log = function() {
-	console.log(Doz.NAME + " version " + $z(Doz.VERSION) + " by " + Doz.AUTHORS[0] + "\nCopyright \u00A9 " + $z(Doz.YEAR, Doz.xe) + " (decimal " + Doz.YEAR + ")");
+	console.log(Doz.NAME + " version " + z$(Doz.VERSION) + " by " + Doz.AUTHORS[0] + "\nCopyright \u00A9 " + z$(Doz.YEAR, Doz.xe) + " (decimal " + Doz.YEAR + ")");
 }

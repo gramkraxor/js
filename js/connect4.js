@@ -6,8 +6,11 @@ connect = 4;
 
 var board = [],
 won = false,
-tpm = true,
+tpm = false,
 turn = 1;
+
+const AUTHORS = [ "Gramkraxor" ];
+const YEAR = new Date().getFullYear();
 
 $(function() {
 	
@@ -40,6 +43,10 @@ $(function() {
 				.click(function() { reset(); })
 			)
 		)
+	)
+	.append($("<div/>")
+		.attr("id", "footer")
+		.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
 	);
 	$("#mode").click();
 	for (let x = 0; x < cols; x++) {
@@ -60,11 +67,6 @@ $(function() {
 	}
 	
 });
-
-function repl(s, o, n) {
-	if (o != n) while (s.includes(o)) s = s.replace(o, n);
-	return s;
-}
 
 function def(x) {
 	return typeof x != "undefined";
@@ -90,11 +92,8 @@ function onClick(col) {
 	if (!won) {
 		if (tpm) {
 			if (drop(col, turn)) {
-				if (turn == 2) {
-					turn = 1;
-				} else {
-					turn = 2;
-				}
+				turn = (turn == 2)? 1 : 2;
+				$("#turn").text("P" + turn);
 			}
 			return;
 		} else if (turn == 1) {
