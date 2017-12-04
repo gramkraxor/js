@@ -81,7 +81,7 @@ Rom.integer = function(s) { // Roman to Hindu-Arabic
 	return r;
 }
 
-function $R(v) {
+function R$(v) {
 	if (typeof v == "string") {
 		v = ParseInt(s);
 	}
@@ -90,5 +90,5 @@ function $R(v) {
 
 
 Rom.log = function() {
-	console.log(Rom.NAME + " version " + $R(Rom.VERSION) + " by " + Rom.AUTHORS[0] + "\nCopyright \u00A9 " + $R(Rom.YEAR) + " (Hindu-Arabic " + Rom.YEAR + ")");
+	console.log(Rom.NAME + " version " + R$(Rom.VERSION) + " by " + Rom.AUTHORS[0] + "\nCopyright \u00A9 " + R$(Rom.YEAR) + " (Hindu-Arabic " + Rom.YEAR + ")");
 }

@@ -3,6 +3,9 @@ const mspf = 25; // milliseconds per frame
 const stageSize = new vector(576, 576);
 var bg = "#000000";
 
+const AUTHORS = [ "Gramkraxor" ];
+const YEAR = new Date().getFullYear();
+
 // namespace objects
 const
 vectors = {},
@@ -79,17 +82,24 @@ function draw() {
 // on document load
 $(function() {
 	
-	$("body").append($("<div/>")
+	$("body")
 		.append($("<div/>")
-			.attr("id", "title")
-			.text("\u03c6")
+			.append($("<div/>")
+				.attr("id", "title")
+				//.text("\u03c6")
+				.append("&phi;")
+			)
+			.append($("<canvas/>")
+				.attr("id", "stage")
+				.attr("width",  stageSize.x)
+				.attr("height", stageSize.y)
+			)
 		)
-		.append($("<canvas/>")
-			.attr("id", "stage")
-			.attr("width",  stageSize.x)
-	    .attr("height", stageSize.y)
+		.append($("<div/>")
+			.attr("id", "footer")
+			.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
 		)
-	);
+	;
 	
 	draw();
 	

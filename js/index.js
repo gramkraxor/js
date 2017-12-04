@@ -1,4 +1,4 @@
-/* JS by Owen Graham */
+/* JS by Gramkraxor */
 
 var pages = [];
 
@@ -13,12 +13,12 @@ function Page(file, name) {
 
 Page("dozer");
 Page("clock");
+Page("ttt");
+Page("connect4");
 Page("devx");
 Page("scripter");
 Page("dozagon");
-Page("connect4");
 Page("phi");
-Page("ttt");
 
 $(function() {
 	for (let i = 0; i < pages.length; i++) {

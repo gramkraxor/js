@@ -1,6 +1,19 @@
-/* CSS by Owen Graham */
+/* CSS by Gramkraxor */
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700');
+
+#footer {
+	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
+	font-weight: 400;
+	position: absolute;
+	bottom: 8px;
+	left: 0;
+	right: 0;
+	opacity: 0.5;
+	font-size: 12px;
+	line-height: 12px;
+	text-align: center;
+}
 
 * {
 	font-family: 'Ubuntu Mono', 'Consolas', monospace;
@@ -85,6 +98,7 @@ span.c {
 }
 
 #foot {
+	z-index: 1;
 	text-align: left;
 	padding: 24px 24px;
 	position: absolute;

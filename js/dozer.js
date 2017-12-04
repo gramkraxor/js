@@ -236,17 +236,22 @@ function setMode(m) {
 }
 
 function setLabels(b) {
-	var r = b == "roman";
+	var r = (b == "roman");
 	if (b && !r) {
 		b = getBase(b).r;
 		labelBase = b;
 	} else {
 		b = labelBase;
 	}
-	var v = r ? $R(version)  : $Doz(version,  b, Doz.mode);
-	var y = r ? $R(copyYear) : $Doz(copyYear, b, Doz.mode);
+	var v = r ? R$(version)  : Doz$(version,  b, Doz.mode);
+	var y = r ? R$(copyYear) : Doz$(copyYear, b, Doz.mode);
+<<<<<<< HEAD
+	$("#title").text(title + " " + v);
+	$("#footer").text(["\u00A9", y, copy].join(" "));
+=======
 	$("#title").html(title + " " + v);
 	$("#footer").html("&copy; " + y + " " + copy);
+>>>>>>> e66057ddef00dbf68fc67e184765c8ef504971c7
 	//$("#footer").html("&copy; " + $z(copyYear, Doz.mode) + " (" + copyYear + ") " + copy);
 }
 
@@ -263,12 +268,12 @@ var eggRainbowHue = 0;
 var eggRainbowEnabled = false;
 
 function eggRainbow(b) {
-	if (!b) {
+	if (b === false) {
 		eggRainbowEnabled = false;
 		$("body").removeAttr("style");
-	}
-	if (b) eggRainbowEnabled = true;
-	if (eggRainbowEnabled) {
+	} else {
+		eggRainbowEnabled = true;
+		
 		let l = $("body").hasClass("dark")? 25 : 75;
 		$("body").css("background", "hsl(" + eggRainbowHue++ + ", 100%, " + l + "%)");
 		if (eggRainbowHue > 359) eggRainbowHue = 0;
