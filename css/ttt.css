@@ -1,5 +1,19 @@
+/* CSS by Gramkraxor */
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400');
+
+#footer {
+	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
+	font-weight: 400;
+	position: absolute;
+	bottom: 8px;
+	left: 0;
+	right: 0;
+	opacity: 0.5;
+	font-size: 12px;
+	line-height: 12px;
+	text-align: center;
+}
 
 body {
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
@@ -131,19 +145,43 @@ input {
 	cursor: pointer;
 }
 
+.g.x,
+.g.o,
+.g.cat {
+	animation: 0.5s delay-cell;
+}
+
+.g.x > *,
+.g.o > *,
+.g.cat > * {
+	animation: 0.5s delay-content;
+}
+
+#board.x,
+#board.o,
+#board.cat {
+	animation: 1s delay-cell;
+}
+
+#board.x > *,
+#board.o > *,
+#board.cat > * {
+	animation: 1s delay-content;
+}
+
 .x > *,
 .o > * {
 	visibility: hidden;
 }
 
 .g.x-ish {
-	border-color: #FF4000;
-	border-color: #FFA080;
+	border-color: #rgba(255, 64, 0, 0.5);
+	border-color: #FF400080;
 }
 
 .g.o-ish {
-	border-color: #0040FF;
-	border-color: #80A0FF;
+	border-color: #rgba(0, 64, 255, 0.5);
+	border-color: #0040FF80;
 }
 
 .g.nope {
@@ -154,9 +192,16 @@ input {
 	visibility: hidden;
 }
 
-@keyframes move {
+@keyframes delay-cell {
 	0%, 100% {
-		border-width: 1.5625vh;
-		margin-top: 0;
+		background: 0;
+		-webkit-mask-image: initial;
+		        mask-image: initial;
+	}
+}
+
+@keyframes delay-content {
+	0%, 100% {
+		visibility: initial;
 	}
 }
