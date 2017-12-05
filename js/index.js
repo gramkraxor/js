@@ -21,8 +21,10 @@ Page("phi");
 
 $(function() {
 	for (let i = 0; i < pages.length; i++) {
+		let link = pages[i].file;
+		if (location.protocol == "file:" || !location.hostname.includes("gramkraxor.com")) link += HTML;
 		$("body").append($("<a>")
-			.attr("href", pages[i].file + ((location.protocol == "file:")? HTML : ""))
+			.attr("href", link)
 			.text(pages[i].name)
 		);
 	}
