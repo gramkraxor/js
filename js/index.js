@@ -16,7 +16,6 @@ Page("clock");
 Page("ttt");
 Page("connect4");
 Page("devx");
-Page("scripter");
 Page("dozagon");
 Page("phi");
 
