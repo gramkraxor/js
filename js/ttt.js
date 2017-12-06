@@ -70,6 +70,19 @@ ttt.draw = function(p, gx, gy, mx, my) {
 // test for a win
 ttt.bingo = function(p, gx, gy) {
 	let board = (isNaN(gy))? ttt.gboard : ttt.mboard[gx][gy];
+	
+	// easter egg
+	if (gx == 1 && gy == 1) {
+		let bigX = [
+			[ttt.X,    ttt.open, ttt.X   ],
+			[ttt.open, ttt.X,    ttt.open],
+			[ttt.X,    ttt.open, ttt.X   ]
+		];
+		if (ttt.eq(board, bigX)) {
+			$("body").addClass("dark");
+		}
+	}
+	
 	// check for horizontal wins
 	H0: for (let x0 = 0; x0 < ttt.cols - ttt.connect + 1; x0++) {
 		V: for (let y = 0; y < ttt.rows; y++) {
@@ -221,7 +234,6 @@ ttt.tie = function() {
 ttt.onLoad = function(x) {
 	
 	$("body").empty();
-	$("body").addClass("dark");
 	
 	if (isNaN(x)) x = 3;
 	ttt.cols = ttt.rows = ttt.connect = x;
