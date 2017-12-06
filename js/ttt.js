@@ -218,7 +218,13 @@ ttt.tie = function() {
 }
 
 // on load
-$(function() {
+ttt.onLoad = function(x) {
+	
+	$("body").empty();
+	$("body").addClass("dark");
+	
+	if (isNaN(x)) x = 3;
+	ttt.cols = ttt.rows = ttt.connect = x;
 	
 	$("body")
 		.append($("<div/>")
@@ -287,4 +293,6 @@ $(function() {
 	}
 	
 	ttt.reset(); // begin!
-});
+}
+
+$(ttt.onLoad);
