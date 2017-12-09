@@ -21,12 +21,18 @@ body {
 	line-height: 16px;
 	margin: 0;
 	background: #FFFFFF;
+	color: #000000;
+	border-color: #000000;
 	color: #808080;
 	border-color: #808080;
 }
 
 body.dark {
 	background: #000000;
+	color: #FFFFFF;
+	border-color: #FFFFFF;
+	color: #808080;
+	border-color: #808080;
 }
 
 a {
@@ -72,67 +78,28 @@ a {
 
 #reset {
 	cursor: pointer;
-	border-style: solid;
+	background: #00FF00;
+	color: #000000;
 }
 
-/*////////////////////////////////////////////////////////////////////*/
-/* sizing */
 
-/* <flex> */
-#board,
-.g {
-	display: flex;
-	flex-direction: column;
-	align-content: stretch;
-}
-
-.grow,
-.mrow {
-	flex: auto;
-	
-	display: flex;
-	justify-content: space-evenly;
-	flex-direction: row;
-}
-
-.gbox,
-.mbox {
-	flex: auto;
-}
-
-.gbox {	
-	position: relative;
-}
-
-.g {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-}
-
-.m {
-	height: 100%;
-	width:  100%;
-	/*background: #008000;*/
-}
-/* </flex> */
-
+/* portrait sizing */
 @media only screen and (orientation: portrait) {
 	
-	#board {
-		width:  100vw;
-		height: 100vw;
-		max-width:  calc(100vh * 3/4);
-		max-height: calc(100vh * 3/4);
+	.m {
+		width:  calc(100vw / 12);
+		height: calc(100vw / 12);
+		width:  calc(100vw * 13/144);
+		height: calc(100vw * 13/144);
+		max-width:  calc(100vh / 16);
+		max-height: calc(100vh / 16);
 	}
 	
 	.g {
-		border-width:  calc(100vw * 4/576);
-		border-radius: calc(100vw * 4/576);
-		margin:        calc(100vw * 4/576);
-		padding:       calc(100vw * 4/576);
+		border-width:  calc(100vw * 6/576);
+		border-radius: calc(100vw * 6/576);
+		margin:  calc(100vw * 3/576);
+		padding: calc(100vw * 3/576);
 	}
 	
 	.gbox {
@@ -144,28 +111,33 @@ a {
 	}
 	
 	#reset {
-		margin-top: calc(100vh / 12 - 24px);
+		margin-top: 48px;
 		padding: calc(100vw / 24) calc(100vw / 6);
 		font-size:   calc(100vw / 24);
 		line-height: calc(100vw / 24);
-		border-width: calc(100vw * 1/576);
+		background: #00FFFF;
+	}
+	
+	#wrapper {
+		-bottom: calc((100vw - 100vh) / 12);
 	}
 }
 
+/* landscape sizing */
 @media only screen and (orientation: landscape) {
 	
-	#board {
-		width:  calc(100vh * 2/3);
-		height: calc(100vh * 2/3);
-		max-width:  576px;
-		max-height: 576px;
+	.m {
+		width:  calc(100vh / 16);
+		height: calc(100vh / 16);
+		max-width:  48px;
+		max-height: 48px;
 	}
 	
 	.g {
-		border-width:  4px;
+		border-width: 4px;
 		border-radius: 4px;
-		margin:        4px;
-		padding:       4px;
+		margin: 4px;
+		padding: 4px;
 	}
 	
 	.gbox {
@@ -177,19 +149,22 @@ a {
 	}
 	
 	#reset {
-		margin-top: 48px;
-		padding: 12px 48px;
-		font-size:   16px;
+		margin-top: calc(100vh / 12 - 24px);
+		padding: calc(100vh / 64) calc(100vh * 3/48);
+		background: #FFFF00;
+		font-size: 16px;
 		line-height: 16px;
-		border-width: 1px;
+		font-size:   calc(100vh / 48);
+		line-height: calc(100vh / 48);
 	}
 }
-/*////////////////////////////////////////////////////////////////////*/
+
 
 .gbox,
 .mbox {
 	display: inline-block;
 	border-style: solid;
+	border-color: inherit;
 	border-right: 0;
 	border-bottom: 0;
 }
@@ -231,6 +206,30 @@ a {
 	cursor: pointer;
 }
 
+.g.x,
+.g.o,
+.g.cat {
+	animation: 0.5s delay-cell;
+}
+
+.g.x > *,
+.g.o > *,
+.g.cat > * {
+	animation: 0.5s delay-content;
+}
+
+#board.x,
+#board.o,
+#board.cat {
+	animation: 1s delay-cell;
+}
+
+#board.x > *,
+#board.o > *,
+#board.cat > * {
+	animation: 1s delay-content;
+}
+
 .x > *,
 .o > * {
 	visibility: hidden;
@@ -266,28 +265,4 @@ a {
 	0%, 100% {
 		visibility: initial;
 	}
-}
-
-.g.x,
-.g.o,
-.g.cat {
-	animation: 0.5s delay-cell;
-}
-
-.g.x > *,
-.g.o > *,
-.g.cat > * {
-	animation: 0.5s delay-content;
-}
-
-#board.x,
-#board.o,
-#board.cat {
-	animation: 1s delay-cell;
-}
-
-#board.x > *,
-#board.o > *,
-#board.cat > * {
-	animation: 1s delay-content;
 }
