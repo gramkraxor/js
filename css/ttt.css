@@ -75,10 +75,6 @@ a {
 	border-style: solid;
 }
 
-/*////////////////////////////////////////////////////////////////////*/
-/* sizing */
-
-/* <flex> */
 #board,
 .g {
 	display: flex;
@@ -115,9 +111,7 @@ a {
 .m {
 	height: 100%;
 	width:  100%;
-	/*background: #008000;*/
 }
-/* </flex> */
 
 @media only screen and (orientation: portrait) {
 	
@@ -184,7 +178,6 @@ a {
 		border-width: 1px;
 	}
 }
-/*////////////////////////////////////////////////////////////////////*/
 
 .gbox,
 .mbox {
