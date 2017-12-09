@@ -2,16 +2,17 @@
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700');
 
-* {
+body,
+a {
 	font-family: 'Ubuntu Mono', 'Consolas', monospace;
 	color: #000000;
-	font-size: 64px;
-	line-height: 64px;
+	font-size:   36px;
+	line-height: 36px;
 	text-decoration: none;
-	text-align: center;
 }
 
 body {
+	text-align: center;
 	margin: 128px;
 	background: #FFFFFF;
 }
@@ -19,4 +20,16 @@ body {
 ::selection {
 	color: #000000;
 	background: #C0C0C0;
+}
+
+@media only screen and (orientation: portrait) {
+	
+	p {
+		width: 75vw;
+		text-align: left;
+	}
+}
+
+@media only screen and (orientation: landscape) {
+	
 }
