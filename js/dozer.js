@@ -63,7 +63,7 @@ $(function() {
 				.attr("id", "mode")
 				.append($("<p/>")
 					.attr("id", "mode-title")
-					.html("Dozenal Mode")
+					.html("Transdecimals")
 				)
 			)
 		)
@@ -129,7 +129,7 @@ $(function() {
 					.append($("<span/>")
 						.html(m.c.join(" "))
 					)
-					.append(" (" + m.n + ")")
+					//.append(" (" + m.n + ")")
 				)
 		);
 	}
@@ -246,7 +246,7 @@ function setLabels(b) {
 	var v = r ? R$(version)  : Doz$(version,  b, Doz.mode);
 	var y = r ? R$(copyYear) : Doz$(copyYear, b, Doz.mode);
 	
-	$("#title").text(title + " " + v);
+	$("#title").text(title + " v" + v);
 	$("#footer").text(["\u00A9", y, copy].join(" "));
 	//$("#footer").html("&copy; " + $z(copyYear, Doz.mode) + " (" + copyYear + ") " + copy);
 }
@@ -287,11 +287,10 @@ function eggDarkMode(b) {
 }
 
 function eggFlip() {
-	let c = "flip";
-	if ($("body").hasClass(c)) {
-		$("body").removeClass(c);
+	if ($("body").hasClass("flip")) {
+		$("body").removeClass("flip");
 	} else {
-		$("body").addClass(c);
+		$("body").addClass("flip");
 	}
 }
 

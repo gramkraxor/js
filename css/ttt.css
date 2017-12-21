@@ -34,13 +34,31 @@ a {
 	/*text-decoration: none;*/
 }
 
+/*
 ::selection {
 	color: inherit;
 	background: #C0C0C0;
 }
+*/
 
 :focus {
 	outline: 0;
+}
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+sup {
+	top: -0.5em;
 }
 
 #wrapper {
@@ -70,9 +88,16 @@ a {
 	border-color: transparent;
 }
 
-#reset {
+#buttons {
+	display: block;
+}
+
+#buttons > div {
+	text-transform: uppercase;
 	cursor: pointer;
 	border-style: solid;
+	display: inline-block;
+	text-align: center;
 }
 
 #board,
@@ -120,11 +145,12 @@ a {
 		height: 100vw;
 		max-width:  calc(100vh * 3/4);
 		max-height: calc(100vh * 3/4);
+		margin-top: auto;
 	}
 	
 	.g {
-		border-width:  calc(100vw * 4/576);
 		border-radius: calc(100vw * 4/576);
+		border-width:  calc(100vw * 4/576);
 		margin:        calc(100vw * 4/576);
 		padding:       calc(100vw * 4/576);
 	}
@@ -137,12 +163,29 @@ a {
 		border-width: calc(100vw * 1/576);
 	}
 	
-	#reset {
-		margin-top: calc(100vh / 12 - 24px);
-		padding: calc(100vw / 24) calc(100vw / 6);
-		font-size:   calc(100vw / 24);
-		line-height: calc(100vw / 24);
-		border-width: calc(100vw * 1/576);
+	#buttons {
+		margin-top: auto;
+		margin-bottom: calc(100vh / 24);
+	}
+	
+	#buttons > div {
+		/*padding: calc(100vw / 24) calc(100vw / 6);*/
+		margin:       12px;
+		width:        calc(100vw / 4);
+		height:       calc(100vw / 8);
+		line-height:  calc(100vw / 8);
+		font-size:    calc(100vw / 24);
+		border-width: calc(100vw / 576);
+	}
+	
+	#resize,
+	#darken {
+		max-width: calc(100vw / 8);
+	}
+	
+	#footer {
+		font-size:   calc(100vw / 48);
+		line-height: calc(100vw / 48);
 	}
 }
 
@@ -156,8 +199,8 @@ a {
 	}
 	
 	.g {
-		border-width:  4px;
 		border-radius: 4px;
+		border-width:  4px;
 		margin:        4px;
 		padding:       4px;
 	}
@@ -170,12 +213,23 @@ a {
 		border-width: 1px;
 	}
 	
-	#reset {
-		margin-top: 48px;
-		padding: 12px 48px;
-		font-size:   16px;
-		line-height: 16px;
+	#buttons {
+		margin-top: 36px;
+	}
+	
+	#buttons > div {
+		/*padding: 12px 48px;*/
+		margin:       12px;
+		width:        144px;
+		height:       42px;
+		line-height:  42px;
+		font-size:    16px;
 		border-width: 1px;
+	}
+	
+	#resize,
+	#darken {
+		max-width: 64px;
 	}
 }
 
@@ -230,13 +284,13 @@ a {
 }
 
 .g.x-ish {
-	border-color: rgba(255, 64, 0, 0.5);
-	border-color: #FF400080;
+	border-color: rgba(255, 64, 0, 0.75);
+	border-color: #FF4000C0;
 }
 
 .g.o-ish {
-	border-color: rgba(0, 64, 255, 0.5);
-	border-color: #0040FF80;
+	border-color: rgba(0, 64, 255, 0.75);
+	border-color: #0040FFC0;
 }
 
 .g.nope {

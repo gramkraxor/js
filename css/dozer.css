@@ -2,21 +2,18 @@
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400');
 
-* {
-	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
-	color: #000000;
-	font-size: 20px;
-	line-height: 20px;
+body * {
+	font-family: inherit;
+	color:       inherit;
+	font-size:   inherit;
+	line-height: inherit;
+	/*text-decoration: none;*/
 }
 
 body {
-	margin: 64px;
+	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
+	color: #000000;	
 	background: #FFFFFF;
-}
-
-a {
-	color: inherit;
-	/*text-decoration: none;*/
 }
 
 ::selection {
@@ -47,8 +44,6 @@ input[type='submit'] {
 
 input[type='text'] {
 	border-bottom: 1px solid;
-	width: 256px;
-	max-width: 75%;
 	transition: 0.25s;
 	border-bottom-color: rgba(0, 0, 0, 0.25);
 }
@@ -130,14 +125,58 @@ input[type='radio']:focus + label {
   outline: 0;
 }
 
-@media only screen and (orientation: landscape) {
-	
-	* {
-		font-size: 16px;
-		line-height: 16px;
-	}
+@media only screen and (orientation: portrait) {
 	
 	body {
+		font-size:   36px;
+		line-height: 36px;
+		margin: 64px 16px;
+	}
+	
+	input[type='submit'] {
+		padding: 8px 0;
+		width: 144px;
+		max-width: 12.5%;
+		margin-right: 8px;
+	}
+	
+	input[type='text'] {
+		width: 75%;
+		height: 96px;
+	}
+	
+	#mode {
+		text-align: center;
+	}
+	
+	#mode p:not(#mode-title) {
+		display: inline-block;
+		margin: 0 48px;
+	}
+	
+	#mode-title {
+		display: none;
+	}
+	
+	input[type='radio'] + label:before {
+		border-width: 3px;
+		width:  16px;
+		height: 16px;
+		padding: 4px;
+		margin-right: 16px;
+	}
+	
+	#roman {
+		margin-top: 36px;
+	}
+	
+}
+
+@media only screen and (orientation: landscape) {
+	
+	body {
+		font-size: 16px;
+		line-height: 16px;
 		margin: 128px 0;
 	}
 	
@@ -146,13 +185,26 @@ input[type='radio']:focus + label {
 	}
 	
 	#convert, #mode {
-		margin: 8px;
+		margin: 8px 12px;
+	}
+
+	input[type='text'] {
+		width: 256px;
+	}
+	
+	#mode p {
+		display: block;
+	}
+	
+	#mode p:not(#mode-title) {
+		margin: 8px 0;
 	}
 	
 	#doz {
 		display: flex;
+		flex-direction: horizontal;
+		justify-content: center;
 	}
-	
 }
 
 /* easter eggs */

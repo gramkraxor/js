@@ -11,9 +11,9 @@ function Page(file, name) {
 	pages.push(r);
 }
 
+Page("ttt");
 Page("dozer");
 Page("clock");
-Page("ttt");
 Page("connect4");
 Page("devx");
 Page("dozagon");

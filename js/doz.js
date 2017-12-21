@@ -69,7 +69,7 @@ Doz.getMode = function(v) {
 	if (typeof v == "string") v = v.toLowerCase();
 	for (let i = 0; i < Doz.modes.length; i++) {
 		let m = Doz.modes[i];
-		if (v == m || v == m.a.toLowerCase() || v == m.n.toLowerCase() || v == m.c.join("").toLowerCase() || v == (m.c.join("") + m.p).toLowerCase()) return m;
+		if (v === m || v == m.a.toLowerCase() || v == m.n.toLowerCase() || v == m.c.join("").toLowerCase() || v == (m.c.join("") + m.p).toLowerCase()) return m;
 	}
 	// if no match, creates new Mode
 	if (typeof val == "string") {

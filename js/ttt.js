@@ -1,6 +1,5 @@
 /* JS by Gramkraxor */
 
-
 const ttt = {}; // namespace object
 
 ttt.NAME = "Ultimate Tic Tac Toe";
@@ -25,7 +24,12 @@ ttt.has = function(arr, x) {
 	return false;
 }
 
-// class names
+// create a seperate copy of array
+ttt.copy = function(arr) {
+	return JSON.parse(JSON.stringify(arr));
+}
+
+// class names/array values
 ttt.G = "g";
 ttt.M = "m";
 ttt.X = "x";
@@ -36,14 +40,26 @@ ttt.Xish = "x-ish";
 ttt.Oish = "o-ish";
 ttt.nope = "nope";
 
-ttt.cols = 3;
-ttt.rows = 3;
-ttt.connect = 3;
-ttt.gboard = []; // array of 3^2 large cells
-ttt.mboard = []; // array of 3^4 small cells
+ttt.cols;
+ttt.rows;
+ttt.connect; // cells to connect to conquer
 
-ttt.turn;
-ttt.posPos;
+ttt.gboard; // array of 3^2 large cells
+ttt.mboard; // array of 3^4 small cells
+
+ttt.turn; // whose turn it is
+ttt.posPos; // array of possible next moves
+ttt.turnsTaken; // number of turns taken in the current game
+
+// remember the last turn's data to allow the undo function
+ttt.prevGboard;
+ttt.prevMboard;
+ttt.prevPosPos;
+
+ttt.undone; // whether the previous move has been undone
+
+ttt.sizes = [ 2, 3, 4, 5 ]; // standard board sizes
+ttt.sizeIndex = 1; // index of scrolling through ttt.sizes
 
 // generate cell name
 ttt.getName = function(gx, gy, mx, my) {
@@ -59,6 +75,7 @@ ttt.getCell = function(gx, gy, mx, my) {
 
 // label a cell in the array and in the DOM
 ttt.draw = function(p, gx, gy, mx, my) {
+	if (p == ttt.open) return;
 	ttt.getCell(gx, gy, mx, my).addClass(p);
 	if (!isNaN(my)) {
 		ttt.mboard[gx][gy][mx][my] = p;
@@ -122,7 +139,7 @@ ttt.bingo = function(p, gx, gy) {
 	return false;
 }
 
-// test for a ttt.tie
+// test for a tie
 ttt.catsGame = function(gx, gy) {
 	let board = (isNaN(gy))? ttt.gboard : ttt.mboard[gx][gy];
 	for (let x = 0; x < ttt.cols; x++) {
@@ -135,7 +152,7 @@ ttt.catsGame = function(gx, gy) {
 	return true;
 }
 
-// label every ttt.open sopt as a possible next move
+// label every open sopt as a possible next move
 ttt.freebie = function() {
 	ttt.posPos = [];
 	for (let gx = 0; gx < ttt.cols; gx++) {
@@ -165,56 +182,103 @@ ttt.reset = function() {
 		}
 	}
 	
-	let classes = [ ttt.X, ttt.O, ttt.open, ttt.cat, ttt.Xish, ttt.Oish, ttt.nope ];
-	for (let i = 0; i < classes.length; i++) {
-		c = classes[i];
-		$("." + c).removeClass(c);
-	}
+	ttt.wipe();
 	
 	ttt.turn = ttt.X;
+	ttt.turnsTaken = 0;
 	ttt.freebie();
-	ttt.drawish();
-	$(".g").addClass(ttt.nope);
+	ttt.drawish(true);
+}
+
+ttt.nextTurn = function() {
+	ttt.turn = (ttt.turn == ttt.O)? ttt.X : ttt.O;
+}
+
+// copy the previous board
+ttt.remember = function() {
+	ttt.prevGboard = ttt.copy(ttt.gboard);
+	ttt.prevMboard = ttt.copy(ttt.mboard);
+	ttt.prevPosPos = ttt.copy(ttt.posPos);
+}
+
+// undo one turn
+ttt.undo = function() {
+	if (ttt.undone || ttt.turnsTaken == 0) return;
+	ttt.undone = true;
+	ttt.turnsTaken--;
+	ttt.wipe();
+	ttt.gboard = ttt.copy(ttt.prevGboard);
+	ttt.mboard = ttt.copy(ttt.prevMboard);
+	ttt.posPos = ttt.copy(ttt.prevPosPos);
+	ttt.nextTurn();
+	for (let gx = 0; gx < ttt.cols; gx++) {
+		for (let gy = 0; gy < ttt.rows; gy++) {
+			ttt.draw(ttt.gboard[gx][gy], gx, gy);
+			for (let mx = 0; mx < ttt.cols; mx++) {
+				for (let my = 0; my < ttt.rows; my++) {
+					ttt.draw(ttt.mboard[gx][gy][mx][my], gx, gy, mx, my);
+				}
+			}
+		}
+	}
+	ttt.drawish(ttt.turnsTaken == 0);
+}
+
+// run through possible game sizes
+ttt.resize = function() {
+	ttt.sizeIndex++;
+	if (ttt.sizeIndex == ttt.sizes.length) ttt.sizeIndex = 0;
+	ttt.newBoard(ttt.sizes[ttt.sizeIndex]);
 }
 
 // add hover-higlight class for possible next moves
-ttt.drawish = function() {
+ttt.drawish = function(nope) {
 	var ish = (ttt.turn == ttt.O)? ttt.Oish : ttt.Xish;
 	for (let i = 0; i < ttt.posPos.length; i++) ttt.getCell(ttt.posPos[i][0], ttt.posPos[i][1]).addClass(ish);
+	if (nope) $("." + ttt.G).addClass(ttt.nope);
 }
 
 // remove hover-higlight classes
-ttt.removeish = function() {
-	$("." + ttt.Xish).removeClass(ttt.Xish);
-	$("." + ttt.Oish).removeClass(ttt.Oish);
-	$("." + ttt.nope).removeClass(ttt.nope);
+ttt.wipeish = function() {
+	$("." + ttt.G + ", ." + ttt.M).removeClass([ttt.Xish, ttt.Oish, ttt.nope].join(" "));
+}
+
+// remove changable classes
+ttt.wipe = function() {
+	$("#board, #board *").removeClass([ttt.X, ttt.O, ttt.cat, ttt.Xish, ttt.Oish, ttt.nope].join(" "));
 }
 
 // when a small square gets clicked
 ttt.onClick = function(gx, gy, mx, my) {
 	if (!(ttt.has(ttt.posPos, [gx, gy]) && ttt.mboard[gx][gy][mx][my] == ttt.open)) return;
+	ttt.remember();
+	ttt.turnsTaken++;
+	ttt.undone = false;
 	ttt.draw(ttt.turn, gx, gy, mx, my);
+	
 	if (ttt.bingo(ttt.turn, gx, gy)) {
 		ttt.draw(ttt.turn, gx, gy);
 		if (ttt.bingo(ttt.turn)) {
 			ttt.victory(ttt.turn);
+			ttt.nextTurn();
 			return;
 		} else if (ttt.catsGame()) {
 			ttt.tie();
+			ttt.nextTurn();
 			return;
 		}
 	} else if (ttt.catsGame(gx, gy)) {
 		ttt.draw(ttt.cat, gx, gy);
 	}
 	
-	ttt.turn = (ttt.turn == ttt.O)? ttt.X : ttt.O;
+	ttt.nextTurn();
 	ttt.posPos = [];
 	if (ttt.gboard[mx][my] == ttt.open) {
 		ttt.posPos.push([mx, my]);
 	} else {
 		ttt.freebie();
 	}
-	ttt.removeish();
+	ttt.wipeish();
 	ttt.drawish();
 }
 
@@ -231,12 +295,7 @@ ttt.tie = function() {
 }
 
 // on load
-ttt.onLoad = function(x) {
-	
-	$("body").empty();
-	
-	if (isNaN(x)) x = 3;
-	ttt.cols = ttt.rows = ttt.connect = x;
+$(function() {
 	
 	$("body")
 		.append($("<div/>")
@@ -245,9 +304,33 @@ ttt.onLoad = function(x) {
 				.attr("id", "board")
 			)
 			.append($("<div/>")
-				.attr("id", "reset")
-				.text("RESET")
-				.click(function() { ttt.reset(); })
+				.attr("id", "buttons")
+				.append($("<div/>")
+					.attr("id", "undo")
+					.text("UNDO")
+					.click(function() { ttt.undo(); })
+				)
+				.append($("<div/>")
+					.attr("id", "reset")
+					.text("RESET")
+					.click(function() { ttt.reset(); })
+				)
+				.append($("<div/>")
+					.attr("id", "resize")
+					.click(function() { ttt.resize(); })
+				)
+				.append($("<div/>")
+					.attr("id", "darken")
+					.text("\u25A0")
+					.html("&nbsp;")
+					.click(function() {
+						if ($("body").hasClass("dark")) {
+							$("body").removeClass("dark");
+						} else {
+							$("body").addClass("dark");
+						}
+					})
+				)
 			)
 		)
 		.append($("<div/>")
@@ -255,7 +338,23 @@ ttt.onLoad = function(x) {
 			.text(["\u00A9", ttt.YEAR, ttt.AUTHORS[0]].join(" "))
 		)
 	;
-	$("#mode").click();
+	
+	ttt.newBoard();
+	
+});
+
+ttt.newBoard = function(size) {
+	
+	// empty the board for resizing
+	$("#board").empty();
+	ttt.gboard = [];
+	ttt.mboard = [];
+	
+	// default game size
+	if (isNaN(size)) size = 3;
+	ttt.cols = ttt.rows = ttt.connect = size;
+	
+	$("#resize").text(size).append($("<sup/>").text("4"))
 	
 	// make all the squares
 	for (let gy = 0; gy < ttt.rows; gy++) {
@@ -305,6 +404,17 @@ ttt.onLoad = function(x) {
 	}
 	
 	ttt.reset(); // begin!
+	
 }
 
-$(ttt.onLoad);
+ttt.show = function(arr) {
+	let r = "";
+	for (let gy = 0; gy < arr[0].length; gy++) {
+		for (let gx = 0; gx < arr.length; gx++) {
+			r += (arr[gx][gy] == ttt.open)? "_" : arr[gx][gy];
+			r += " ";
+		}
+		if (gy < arr[0].length - 1) r += "\n";
+	}
+	console.log(r);
+}
