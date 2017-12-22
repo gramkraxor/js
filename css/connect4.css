@@ -121,7 +121,7 @@ input {
 	text-align: center;
 	margin-top: 8px;
 	display: flex;
-	flex-direction: horizontal;
+	flex-direction: row;
 }
 
 #options > * {

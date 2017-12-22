@@ -202,7 +202,7 @@ input[type='radio']:focus + label {
 	
 	#doz {
 		display: flex;
-		flex-direction: horizontal;
+		flex-direction: row;
 		justify-content: center;
 	}
 }

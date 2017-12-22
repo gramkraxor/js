@@ -17,6 +17,16 @@ body {
 	background: #FFFFFF;
 }
 
+div {
+	display: flex;
+	flex-direction: column;
+}
+
+p {
+	display: block;
+	margin: 16px;
+}
+
 ::selection {
 	color: #000000;
 	background: #C0C0C0;

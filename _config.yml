@@ -1,0 +1,33 @@
+# Jekyll configuation for www.gramkraxor.com/js #
+
+title: Your awesome title
+url: "https://www.gramkraxor.com"
+baseurl: "/js"
+layout: master
+
+google_analytics: UA-111498946-2
+
+port: 80
+
+markdown: kramdown
+#theme: minima
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - CNAME
+
+collections:
+  posts:
+    output: true
+  projects:
+    output: true
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: projects
+    values:
+      layout: "project"
+      permalink: "/:name"

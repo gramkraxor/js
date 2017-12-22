@@ -1,3 +1,5 @@
+window.onload = function() { x(768); };
+
 function x(size) {
 	z = function(n) {
 		return parseInt(n, 0xC);
