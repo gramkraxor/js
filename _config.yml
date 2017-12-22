@@ -3,13 +3,10 @@
 url: "https://www.gramkraxor.com"
 baseurl: "/js"
 layout: master
-
+port: 80
+markdown: kramdown
 google_analytics: UA-111498946-2
 
-port: 80
-
-markdown: kramdown
-#theme: minima
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -28,5 +25,5 @@ defaults:
       path: ""
       type: projects
     values:
-      layout: "project"
-      permalink: "/:name"
+      layout: project
+      permalink: /:name
