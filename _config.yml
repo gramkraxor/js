@@ -1,6 +1,5 @@
 # Jekyll configuation for www.gramkraxor.com/js #
 
-title: Your awesome title
 url: "https://www.gramkraxor.com"
 baseurl: "/js"
 layout: master
