@@ -1,3 +1,5 @@
+/* JS by Gramkraxor */
+
 window.onload = function() { x(768); };
 
 function x(size) {

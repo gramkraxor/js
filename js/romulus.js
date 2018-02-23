@@ -1,6 +1,6 @@
 /* 
  * Romulus, a JS Roman numeral converter
- * © MMXVII (2017) Gramkraxor
+ * © MMXVIII (2018) Gramkraxor
  */
 
 const Rom = {};
@@ -45,7 +45,7 @@ Rom.un   = new Rom.Place(Rom.ONES);
 Rom.numeral = function(n, nulla) { // nulla determines whether to allow "N" as output
 	if (typeof n != "number" || isNaN(n)) return "";
 	if (n < 0) n *= -1;
-	if (n == 0 && nulla) return Rom.n;
+	if (n == 0) return (nulla ? Rom.n : "");
 	remainder = n - Math.floor(n);
 	n = Math.floor(n);
 	if (n >= 4000) return "";
@@ -57,13 +57,24 @@ Rom.numeral = function(n, nulla) { // nulla determines whether to allow "N" as o
 	for (let i = 0; i < a.length; i++) {
 		a[i] = Rom.places[i].c[parseInt(a[i])];
 	}
-	var rem = Math.round(remainder * 12 + 1 / 24);
+	var rem = Math.round(remainder * 12);
+	if (rem >= Rom.DOZENALS.length) rem = Rom.DOZENALS.length - 1;
 	return a.join("") + Rom.DOZENALS[rem];
 }
 
 Rom.integer = function(s) { // Roman to Hindu-Arabic
 	s = s.toUpperCase();
 	var r = 0;
+	
+	/*
+	for (let i = Rom.DOZENALS.length - 1; i >= 0; i--) {
+		if (s.includes(Rom.DOZENALS[i])) {
+			
+			break;
+		}
+	}
+	*/
+	
 	var places = [ Rom.ONES, Rom.TENS, Rom.HUNDREDS, Rom.THOUSANDS ];
 	for (let p = places.length - 1; p >= 0; p--) {
 		let place = places[p];
@@ -82,9 +93,7 @@ Rom.integer = function(s) { // Roman to Hindu-Arabic
 }
 
 function R$(v) {
-	if (typeof v == "string") {
-		v = ParseInt(s);
-	}
+	if (typeof v == "string") v = parseInt(v);
 	return Rom.numeral(v);
 }
 

@@ -13,6 +13,7 @@ function Page(file, name) {
 
 Page("ttt");
 Page("dozer");
+Page("eanto");
 Page("clock");
 Page("connect4");
 Page("devx");
@@ -23,10 +24,10 @@ $(function() {
 	for (let i = 0; i < pages.length; i++) {
 		let link = pages[i].file;
 		if (location.protocol == "file:" || !location.hostname.includes("gramkraxor.com")) link += HTML;
-		$("body").append($("<a>")
+		$("body").append($("<div/>").append($("<a/>")
 			.attr("href", link)
 			.text(pages[i].name)
-		);
+		));
 	}
-	$("a").wrap($("<p>"));
+	$("a").wrap($("<p/>"));
 });

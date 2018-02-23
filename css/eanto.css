@@ -1,0 +1,105 @@
+/* CSS by Gramkraxor */
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400');
+
+body * {
+	font-family: inherit;
+	color:       inherit;
+	font-size:   inherit;
+	line-height: inherit;
+	/*text-decoration: none;*/
+}
+
+body {
+	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
+	font-size: 16px;
+	line-height: 20px;
+	color: #000000;	
+	background: #FFFFFF;
+	margin: 0;
+	padding: 128px 0;
+	border-top: 6px solid #090;
+}
+
+::selection {
+	color: inherit;
+	background: #C0C0C0;
+}
+
+:focus {
+	outline: 0;
+}
+
+#bod {
+	padding: 16px;
+	margin: auto;
+}
+
+#doz {
+	text-align: center;
+}
+
+input {
+	box-sizing: border-box;
+	border: 0;
+	display: inline;
+	margin: 0;
+	padding: 8px;
+	background: 0;
+	box-sizing: border-box;
+}
+
+input[type='button'] {
+	padding: 8px 0;
+	cursor: pointer;
+	width: 120px;
+	max-width: 12.5%;
+	margin: 0 24px;
+	border: 1px solid rgba(0, 0, 0, 0.25);
+	transition: 2s step-start;
+}
+
+input[type='button']:hover {
+	border-color: #000;
+	transition: 0;
+}
+
+input[type='button']:active {
+	border-color: #090;
+	transition: 0;
+}
+
+input[type='text'] {
+	border-bottom: 1px solid;
+	transition: 0.25s;
+	border-bottom-color: rgba(0, 0, 0, 0.25);
+	width: 384px;
+}
+
+input[type='text']:focus {
+	border-bottom-color: #000;
+}
+
+#title, #footer {
+	display: block;
+	text-align: center;
+}
+
+
+/* easter eggs */
+
+body.dark {
+	background: #000000;
+}
+
+body.dark * {
+	color: #FFFFFF;
+}
+
+body.dark input[type='text'] {
+	border-bottom-color: rgba(255, 255, 255, 0.25);
+}
+
+body.dark input[type='text']:focus {
+	border-bottom-color: #FFFFFF;
+}

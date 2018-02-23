@@ -1,3 +1,4 @@
+/* JS by Gramkraxor */
 
 const mspf = 25; // milliseconds per frame
 const stageSize = new vector(576, 576);

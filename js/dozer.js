@@ -121,7 +121,7 @@ $(function() {
 					.attr("id", m.a)
 					.attr("type", "radio")
 					.attr("name", "mode")
-					.click(function() { setMode() })
+					.click(setMode)
 					.prop("checked", m == Doz.mode)
 				)
 				.append($("<label/>")

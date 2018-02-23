@@ -1,4 +1,4 @@
-// DEVX
+/* JS by Gramkraxor */
 
 const
 trm  = {},

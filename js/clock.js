@@ -1,5 +1,7 @@
 /* JS by Gramkraxor */
 
+//TODO Add timer and more cool stuff
+
 var now = new Date();
 
 const AUTHORS = [ "Gramkraxor" ];

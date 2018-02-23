@@ -1,5 +1,7 @@
 # Jekyll configuation for www.gramkraxor.com/js #
 
+# Live JS projects live in /_projects
+
 url: "https://www.gramkraxor.com"
 baseurl: "/js"
 layout: master

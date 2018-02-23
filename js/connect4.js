@@ -1,3 +1,4 @@
+/* JS by Gramkraxor */
 
 const
 cols = 7,

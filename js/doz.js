@@ -1,6 +1,6 @@
 /* 
  * Doz, a JS numeral base converter
- * © 1201 (2017) Gramkraxor
+ * © 1202 (2018) Gramkraxor
  */
 
 // numbers are in the radix-independent String.prototype.length form
