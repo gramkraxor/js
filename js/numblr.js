@@ -1,8 +1,10 @@
-/* JS by Gramkraxor */
-// numblr, a non-float non-radix-denominational system for JS math //
+/*
+ * Numblr, a non-floating point, non-radix-denominational system for JS math
+ * © 2018 Gramkraxor
+ */
 
 const AUTHORS = [ "Gramkraxor" ];
-const YEAR = new Date().getFullYear();
+const YEAR = 2018;
 
 $(function() {
 	$("body").append(
@@ -16,7 +18,7 @@ $(function() {
 
 // instead of converting charcters, use the modulus to go through `digs`.
 
-var digs = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F" ];
+var digs = "0123456789ABCDEF".split("");
 
 function getIndex(n) {
 	for (let i = 0; i < digs.length; i++) {
@@ -41,7 +43,7 @@ function increment(n, b) {
 }
 
 function addInt(n0, n1, b) {
-	
+
 }
 
 function b2b(n, b0, b1) {

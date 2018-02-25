@@ -1,4 +1,4 @@
-/* 
+/*
  * Romulus, a JS Roman numeral converter
  * © MMXVIII (2018) Gramkraxor
  */
@@ -9,7 +9,7 @@ const Romulus = Rom;
 Rom.NAME = "Romulus";
 Rom.VERSION = 2;
 Rom.AUTHORS = [ "Gramkraxor" ];
-Rom.YEAR = new Date().getFullYear();
+Rom.YEAR = 2018;
 
 Rom.n = "N";
 Rom.i = "I";
@@ -65,20 +65,20 @@ Rom.numeral = function(n, nulla) { // nulla determines whether to allow "N" as o
 Rom.integer = function(s) { // Roman to Hindu-Arabic
 	s = s.toUpperCase();
 	var r = 0;
-	
+
 	/*
 	for (let i = Rom.DOZENALS.length - 1; i >= 0; i--) {
 		if (s.includes(Rom.DOZENALS[i])) {
-			
+
 			break;
 		}
 	}
 	*/
-	
+
 	var places = [ Rom.ONES, Rom.TENS, Rom.HUNDREDS, Rom.THOUSANDS ];
 	for (let p = places.length - 1; p >= 0; p--) {
 		let place = places[p];
-		
+
 		digit:
 		for (let i = place.length - 1; i >= 0; i--) {
 			if (s.startsWith(place[i])) {

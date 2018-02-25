@@ -1,11 +1,14 @@
-/* JS by Gramkraxor */
+/*
+ * Clock
+ * © 2018 Gramkraxor
+ */
 
 //TODO Add timer and more cool stuff
 
 var now = new Date();
 
 const AUTHORS = [ "Gramkraxor" ];
-const YEAR = new Date().getFullYear();
+const YEAR = 2018;
 
 function Meter(id, get) {
 	this.id = id;
@@ -127,7 +130,7 @@ $(function() {
 function startTime() {
 	now = new Date();
 	for (let i = 0; i < face.m.length; i++) face.m[i].get();
-	
+
 	setTimeout(startTime, timeout);
 }
 

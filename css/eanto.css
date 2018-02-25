@@ -2,20 +2,32 @@
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400');
 
+#footer {
+	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
+	font-weight: 400;
+	position: absolute;
+	bottom: 8px;
+	left: 0;
+	right: 0;
+	opacity: 0.5;
+	font-size: 12px;
+	line-height: 12px;
+	text-align: center;
+}
+
 body * {
 	font-family: inherit;
 	color:       inherit;
 	font-size:   inherit;
 	line-height: inherit;
-	/*text-decoration: none;*/
 }
 
 body {
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
 	font-size: 16px;
 	line-height: 20px;
-	color: #000000;	
-	background: #FFFFFF;
+	color: #000;	
+	background: #FFF;
 	margin: 0;
 	padding: 128px 0;
 	border-top: 6px solid #090;
@@ -65,7 +77,7 @@ input[type='button']:hover {
 }
 
 input[type='button']:active {
-	border-color: #090;
+	border-color: #090 !important;
 	transition: 0;
 }
 
@@ -80,20 +92,25 @@ input[type='text']:focus {
 	border-bottom-color: #000;
 }
 
-#title, #footer {
+#title {
 	display: block;
 	text-align: center;
+	margin: 24px;
+}
+
+#footer {
+	cursor: pointer;
 }
 
 
 /* easter eggs */
 
 body.dark {
-	background: #000000;
+	background: #000;
 }
 
 body.dark * {
-	color: #FFFFFF;
+	color: #FFF;
 }
 
 body.dark input[type='text'] {
@@ -101,5 +118,13 @@ body.dark input[type='text'] {
 }
 
 body.dark input[type='text']:focus {
-	border-bottom-color: #FFFFFF;
+	border-bottom-color: #FFF;
+}
+
+body.dark input[type='button'] {
+	border-color: rgba(255, 255, 255, 0.25);
+}
+
+body.dark input[type='button']:hover {
+	border-color: #FFF;
 }

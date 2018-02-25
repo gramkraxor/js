@@ -1,10 +1,13 @@
-/* JS by Gramkraxor */
+/*
+ * Ultimate Tic Tac Toe game
+ * © 2018 Gramkraxor
+ */
 
 const ttt = {}; // namespace object
 
 ttt.NAME = "Ultimate Tic Tac Toe";
 ttt.AUTHORS = [ "Gramkraxor" ];
-ttt.YEAR = new Date().getFullYear();
+ttt.YEAR = 2018;
 
 // superior string replacement function
 ttt.repl = function(s, o, n) {
@@ -87,7 +90,7 @@ ttt.draw = function(p, gx, gy, mx, my) {
 // test for a win
 ttt.bingo = function(p, gx, gy) {
 	let board = (isNaN(gy))? ttt.gboard : ttt.mboard[gx][gy];
-	
+
 	// easter egg
 	if (gx == 1 && gy == 1) {
 		let bigX = [
@@ -99,7 +102,7 @@ ttt.bingo = function(p, gx, gy) {
 			$("body").addClass("dark");
 		}
 	}
-	
+
 	// check for horizontal wins
 	H0: for (let x0 = 0; x0 < ttt.cols - ttt.connect + 1; x0++) {
 		V: for (let y = 0; y < ttt.rows; y++) {
@@ -164,7 +167,7 @@ ttt.freebie = function() {
 
 // start/restart entire game
 ttt.reset = function() {
-	
+
 	ttt.gboard = [];
 	ttt.mboard = [];
 	for (let gx = 0; gx < ttt.cols; gx++) {
@@ -181,9 +184,9 @@ ttt.reset = function() {
 			}
 		}
 	}
-	
+
 	ttt.wipe();
-	
+
 	ttt.turn = ttt.X;
 	ttt.turnsTaken = 0;
 	ttt.freebie();
@@ -255,7 +258,7 @@ ttt.onClick = function(gx, gy, mx, my) {
 	ttt.turnsTaken++;
 	ttt.undone = false;
 	ttt.draw(ttt.turn, gx, gy, mx, my);
-	
+
 	if (ttt.bingo(ttt.turn, gx, gy)) {
 		ttt.draw(ttt.turn, gx, gy);
 		if (ttt.bingo(ttt.turn)) {
@@ -270,7 +273,7 @@ ttt.onClick = function(gx, gy, mx, my) {
 	} else if (ttt.catsGame(gx, gy)) {
 		ttt.draw(ttt.cat, gx, gy);
 	}
-	
+
 	ttt.nextTurn();
 	ttt.posPos = [];
 	if (ttt.gboard[mx][my] == ttt.open) {
@@ -296,7 +299,7 @@ ttt.tie = function() {
 
 // on load
 $(function() {
-	
+
 	$("body")
 		.append($("<div/>")
 			.attr("id", "wrapper")
@@ -338,27 +341,27 @@ $(function() {
 			.text(["\u00A9", ttt.YEAR, ttt.AUTHORS[0]].join(" "))
 		)
 	;
-	
+
 	ttt.newBoard();
-	
+
 });
 
 ttt.newBoard = function(size) {
-	
+
 	// empty the board for resizing
 	$("#board").empty();
 	ttt.gboard = [];
 	ttt.mboard = [];
-	
+
 	// default game size
 	if (isNaN(size)) size = 3;
 	ttt.cols = ttt.rows = ttt.connect = size;
-	
+
 	$("#resize").text(size).append($("<sup/>").text("4"))
-	
+
 	// make all the squares
 	for (let gy = 0; gy < ttt.rows; gy++) {
-		
+
 		var ROW = "row";
 		var BOX = "box";
 		var GROW = ttt.G + ROW;
@@ -366,9 +369,9 @@ ttt.newBoard = function(size) {
 		$("#board").append($("<div/>") // starting with the row divs
 			.addClass(GROW)
 		);
-		
+
 		for (let gx = 0; gx < ttt.cols; gx++) {
-			
+
 			$("." + GROW).eq(gy).append($("<div/>")
 				.addClass(GBOX)
 				.append($("<div/>")
@@ -376,18 +379,18 @@ ttt.newBoard = function(size) {
 					.addClass(ttt.G)
 				)
 			);
-			
+
 			// now make the smaller ones
 			for (let my = 0; my < ttt.rows; my++) {
-				
+
 				var MROW = ttt.M + ROW;
 				var MBOX = ttt.M + BOX;
 				$("#" + ttt.getName(gx, gy)).append($("<div/>")
 					.addClass(MROW)
 				);
-				
+
 				for (let mx = 0; mx < ttt.cols; mx++) {
-					
+
 					$("#" + ttt.getName(gx, gy) + " ." + MROW).eq(my).append($("<div/>")
 						.addClass(MBOX)
 						.append($("<div/>")
@@ -402,9 +405,9 @@ ttt.newBoard = function(size) {
 			}
 		}
 	}
-	
+
 	ttt.reset(); // begin!
-	
+
 }
 
 ttt.show = function(arr) {

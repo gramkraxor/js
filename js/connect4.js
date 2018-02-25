@@ -1,4 +1,7 @@
-/* JS by Gramkraxor */
+/*
+ * Connect 4 game
+ * © 2018 Gramkraxor
+ */
 
 const
 cols = 7,
@@ -11,10 +14,10 @@ tpm = false,
 turn = 1;
 
 const AUTHORS = [ "Gramkraxor" ];
-const YEAR = new Date().getFullYear();
+const YEAR = 2018;
 
 $(function() {
-	
+
 	$("body").append($("<div/>")
 		.attr("id", "wrapper")
 		.append($("<div/>")
@@ -66,7 +69,7 @@ $(function() {
 			);
 		}
 	}
-	
+
 });
 
 function def(x) {
@@ -169,5 +172,5 @@ function win(p, cells) {
 
 function ai() {
 	while(!drop(Math.floor(Math.random() * (cols)), 2) && !won) {} // randomly drop a piece, try again if it didn't work
-	
+
 }

@@ -1,6 +1,9 @@
-/* JS by Gramkraxor */
+/*
+ * Dozer, the HTML interface for doz.js
+ * © 2018 Gramkraxor
+ */
 
-//TODO add option to select bases to show
+//TODO add option to select bases to show (how about tow custom bases?)
 
 Doz.log();
 Rom.log();

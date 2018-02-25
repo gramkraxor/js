@@ -1,8 +1,12 @@
-/* JS by Gramkraxor */
+/*
+ * Dozagon
+ * © 2018 Gramkraxor
+ */
 
-window.onload = function() { x(768); };
+window.onload = f;
 
-function x(size) {
+function f() {
+	var size = 288;//768;
 	z = function(n) {
 		return parseInt(n, 0xC);
 	}
@@ -16,7 +20,7 @@ function x(size) {
 }
 
 function svg(size, poly, id) {
-	var s = "<svg id='" + id + "'width='"+ size + "' width='"+ size + "' viewBox='0 0 " + size + " " + size + "'><polygon points='";
+	var s = "<svg id='" + id + "'width='"+ size + "' height='"+ size + "' viewBox='0 0 " + size + " " + size + "'><polygon points='";
 	var r = size * 3 / 8;
 	var offset = size / 2;
 	const tau = 2 * Math.PI;

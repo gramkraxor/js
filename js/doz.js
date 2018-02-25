@@ -1,4 +1,4 @@
-/* 
+/*
  * Doz, a JS numeral base converter
  * © 1202 (2018) Gramkraxor
  */
@@ -25,7 +25,7 @@ Doz.repl = function(s, o, n) {
 Doz.NAME = "Doz";
 Doz.VERSION = "123456789AB012345".length;
 Doz.AUTHORS = [ "Gramkraxor" ];
-Doz.YEAR = new Date().getFullYear();
+Doz.YEAR = 2018;
 
 Doz.b = "01"              .length;
 Doz.o = "01234567"        .length;
@@ -56,7 +56,7 @@ Doz.dwiggins = new Doz.Mode([ "\u218C", "\u218D" ], ";", "dwiggins", "Dwiggins U
 Doz.xeu      = new Doz.Mode([ "\u218C", "\u218D" ], ";", "xeu",      "Dwiggins Unicode");
 Doz.xel      = new Doz.Mode([ "X",      "\u0190" ], ";", "xel",      "Dwiggins Latin");
 Doz.xe       = new Doz.Mode([ "X",      "E"      ], ";", "xe",       "Dwiggins ASCII");
-	
+
 Doz.mode = Doz.ab; // set the initial default mode
 
 // Doz functions //
@@ -77,7 +77,7 @@ Doz.getMode = function(v) {
 		if (val.length > l) return new Doz.Mode(val.substring(0, l).split(""), val.charAt(l));
 		return new Doz.Mode(val.split(""));
 	}
-	
+
 	return Doz.mode; // default
 }
 
@@ -91,7 +91,7 @@ Doz.setMode = function(m) {
 Doz.convert = function(v, b, nb, m) { // nb can be used as m
 	if (nb && !m) var m = Doz.getMode(nb);
 	if (typeof v != "number" && typeof v != "string") return 0;
-	
+
 	if (typeof v == "string") {
 		if (nb) return Doz.stringBase(Doz.floatBase(v, b), nb);
 		return Doz.floatBase(v, b);
@@ -109,10 +109,10 @@ Doz.floatBase = function(s, b, integer) {
 	while (s.startsWith("0") && s.length > 1) s = s.substring(1, s.length);
 	if (s.length == 0) return 0;
 	if (b == Doz.z) s = Doz.stringMode(s, Doz.ab);
-	
+
 	if (!s.includes(Doz.ab.p) || integer) return parseInt(s, b);
 	if (s.length - Doz.repl(s, Doz.ab.p, "").length > 1) return parseInt(s, b);
-	
+
 	var f = s.length - 1 - s.indexOf(Doz.ab.p);
 	s = Doz.repl(s, Doz.ab.p, "");
 	return parseInt(s, b) / (b ** f);
@@ -131,7 +131,7 @@ Doz.stringBase = function(n, b, m) {
 }
 
 // change the dizenal mode of a string
-Doz.stringMode = function(s, m, a) { 
+Doz.stringMode = function(s, m, a) {
 	if (typeof s != "string" || !m) return s;
 	if (typeof a != "object") a = Doz.modes; // gets what bases to search through
 	s = s.toUpperCase();

@@ -1,10 +1,13 @@
-/* JS by Gramkraxor */
+/*
+ * DEVX Console
+ * © 2018 Gramkraxor
+ */
 
 const
 trm  = {},
 user = {},
 author = "Gramkraxor",
-year = new Date().getFullYear(),
+year = 2018,
 desc = "I've always wanted to make my own shell...";
 
 trm.name = "DEVX"
@@ -16,7 +19,7 @@ function getPrompt() {
 }
 
 $(function() {
-	
+
 	// Get the document set up
 	$(document.body).append($("<div/>")
 		.attr("id", "container")
@@ -25,7 +28,7 @@ $(function() {
 			.attr("id", "input-line")
 			.attr("class", "input-line")
 			.append($("<div/>")
-				.attr("class", "prompt") 
+				.attr("class", "prompt")
 			)
 			.append($("<div/>")
 				.append($("<input/>")
@@ -35,30 +38,30 @@ $(function() {
 			)
 		)
 	);
-	
+
 	// set the command-line prompt to include the user's IP address
 	$(".prompt").html(getPrompt());
 
 	// initialize a new terminal object
 	new Terminal("#input-line .cmdline", "#container output").init();
-	
+
 });
 
 var Terminal = function(cmdLineContainer, outputContainer) {
 
 	var $cmdLine = document.querySelector(cmdLineContainer);
 	var $output = document.querySelector(outputContainer);
-	
+
 	// array of command objects
 	var Cmds = [];
-	
+
 	var PushCmd = function(name, run) {
 		Cmds.push({
 			name: name.toLowerCase(),
 			run: run
 		});
 	}
-	
+
 	PushCmd("cat", function(args) {
 		cmd = "cat";
 		var url = args.join(" ");
@@ -74,39 +77,39 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 			output("<pre>" + encodedStr + "</pre>");
 		});
 	});
-	
+
 	PushCmd("clear", function(args) {
 		$output.innerHTML = "";
 	});
-	
+
 	PushCmd("date", function(args) {
 		output(new Date());
 	});
-	
+
 	PushCmd("echo", function(args) {
 		output(args.join(" "));
 	});
-	
+
 	PushCmd("help", function(args) {
 		var cmds = [];
 		for (let i = 0; i < Cmds.length; i++) cmds.push(Cmds[i].name);
 		cmds.sort();
 		output("<div class='ls-files'>" + cmds.join("<br>") + "</div>");
 	});
-	
+
 	PushCmd("uname", function(args) {
 		output(navigator.appVersion);
 	});
-	
+
 	PushCmd("su", function(args) {
 		user.name = args[0];
 	});
-	
+
 	PushCmd("info", function(args) {
 		output(["(c)", year, author].join(" "));
 		output(desc);
 	});
-	
+
 	var history = [];
 	var histpos = 0;
 	var histtemp = 0;
@@ -114,7 +117,7 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	window.addEventListener("click", function(e) {
 		$cmdLine.focus();
 	}, false);
-	
+
 	/* I don't want this!
 	// Click handler
 	$cmdLine.addEventListener("click", function(e) {
@@ -183,7 +186,7 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 				var cmd = args[0].toLowerCase();
 				args = args.splice(1); // remove cmd from arg list
 			}
-			
+
 			for (let i = 0; i <= Cmds.length; i++) {
 				if (i == Cmds.length) {
 					if (cmd) {
@@ -199,7 +202,7 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 
 			window.scrollTo(0, getDocHeight());
 			this.value = ""; // clear/setup line for next input
-			
+
 			// Update the terminal prompt
 			var prompt = this.parentNode.parentNode.querySelector("div.prompt");
 			prompt.innerHTML = getPrompt();
@@ -241,8 +244,10 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 					(c(Math.floor(Math.abs(d.getTimezoneOffset() / 60)))
 				) +
 				c(Math.floor(Math.abs(d.getTimezoneOffset())) % 60);
-			
-			output("<img align='left' src='assets/devx.svg' width='100' height='100' style='padding: 0px 10px 20px 0px'><h2 style='letter-spacing: 4px'>DEVX Terminal</h2><p>" + date + "</p><p>Enter 'help' for more information.</p><br/>");
+
+			var imgSrc = "assets/devx.svg";
+			if (location.protocol == "file:") imgSrc = "../" + imgSrc;
+			output("<img align='left' src='" + imgSrc + "' width='100' height='100' style='padding: 0px 10px 20px 0px'><h2 style='letter-spacing: 4px'>DEVX Terminal</h2><p>" + date + "</p><p>Enter 'help' for more information.</p><br/>");
 		},
 		//output: output
 	}
