@@ -6,7 +6,7 @@
 window.onload = f;
 
 function f() {
-	var size = 288;//768;
+	var size = 96;//768;
 	z = function(n) {
 		return parseInt(n, 0xC);
 	}

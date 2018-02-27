@@ -6,7 +6,7 @@
 body {
 	text-align: center;
 	overflow: hidden;
-	background: radial-gradient(#001860, #000000);;
+	background: radial-gradient(#001040, #000000);;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -16,6 +16,11 @@ body {
 
 svg {
 	position: absolute;
+	/**/
+	bottom: 48px;
+	right: 72px;
+	/**/
+
 	animation-duration: 3s;
 	/*animation-timing-function: cubic-bezier(0.5, 0.25, 0.5, 0.75);*/
 	animation-timing-function: cubic-bezier(0.75, 0, 0.25, 1);
@@ -36,7 +41,7 @@ svg {
 
 polygon {
 	stroke: #FFFFFF;
-	stroke-width: 2px;
+	stroke-width: 1px;
 	stroke-linejoin: round;
 	fill: none;
 }
