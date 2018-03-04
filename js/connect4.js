@@ -8,7 +8,8 @@ cols = 7,
 rows = 6,
 connect = 4;
 
-var board = [],
+var
+board = [],
 won = false,
 tpm = false,
 turn = 1;
@@ -39,6 +40,11 @@ $(function() {
 					} else {
 						$(this).text("P1 v AI");
 					}
+					if (board[0]) { // reset() requires the game board to be loaded
+						reset();
+					} else {
+						updateTurn(1);
+					}
 				})
 			)
 			.append($("<span/>")
@@ -51,6 +57,7 @@ $(function() {
 	.append($("<div/>")
 		.attr("id", "footer")
 		.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
+		.click(function() { dark(); })
 	);
 	$("#mode").click();
 	for (let x = 0; x < cols; x++) {
@@ -89,6 +96,21 @@ function reset() {
 	for (let c = 0; c < cls.length; c++) $("." + cls[c]).removeClass(cls[c]);
 	for (let x = 0; x < cols; x++) for (let y = 0; y < rows; y++) board[x][y] = 0;
 	won = false;
+	$("body").removeClass("won");
+	updateTurn(1);
+}
+
+function updateTurn(t) {
+	$("body").removeClass("turn-" + turn);
+
+	if (def(t)) {
+		turn = t;
+	} else {
+		turn = turn % 2 + 1;
+	}
+
+	$("#turn").text("P" + turn);
+	$("body").addClass("turn-" + turn);
 }
 
 // when a column gets clicked
@@ -96,8 +118,7 @@ function onClick(col) {
 	if (!won) {
 		if (tpm) {
 			if (drop(col, turn)) {
-				turn = (turn == 2)? 1 : 2;
-				$("#turn").text("P" + turn);
+				updateTurn();
 			}
 			return;
 		} else if (turn == 1) {
@@ -166,6 +187,7 @@ function bingo(p) {
 
 function win(p, cells) {
 	won = true;
+	$("body").addClass("won");
 	console.log("P" + p + ", YOU WIN!!!");
 	for (let i = 0; i < cells.length; i++) cells[i].addClass("select");
 }
@@ -173,4 +195,15 @@ function win(p, cells) {
 function ai() {
 	while(!drop(Math.floor(Math.random() * (cols)), 2) && !won) {} // randomly drop a piece, try again if it didn't work
 
+}
+
+function dark(b) {
+	var body = $("body");
+	var d = "dark";
+	if (typeof b != "boolean") var b = !body.hasClass(d);
+	if (b) {
+		body.addClass(d);
+	} else {
+		body.removeClass(d);
+	}
 }

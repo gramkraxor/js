@@ -1,5 +1,5 @@
 /*
- * Eanto, la interfaco de HTML por eo.js
+ * Eanto, la HTML-interfaco por eo.js
  * © 2018 Gramkraksoro
  */
 
@@ -41,14 +41,14 @@ $(function() {
 				.attr("id", "kopiu")
 				.attr("value", "kopiu")
 				.attr("type", "button")
-				.click(kopiu)
+				.click(function() { kopiu(); })
 			)
 		)
 		.append("<br/>")
 		.append($("<div/>")
 			.attr("id", "footer")
 			.text(["\u00A9", copyYear, copy].join(" "))
-			.click(dark)
+			.click(function() { dark(); })
 		)
 	);
 

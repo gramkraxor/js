@@ -10,20 +10,14 @@ const Doz = {};
 
 // basic funtions //
 
-// looping replace function
 Doz.repl = function(s, o, n) {
-	/*
-	if (!n || o == n) return s;
-	while (s.includes(o)) s = s.replace(o, n);
-	return s;
-	*/
 	return s.split(o).join(n);
 }
 
 // variables and constructors //
 
 Doz.NAME = "Doz";
-Doz.VERSION = "123456789AB012345".length;
+Doz.VERSION = "123456789AB0123456".length;
 Doz.AUTHORS = [ "Gramkraxor" ];
 Doz.YEAR = 2018;
 
@@ -106,6 +100,7 @@ Doz.intBase = function(s, b) {
 
 // converts a string from its radix to a number
 Doz.floatBase = function(s, b, integer) {
+	s = s.trim();
 	while (s.startsWith("0") && s.length > 1) s = s.substring(1, s.length);
 	if (s.length == 0) return 0;
 	if (b == Doz.z) s = Doz.stringMode(s, Doz.ab);
@@ -113,6 +108,7 @@ Doz.floatBase = function(s, b, integer) {
 	if (!s.includes(Doz.ab.p) || integer) return parseInt(s, b);
 	if (s.length - Doz.repl(s, Doz.ab.p, "").length > 1) return parseInt(s, b);
 
+	// parseFloat() doesn't accept a radix
 	var f = s.length - 1 - s.indexOf(Doz.ab.p);
 	s = Doz.repl(s, Doz.ab.p, "");
 	return parseInt(s, b) / (b ** f);

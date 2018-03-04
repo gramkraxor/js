@@ -8,12 +8,15 @@ const stageSize = new vector(576, 576);
 var bg = "#000000";
 
 const AUTHORS = [ "Gramkraxor" ];
-const YEAR = new Date().getFullYear();
+const YEAR = 2018;
 
 // namespace objects
 const
 vectors = {},
 stage   = {};
+
+// gravity constant
+var G = 7.6;
 
 function und(x) {
 	return typeof x == "undefined";
@@ -72,20 +75,48 @@ function draw() {
 	var ctx = $("#stage")[0].getContext("2d");
 	ctx.fillStyle = bg;
 	ctx.fillRect(0, 0, stageSize.x, stageSize.y);
-	
+
 	for (let i = 0; i < bodies.length; i++) {
 		let b = bodies[i];
 		b.pos = vectors.add(b.pos, b.vel);
 		ctx.fillStyle = b.col;
-		ctx.fillRect(b.pos.x, b.pos.y, b.siz.x, b.siz.y);
+		ctx.fillRect(b.pos.x - b.siz.x / 2, b.pos.y - b.siz.y / 2, b.siz.x, b.siz.y);
+
+
+		gravity:
+		for (let j = 0; j < bodies.length; j++) {
+			if (j == i) continue gravity;
+				let b1 = bodies[i];
+		 		let b2 = bodies[j];
+
+		 		let m1 = b1.mas;
+		 		let m2 = b2.mas;
+
+		 		let Dx = b2.pos.x - b1.pos.x;
+				let Dy = b2.pos.y - b1.pos.y;
+
+				let r  = Math.sqrt(Math.pow(Dx, 2) + Math.pow(Dy, 2));
+
+				let F  = G * m1 * m2 / Math.pow(r, 2);
+
+				let Fx = F * Dx / r;
+				let Fy = F * Dy / r;
+
+				let ax = Fx / m1;
+				let ay = Fy / m1;
+
+				let acc = vector(ax, ay);
+
+				b1.vel = vectors.add(b1.vel, acc)
+		}
 	}
-	
+
 	setTimeout(draw, mspf); // loop at proper fps
 }
 
 // on document load
 $(function() {
-	
+
 	$("body")
 		.append($("<div/>")
 			.append($("<div/>")
@@ -102,11 +133,32 @@ $(function() {
 		.append($("<div/>")
 			.attr("id", "footer")
 			.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
+			.click(dark)
 		)
 	;
-	
+
+	dark();
 	draw();
-	
+
 });
 
-body(vector(0, 0), vector(0.1, 0.1), vector(10, 10), 1, "#FF00FF");
+function dark(b) {
+	var body = $("body");
+	var d = "dark";
+	if (typeof b != "boolean") var b = !body.hasClass(d);
+	if (b) {
+		body.addClass(d);
+	} else {
+		body.removeClass(d);
+	}
+}
+
+/*
+body(vector(216, 288), vector(0, 1), vector(10, 10), 1, "#FF00FF");
+body(vector(288, 288), vector(0, -0.1), vector(20, 20), 10, "#00FF00");
+*/
+body(vector(216, 288), vector( 0,  1), vector(10, 10), 5, "#FF0000");
+body(vector(288, 216), vector(-1,  0), vector(10, 10), 5, "#80FF00");
+body(vector(360, 288), vector( 0, -1), vector(10, 10), 5, "#00FFFF");
+body(vector(288, 360), vector( 1,  0), vector(10, 10), 5, "#0800FF");
+body(vector(288, 288), vector( 0,  0), vector(10, 10), 5, "#FFFFFF");

@@ -11,11 +11,13 @@ year = 2018,
 desc = "I've always wanted to make my own shell...";
 
 trm.name = "DEVX"
-user.name = "user";
+user.name = "";
 
 function getPrompt() {
-	//return user.name + "@" + trm.name.toLowerCase() + " # ";
-	return "<b>d/</b>";
+	if (user.name != "") {
+		return user.name + "@" + trm.name.toLowerCase() + " # ";
+	}
+	return "d/";
 }
 
 $(function() {
@@ -62,14 +64,16 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 		});
 	}
 
+	/*
 	PushCmd("cat", function(args) {
 		cmd = "cat";
-		var url = args.join(" ");
+		var url = args[0];
 		if (!url) {
 			output("Usage: " + cmd + " http://...");
 			output("Example: " + cmd + " https://gramkraxor.github.io/js/js/devx.js");
 			return;
 		}
+
 		$.get(url, function(data) {
 			var encodedStr = data.replace(/[\u00A0-\uFFFF<>\&]/gim, function(i) {
 				 return "&#"+i.charCodeAt(0)+";";
@@ -77,7 +81,8 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 			output("<pre>" + encodedStr + "</pre>");
 		});
 	});
-
+	*/
+	
 	PushCmd("clear", function(args) {
 		$output.innerHTML = "";
 	});
@@ -102,7 +107,7 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	});
 
 	PushCmd("su", function(args) {
-		user.name = args[0];
+		user.name = args[0] ? args[0] : "";
 	});
 
 	PushCmd("info", function(args) {
@@ -118,7 +123,7 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 		$cmdLine.focus();
 	}, false);
 
-	/* I don't want this!
+	/*
 	// Click handler
 	$cmdLine.addEventListener("click", function(e) {
 		this.value = this.value;
@@ -227,17 +232,16 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	//
 	return {
 		init: function() {
-			//output("<img align='left' src='http://www.w3.org/html/logo/downloads/HTML5_Badge_128.png' width='100' height='100' style='padding: 0px 10px 20px 0px'><h2 style='letter-spacing: 4px'>HTML5 Web Terminal</h2><p>" + new Date() + "</p><p>Enter 'help' for more information.</p>");
 			var d = new Date();
 			function c(i) {
 					return (i < 10) ? "0" + i : i;
 			}
 			var date =
-				d.getFullYear()    +"-" +
-				(d.getMonth() + 1) +"-" +
-				d.getDate()        +" " +
-				c(d.getHours())    +":" +
-				c(d.getMinutes())  +":" +
+				d.getFullYear()     + "-" +
+				c(d.getMonth() + 1) + "-" +
+				c(d.getDate())      + " " +
+				c(d.getHours())    + ":" +
+				c(d.getMinutes())  + ":" +
 				c(d.getSeconds())  + " " +
 				(
 					(d.getTimezoneOffset() <= 0)? "+" : "-") +

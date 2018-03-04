@@ -7,5 +7,5 @@ js:
   - romulus
   - doz
   - dozer
-rank: 6000
+rank: 7000
 ---

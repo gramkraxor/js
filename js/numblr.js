@@ -3,6 +3,8 @@
  * © 2018 Gramkraxor
  */
 
+// hoping to use Numblr to fix the scientific notation in doz.js
+
 const AUTHORS = [ "Gramkraxor" ];
 const YEAR = 2018;
 
@@ -16,35 +18,94 @@ $(function() {
 });
 
 
-// instead of converting charcters, use the modulus to go through `digs`.
+// instead of converting charcters, use the modulus to go through `DIGS`.
 
-var digs = "0123456789ABCDEF".split("");
+const DIGS = "0123456789ABCDEF".split("");
+const NEG = "-";
 
 function getIndex(n) {
-	for (let i = 0; i < digs.length; i++) {
-		if (digs[i] === n.toUpperCase()) return i;
+	for (let i = 0; i < DIGS.length; i++) {
+		if (DIGS[i] === n.toUpperCase()) return i;
 	}
 }
 
-function nuts(n) {
-	while (n[0] == digs[0]) {
+function trimInt(n) {
+	if (n == "") n = DIGS[0];
+
+	let neg = n[0] == NEG;
+	if (neg) n = n.slice(1);
+	n = n.toUpperCase();
+
+	while (n[0] == DIGS[0] && n.length > 1) {
 		n = n.slice(1);
 	}
+
+	if (n != DIGS[0] && neg) n = NEG + n;
+	return n;
 }
 
-function increment(n, b) {
-	if (n == "") n = digs[0];
-	if (getIndex(n.slice(-1)) + 1 == b) {
-		return increment(n.slice(0, -1), b) + digs[0];
-	} else {
-		return n.slice(0, -1) + digs[getIndex(n.slice(-1)) + 1];
+function incrementInt(n, b) {
+	if (n == "") n = DIGS[0];
+
+	if (n[0] == NEG) {
+		return trimInt(NEG + decrementInt(n.slice(1), b));
 	}
-	return nuts(n);
+
+	if (getIndex(n.slice(-1)) + 1 == b) {
+		return incrementInt(n.slice(0, -1), b) + DIGS[0];
+	}
+
+	return trimInt(n.slice(0, -1) + DIGS[getIndex(n.slice(-1)) + 1]);
 }
 
-function addInt(n0, n1, b) {
+function decrementInt(n, b) {
+	if (trimInt(n) == DIGS[0]) return NEG + DIGS[1];
 
+	if (n[0] == NEG) {
+		return trimInt(NEG + incrementInt(n.slice(1), b));
+	}
+
+	if (getIndex(n.slice(-1)) == 0) {
+		return decrementInt(n.slice(0, -1), b) + DIGS[b - 1];
+	}
+
+	return trimInt(n.slice(0, -1) + DIGS[getIndex(n.slice(-1)) - 1]);
+}
+
+function isGreater(n0, n1) {
+
+}
+
+// can only add positive values at the moment
+function addInt(n0, n1, b) {
+	let r = "";
+	let carry = false;
+
+	while (n0.length < n1.length) {
+		n0 = DIGS[0] + n0;
+	}
+	while (n1.length < n0.length) {
+		n1 = DIGS[0] + n1;
+	}
+
+	for (let i = 0; i < n0.length; i++) {
+		let x = getIndex(n0.slice(-i - 1)[0]) + getIndex(n1.slice(-i - 1)[0]) + carry;
+		carry = x >= b;
+		r = DIGS[x % b] + r;
+	}
+	if (carry) r = DIGS[1] + r;
+	return trimInt(r);
 }
 
 function b2b(n, b0, b1) {
+	// try harder
+	return parseInt(n, b0).toString(b1).toUpperCase();
 }
+
+var x = 0;
+function y() {
+	let hue = 150 + 30 * Math.sin(x++/60);
+	$("body").css("background", "hsl(" + hue + ", 80%, 40%)");
+	setTimeout(y, 50);
+}
+y();

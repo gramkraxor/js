@@ -9,6 +9,7 @@
 	bottom: 8px;
 	left: 0;
 	right: 0;
+	color: #404040;
 	opacity: 0.5;
 	font-size: 12px;
 	line-height: 12px;
@@ -26,11 +27,13 @@ body {
 	font-weight: 400;
 	text-decoration: none;
 	text-align: center;
-}
-
-body {
 	margin: 0;
 	background: #FFFFFF;
+}
+
+body.dark {
+	color: #FFFFFF;
+	background: #000000;
 }
 
 ::selection {
@@ -59,12 +62,21 @@ body {
 }
 
 #face {
+	position: relative;
 	margin: auto;
 	min-width: 384px;
 	padding: 36px;
 	box-sizing: border-box;
 	border-radius: 96px;
 	border: 12px solid #000000;
+}
+
+body.dark #face {
+	border: 12px solid #FFFFFF;
+	border-bottom: 0;
+	border-right:  0;
+	padding-bottom: calc(36px + 12px);
+	padding-right:  calc(36px + 12px);
 }
 
 #face > span {
@@ -90,14 +102,14 @@ span.c {
 	line-height: inherit;
 }
 
-#foot, #foot input {
-	color: #000000;
+#settings, #settings input {
+	color: inherit;
 	font-size: 48px;
 	line-height: 48px;
 	font-weight: 700;
 }
 
-#foot {
+#settings {
 	z-index: 1;
 	text-align: left;
 	padding: 24px 24px;
@@ -108,14 +120,22 @@ span.c {
 	height: 144px;
 	opacity: 0;
 	transition: opacity 1s;
-	background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+	/*
+	background: linear-gradient(to top, #00000040, #00000000);
+	*/
 	display: flex;
 	align-items: flex-end;
 	flex-direction: row;
 	justify-content: end;
 }
 
-#foot input {
+/*
+body.dark #settings {
+	background: linear-gradient(to top, #FFFFFF20, #FFFFFF00);
+}
+*/
+
+#settings input {
 	background: 0;
 	border: 0;
 	outline: 0;
@@ -123,10 +143,10 @@ span.c {
 	cursor: pointer;
 }
 
-#foot input:hover/*:focus*/ {
+#settings input:hover/*:focus*/ {
 	text-decoration: underline;
 }
 
-#foot:hover {
+#settings:hover {
 	opacity: 1;
 }

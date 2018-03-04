@@ -6,7 +6,50 @@
 	<title>JS Projects &middot; Gramkraxor</title>
 	<link href='../css/index.css' rel='stylesheet'/>
 	<script src='../js/jquery.js'></script>
-	<script src='../js/index.js'></script>
+	<script>
+
+		var pages = [];
+
+		var HTML = ".html";
+
+		function Page(file, name) {
+			var r = {};
+			r.file = (file.toLowerCase().endsWith(HTML))? file.substring(file.length - HTML.length) : file;
+			r.name = (typeof name != "undefined")? name : r.file;
+			pages.push(r);
+		}
+
+		Page("ttt");
+		Page("dozer");
+		Page("eanto");
+		Page("clock");
+		Page("connect4");
+		Page("phi");
+		Page("devx");
+		Page("dozagon");
+		Page("numblr")
+
+		$(function() {
+			$("body").append($("<div/>").attr("id", "list"));
+			for (let i = 0; i < pages.length; i++) {
+				let link = pages[i].file;
+				//if (location.protocol == "file:" || !location.hostname.includes("gramkraxor.com")) link += HTML;
+				link += HTML;
+				$("#list").append($("<p/>")
+					.addClass(pages[i].name)
+					.append($("<a/>")
+						.attr("href", link)
+						.text("/" + pages[i].name)
+					));
+				}
+
+				if (Math.random() > 0.5) {
+					$("body").addClass("dark");
+				}
+
+			});
+
+	</script>
 </head>
 
 <body></body>

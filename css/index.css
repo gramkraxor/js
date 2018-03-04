@@ -5,10 +5,18 @@
 body,
 a {
 	font-family: 'Ubuntu Mono', 'Consolas', monospace;
-	color: #000000;
 	font-size:   36px;
-	line-height: 36px;
+	line-height: 48px;
 	text-decoration: none;
+}
+
+body.dark {
+	background: #000000;
+	color: #FFFFFF;
+}
+
+a {
+	color: inherit;
 }
 
 body {
@@ -17,29 +25,21 @@ body {
 	background: #FFFFFF;
 }
 
-div {
-	display: flex;
+#list {
+	display: inline-flex;
 	flex-direction: column;
+	width: initial;
+	text-align: left;
 }
 
-p {
+#list p {
 	display: block;
 	margin: 16px;
 }
 
+/*
 ::selection {
 	color: #000000;
 	background: #C0C0C0;
 }
-
-@media only screen and (orientation: portrait) {
-	
-	p {
-		width: 75vw;
-		text-align: left;
-	}
-}
-
-@media only screen and (orientation: landscape) {
-	
-}
+*/

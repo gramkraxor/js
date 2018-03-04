@@ -3,7 +3,7 @@
  * © 2018 Gramkraxor
  */
 
-//TODO add option to select bases to show (how about tow custom bases?)
+//TODO add option to select bases to show (how about two custom bases?)
 
 Doz.log();
 Rom.log();
@@ -11,13 +11,12 @@ Rom.log();
 var
 name = Doz.NAME,
 version = Doz.VERSION,
-versionName = "Radix",
-title = name/* + " " + versionName*/,
+title = name,
 copyYear = Doz.YEAR,
 copy = Doz.AUTHORS[0],
 bases = [],
 labelBase = 12,
-usedModes = [ Doz.ab, Doz.ze, Doz.xe ],
+usedModes = [ Doz.ab, Doz.xe, Doz.zeu ],
 BASE = "base",
 CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -50,7 +49,7 @@ doz = new Base(12, [ "doz", "z", "dozenal", "duodecimal" ]),
 hex = new Base(16, [ "hex", "x", "hexadecimal" ]);
 
 $(function() {
-	
+
 	$("body").append($("<div/>")
 		.attr("id", "bod")
 		.prop("spellcheck", false)
@@ -89,7 +88,7 @@ $(function() {
 			.attr("id", "footer")
 		)
 	);
-	
+
 	for (let i = 0; i < bases.length; i++) {
 		var b = bases[i];
 		$("#convert").append(
@@ -115,16 +114,18 @@ $(function() {
 				)
 		);
 	}
-	
+
 	for (let i = 0; i < usedModes.length; i++) {
-		var m = usedModes[i];
+		let m = usedModes[i];
 		$("#mode").append(
 			$("<p/>")
 				.append($("<input/>")
 					.attr("id", m.a)
 					.attr("type", "radio")
 					.attr("name", "mode")
-					.click(setMode)
+					.click(function() {
+						setMode();
+					})
 					.prop("checked", m == Doz.mode)
 				)
 				.append($("<label/>")
@@ -136,10 +137,15 @@ $(function() {
 				)
 		);
 	}
-	
+
 	setLabels();
-	
+
 });
+
+function repl(s, o, n) {
+	if (o != n) while (s.includes(o)) s = s.replace(o, n);
+	return s;
+}
 
 function getMode() {
 	var mode = $("input[name='mode']:checked").attr("id");
@@ -149,72 +155,6 @@ function getMode() {
 		}
 	}
 	return Doz.ab;
-}
-
-function getBase(v) {
-	if (v == "roman") return dec;
-	if (v.type == BASE) return v;
-	if (typeof v == "string") v = v.toLowerCase();
-	if (typeof v == "number") v = Math.floor(v);
-	for (let i = 0; i < bases.length; i++) {
-		let b = bases[i];
-		if (v == b || v == b.r || b.a.includes(v)) return b;
-	}
-	if (typeof v == "number" && v <= CHARSET.length && v > 1) return new Base(v);
-	return dec;
-}
-
-/*String.prototype.repl = function(o, n) {
-	//return s.replace(new RegExp(o, "g"), n);
-	return repl(this, o, n);
-}*/
-
-function repl(s, o, n) {
-	if (o != n) while (s.includes(o)) s = s.replace(o, n);
-	return s;
-}
-
-function dozMode(s, m) {
-	s = s.toUpperCase();
-	for (let i = 0; i < usedModes.length; i++) {
-		for (let j = 0; j < usedModes[i].c.length; j++) {
-			let c = usedModes[i].c[j];
-			s = repl(s, c, m.c[j]);
-		}
-		s = repl(s, usedModes.p, m.p);
-	}
-	return s;
-}
-
-function enter(b) {
-	setLabels(b);
-	var mode = Doz.mode;
-	if (mode != getMode() && b == 0xC) {
-		$("#" + mode.a).prop("checked", true);
-		setLabels();
-	}
-	
-	if (b == "roman") {
-		var v = $("input[type='text'][name='" + b + "']").val();
-		cheat(v);
-		v = Rom.integer(repl(v, "\u2022", "*"));
-	} else {
-		b = getBase(b);
-		var v = $("input[type='text'][name='" + b.a[0] + "']").val().toUpperCase();
-		cheat(v);
-		if (b.r == 12) v = dozMode(v, Doz.ab);
-		while (v.startsWith("0") && v.length > 1) v = v.substring(1, v.length);
-		if (v.length == 0) v == "0";
-		v = Doz.floatBase(v, b.r);
-	}
-	
-	for (let i = 0; i < bases.length; i++) {
-		var val = Doz.stringBase(v, bases[i].r);
-		if (bases[i].r == 12) val = dozMode(val, mode);
-		if (val == "0") val = "";
-		$("input[type='text'][name='" + bases[i].a[0] + "']").val(val);
-	}
-	$("#roman input").val(repl(Rom.numeral(v, true), "*", "\u2022")); // replace dozenths (*) with bullet character
 }
 
 function setMode(m) {
@@ -238,6 +178,71 @@ function setMode(m) {
 	setLabels();
 }
 
+function dozMode(s, m) {
+	s = s.toUpperCase();
+	for (let i = 0; i < usedModes.length; i++) {
+		for (let j = 0; j < usedModes[i].c.length; j++) {
+			let c = usedModes[i].c[j];
+			s = repl(s, c, m.c[j]);
+		}
+		s = repl(s, usedModes.p, m.p);
+	}
+	return s;
+}
+
+function getBase(v) {
+	if (v == "roman") return dec;
+	if (v.type == BASE) return v;
+	if (typeof v == "string") v = v.toLowerCase();
+	if (typeof v == "number") v = Math.floor(v);
+	for (let i = 0; i < bases.length; i++) {
+		let b = bases[i];
+		if (v == b || v == b.r || b.a.includes(v)) return b;
+	}
+	if (typeof v == "number" && v <= CHARSET.length && v > 1) return new Base(v);
+	return dec;
+}
+
+function enter(b) {
+	setLabels(b);
+	var mode = Doz.mode;
+	if (mode != getMode() && b == 0xC) {
+		$("#" + mode.a).prop("checked", true);
+		setLabels();
+	}
+
+	var input;
+	if (b == "roman") {
+		input = $("input[type='text'][name='" + b + "']");
+	} else {
+		b = getBase(b);
+		input = $("input[type='text'][name='" + b.a[0] + "']");
+	}
+	var v = input.val();
+
+	if (cheat(v)) {
+		input.val("");
+		return;
+	}
+
+	if (b == "roman") {
+		v = Rom.integer(repl(v, "\u2022", "*"));
+	} else {
+		if (b.r == 12) v = dozMode(v, Doz.ab);
+		while (v.startsWith("0") && v.length > 1) v = v.substring(1, v.length);
+		if (v.length == 0) v == "0";
+		v = Doz.floatBase(v, b.r);
+	}
+
+	for (let i = 0; i < bases.length; i++) {
+		var val = Doz.stringBase(v, bases[i].r);
+		if (bases[i].r == 12) val = dozMode(val, mode);
+		if (val == "0") val = "";
+		$("input[type='text'][name='" + bases[i].a[0] + "']").val(val);
+	}
+	$("#roman input").val(repl(Rom.numeral(v, true), "*", "\u2022")); // replace dozenths (*) with bullet character
+}
+
 function setLabels(b) {
 	var r = (b == "roman");
 	if (b && !r) {
@@ -248,7 +253,7 @@ function setLabels(b) {
 	}
 	var v = r ? R$(version)  : Doz$(version,  b, Doz.mode);
 	var y = r ? R$(copyYear) : Doz$(copyYear, b, Doz.mode);
-	
+
 	$("#title").text(title + " v" + v);
 	$("#footer").text(["\u00A9", y, copy].join(" "));
 	//$("#footer").html("&copy; " + $z(copyYear, Doz.mode) + " (" + copyYear + ") " + copy);
@@ -256,11 +261,23 @@ function setLabels(b) {
 
 function cheat(v) {
 	v = v.toLowerCase();
-	if (v.includes("light")) eggDarkMode(false);
-	if (v.includes("dark")) eggDarkMode(true);
-	if (v.includes("jeb_")) eggRainbow(!eggRainbowEnabled);
-	if (v.includes("grumm") || v.includes("dinnerbone")) eggFlip();
-	if (v.includes("\u0070\u006F\u0072\u006E")) eggP();
+	var cheats = [
+		{ s: "light",      f: function() { eggDarkMode(false) } },
+		{ s: "dark",       f: function() { eggDarkMode(true) } },
+		{ s: "jeb_",       f: function() { eggRainbow(!eggRainbowEnabled) } },
+		{ s: "dinnerbone", f: eggFlip },
+		{ s: "grumm",      f: eggFlip },
+		{ s: "\u0070\u006F\u0072\u006E", f: eggP }
+	];
+	var cheated = false;
+	for (let i = 0; i < cheats.length; i++) {
+		let c = cheats[i];
+		if (v.includes(c.s)) {
+			c.f();
+			cheated = true;
+		}
+	}
+	return cheated;
 }
 
 var eggRainbowHue = 0;
@@ -272,7 +289,7 @@ function eggRainbow(b) {
 		$("body").removeAttr("style");
 	} else {
 		eggRainbowEnabled = true;
-		
+
 		let l = $("body").hasClass("dark")? 25 : 75;
 		$("body").css("background", "hsl(" + eggRainbowHue++ + ", 100%, " + l + "%)");
 		if (eggRainbowHue > 359) eggRainbowHue = 0;

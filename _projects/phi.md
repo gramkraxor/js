@@ -1,8 +1,8 @@
 ---
-title: Let's Get &Phi;sical
+title: "&phi;"
 css: phi
 js:
   - jquery
   - phi
-rank: 1000
+rank: 3000
 ---

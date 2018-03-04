@@ -1,5 +1,5 @@
-/* 
- * Eo, Javaskripta konvertilo de Esperantaj signoj
+/*
+ * Eo, JS-konvertilo de Esperantaj signoj
  * © 2018 Gramkraksoro
  */
 
@@ -17,7 +17,7 @@ Eo.repl = function(s, o, n) {
 // variables and constructors //
 
 Eo.NAME = "Eo";
-Eo.VERSION = 1;
+Eo.VERSION = 2;
 Eo.AUTHORS = [ "Gramkraksoro" ];
 Eo.YEAR = 2018;
 
@@ -26,32 +26,26 @@ Eo.signoj = [];
 
 function Signo(l, u) {
 	let signo = {};
-	signo.l = l;
-	signo.u = u;
-	Eo.signoj.push(signo);
-	return signo;
+	this.l = l;
+	this.u = u;
+	Eo.signoj.push(this);
 }
 
-Eo.Cx = Signo("C", "\u0108");
-Eo.cx = Signo("c", "\u0109");
-Eo.Gx = Signo("G", "\u011C");
-Eo.gx = Signo("g", "\u011D");
-Eo.Hx = Signo("H", "\u0124");
-Eo.hx = Signo("h", "\u0125");
-Eo.Jx = Signo("J", "\u0134");
-Eo.jx = Signo("j", "\u0135");
-Eo.Sx = Signo("S", "\u015C");
-Eo.sx = Signo("s", "\u015D");
-Eo.Ux = Signo("U", "\u016C");
-Eo.ux = Signo("u", "\u016D");
+Eo.cx = new Signo("c", "\u0109");
+Eo.gx = new Signo("g", "\u011D");
+Eo.hx = new Signo("h", "\u0125");
+Eo.jx = new Signo("j", "\u0135");
+Eo.sx = new Signo("s", "\u015D");
+Eo.ux = new Signo("u", "\u016D");
 
 // Eo functions //
 
 Eo.fromX = function(s) {
+	s = Eo.repl(s, Eo.x.toUpperCase(), Eo.x);
 	for (let i = 0; i < Eo.signoj.length; i++) {
 		let signo = Eo.signoj[i];
 		s = Eo.repl(s, signo.l + Eo.x, signo.u);
-		s = Eo.repl(s, signo.l + Eo.x.toUpperCase(), signo.u);
+		s = Eo.repl(s, signo.l.toUpperCase() + Eo.x, signo.u.toUpperCase());
 	}
 	return s;
 }
@@ -60,6 +54,7 @@ Eo.toX = function(s) {
 	for (let i = 0; i < Eo.signoj.length; i++) {
 		let signo = Eo.signoj[i];
 		s = Eo.repl(s, signo.u, signo.l + Eo.x);
+		s = Eo.repl(s, signo.u.toUpperCase(), signo.l.toUpperCase() + Eo.x);
 	}
 	return s;
 }

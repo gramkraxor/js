@@ -5,5 +5,5 @@ css: devx
 js:
   - jquery
   - devx
-rank: 3000
+rank: 2000
 ---

@@ -5,5 +5,5 @@ css: ttt
 js:
   - jquery
   - ttt
-rank: 7000
+rank: 8000
 ---

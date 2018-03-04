@@ -17,7 +17,8 @@
 
 * {
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
-	color: #000000;
+	color: inherit;
+	border-color: inherit;
 	font-size: 20px;
 	line-height: 20px;
 }
@@ -25,6 +26,15 @@
 body {
 	margin: 64px;
 	background: #FFFFFF;
+	color: #000000;
+	border-color: #000000;
+	font-weight: 700;
+}
+
+body.dark {
+	background: #000000;
+	color: #C0C0C0;
+	border-color: #C0C0C0;
 }
 
 a {
@@ -60,11 +70,28 @@ input {
 	cursor: pointer;
 	display: flex;
 	flex-direction: row;
+	/*
 	background: #004080;
+	*/
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 6px;
 }
 
+/*
 .col:hover {
 	background: #0060C0;
+}
+*/
+body.turn-1:not(.won) .col:hover .p1 + :not(.p1):not(.p2) span,
+body.turn-1:not(.won) .col:hover .p2 + :not(.p1):not(.p2) span,
+body.turn-1:not(.won) .col:hover :first-child:not(.p1):not(.p2) span {
+	background-color: #C0000080;
+}
+body.turn-2:not(.won) .col:hover .p1 + :not(.p1):not(.p2) span,
+body.turn-2:not(.won) .col:hover .p2 + :not(.p1):not(.p2) span,
+body.turn-2:not(.won) .col:hover :first-child:not(.p1):not(.p2) span {
+	background-color: #FFC00080;
 }
 
 .col {
@@ -85,12 +112,17 @@ input {
 	display: block;
 	margin: auto;
 	border-radius: 1024px;
+	/*
 	background: #FFFFFF;
+	*/
 	width:  9.375vh;
 	height: 9.375vh;
 	margin-top: 1.5625vh;
+	/*
 	border: 0px solid #FFC000;
-	-box-sizing: border-box;
+	*/
+	border-style: solid;
+	border-width: 3px;
 }
 
 /* Cell occupation */
@@ -99,7 +131,7 @@ input {
 }
 
 .red .p2 span, .black .p1 span {
-	background: #000000;
+	background: #FFC000;
 }
 
 .p1 span, .p2 span {
@@ -129,8 +161,13 @@ input {
 	cursor: pointer;
 	padding: 8px;
 	display: block;
-	background: #C09000;
 	width: 100%;
+	/*
+	background: #C09000;
+	*/
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 6px;
 }
 
 #options > :not(:first-child) {
@@ -138,5 +175,12 @@ input {
 }
 
 #options > :hover {
+	/*
 	background: #FFC000;
+	*/
+	background: #0060C080;
+}
+
+#turn {
+	margin-bottom: 6px;
 }

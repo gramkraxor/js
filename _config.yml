@@ -7,7 +7,9 @@ baseurl: "/js"
 layout: master
 port: 80
 markdown: kramdown
-google_analytics: UA-111498946-2
+
+author: "Gramkraxor"
+google_analytics: "UA-111498946-2"
 
 exclude:
   - Gemfile
