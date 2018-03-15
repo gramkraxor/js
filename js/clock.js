@@ -10,7 +10,7 @@ var now = new Date();
 const AUTHORS = [ "Gramkraxor" ];
 const YEAR = 2018;
 
-var timeout = 125;
+var timeout = 83;
 
 function Meter(id, get) {
 	this.id = id;
@@ -139,8 +139,9 @@ $(function() {
 		)
 		.append(
 			$("<div/>", {id: "footer"})
-				.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
-		);
+				.text(["\u00A9", YEAR, AUTHORS[0]].join(" ")
+			)
+	);
 	for (let i = 0; i < settings.length; i++) {
 		let s = settings[i];
 		$("#settings").append($("<input/>")

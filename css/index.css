@@ -2,12 +2,14 @@
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700');
 
-body,
-a {
+body {
 	font-family: 'Ubuntu Mono', 'Consolas', monospace;
 	font-size:   36px;
 	line-height: 48px;
-	text-decoration: none;
+	text-align: center;
+	margin: 128px;
+	background: #FFFFFF;
+	color: #000000;
 }
 
 body.dark {
@@ -17,12 +19,7 @@ body.dark {
 
 a {
 	color: inherit;
-}
-
-body {
-	text-align: center;
-	margin: 128px;
-	background: #FFFFFF;
+	text-decoration: none;
 }
 
 #list {

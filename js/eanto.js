@@ -38,10 +38,10 @@ $(function() {
 				})
 			)
 			.append($("<input/>")
-				.attr("id", "kopiu")
-				.attr("value", "kopiu")
+				.attr("id", "kopii")
+				.attr("value", "kopii")
 				.attr("type", "button")
-				.click(function() { kopiu(); })
+				.click(function() { kopii(); })
 			)
 		)
 		.append("<br/>")
@@ -60,7 +60,7 @@ function enter(toX) {
 	$("#esperanto").val(v);
 }
 
-function kopiu() {
+function kopii() {
 	let inp = $("#esperanto")[0];
 	inp.select();
 	document.execCommand("Copy");

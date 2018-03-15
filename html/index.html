@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>JS Projects &middot; Gramkraxor</title>
+	<title>JS Projects by Gramkraxor</title>
 	<link href='../css/index.css' rel='stylesheet'/>
 	<script src='../js/jquery.js'></script>
 	<script>
@@ -27,13 +27,15 @@
 		Page("phi");
 		Page("devx");
 		Page("dozagon");
-		Page("numblr")
+		Page("numblr");
+		Page("calcs");
+		Page("calcs-al");
 
 		$(function() {
 			$("body").append($("<div/>").attr("id", "list"));
 			for (let i = 0; i < pages.length; i++) {
 				let link = pages[i].file;
-				//if (location.protocol == "file:" || !location.hostname.includes("gramkraxor.com")) link += HTML;
+				//if (location.protocol == "file:") link += HTML;
 				link += HTML;
 				$("#list").append($("<p/>")
 					.addClass(pages[i].name)

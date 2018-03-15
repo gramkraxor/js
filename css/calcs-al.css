@@ -1,0 +1,426 @@
+/* CSS by Gramkraxor */
+
+/*
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400');
+*/
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+body * {
+	font-family: inherit;
+	color:       inherit;
+	font-size:   inherit;
+	line-height: inherit;
+	/*text-decoration: none;*/
+}
+
+body {
+	/*
+	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
+	*/
+	font-family: "Gotham 4r", "Montserrat", Arial, sans-serif;
+	color: #FFFFFF;
+	background: #000000;
+	font-size: 16px;
+}
+
+.scr {
+	/*
+	border: 1px solid #FFFFFF;
+	*/
+	border: solid #405060;
+	border-width: 80px 20px;
+	border-radius: 60px;
+	width: 320px;
+	height: 450px;
+	margin: 20px auto 0;
+}
+
+input {
+	height: 45px;
+	background: #404040;
+	border: 0;
+}
+
+input:focus {
+	outline: 0;
+}
+
+input[type="button"] {
+	cursor: pointer;
+}
+
+.accent-stripe {
+	height: 5px;
+	margin: 0;
+}
+
+.div-field {
+	background: #202020;
+	margin: 0;
+}
+
+.lbl-title {
+	margin: auto;
+	font-size: 36px;
+}
+
+#scr-home {
+	text-align: center;
+}
+
+#scr-home .lbl-title {
+	height: 40px;
+	text-transform: uppercase;
+	margin: 0 auto;
+}
+
+#scr-home input {
+	background: none;
+	display: block;
+	margin: auto;
+	width: 160px;
+	height: 30px;
+	padding: 0;
+}
+
+#scr-home #btn-home-goto-set {
+	width:  40px;
+	height: 40px;
+	background-image: url("../assets/fa-cog.png");
+	background-size: 40px;
+	background-position: center;
+	background-repeat: no-repeat;
+	margin-top: 10px;
+}
+
+#btn-calc-home,
+#btn-hex-home,
+#btn-roman-home,
+#btn-set-home {
+	background-image: url("../assets/fa-home.png");
+	background-size: 30px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+#scr-home input:hover {
+	background-color: #FFFFFF20;
+}
+
+#scr-home #lbl-home-title-1 {
+	margin-top: 120px;
+}
+
+#scr-home #lbl-home-title-2 {
+	margin-bottom: 100px;
+}
+
+#scr-calc .div-field {
+	height: 80px;
+	padding: 15px 10px;
+	box-sizing: border-box;
+}
+
+#scr-calc .div-field div {
+	font-size: 20px;
+	height: 30px;
+	text-align: right;
+	word-wrap: break-word;
+	overflow: hidden;
+}
+
+#lbl-calc-answer {
+	color: #C0C0C0;
+}
+
+#scr-calc .div-row {
+	width: 100%;
+	padding: 0 2.5px;
+	margin-top: 5px;
+}
+
+#scr-calc .div-row > input {
+	width: 60px;
+	height: 45px;
+	line-height: 45px;
+	margin: 0 2.5px;
+	padding: 0;
+	font-size: 24px;
+	display: inline;
+	vertical-align: middle;
+}
+
+#scr-calc .div-row > input:hover {
+	background-color: #606060;
+}
+
+/*
+#scr-calc .div-row > input:active {
+	background-color: #808080;
+}
+*/
+
+#scr-calc .div-row > input:first-child,
+#scr-calc .div-row > input:nth-child(5),
+#scr-calc .div-row > #btn-calc-pi,
+#scr-calc .div-row > #btn-calc-tau {
+	width: 55px;
+}
+
+#scr-calc #div-calc-row-1 {
+	margin-top: 12.5px;
+}
+
+#scr-calc #div-calc-row-7 > input {
+	height: 40px;
+}
+
+#scr-calc #btn-calc-sin,
+#scr-calc #btn-calc-cos,
+#scr-calc #btn-calc-tan,
+#scr-calc #btn-calc-ln,
+#scr-calc #btn-calc-log,
+#scr-calc #btn-calc-sqrt,
+#scr-calc #btn-calc-ans {
+	font-size: 18px;
+}
+
+#scr-calc #btn-calc-clear,
+#scr-calc #btn-calc-del,
+#scr-calc #btn-calc-enter {
+	font-size: 16px;
+}
+
+#scr-calc #btn-calc-home {
+	width: 50px;
+	margin: 0 7.5px;
+}
+
+#scr-calc #btn-calc-enter {
+	width: 120px;
+}
+
+#div-calc-field,
+#div-roman-field {
+	min-height: 30px;
+}
+
+#div-calc-row-7 > input {
+	height: 40px;
+}
+
+#btn-calc-home {
+	width: 50px;
+	margin-left:  7.5px;
+	margin-right: 7.5px;
+}
+
+#btn-calc-enter {
+	width: 120px;
+}
+
+#div-hex-field {
+	height: 120px;
+	padding-top: 10px;
+	box-sizing: border-box;
+}
+
+#div-hex-field > div {
+	height: 25px;
+	word-wrap: break-word;
+	overflow: hidden;
+}
+
+#div-hex-field > div > input {
+	background: none;
+	height: 25px;
+	width: 80px;
+	vertical-align: middle;
+	padding: 0;
+}
+
+#div-hex-field > div > div {
+	display: inline-block;
+	height: 25px;
+	width: 230px;
+	text-align: right;
+	vertical-align: middle;
+}
+
+#scr-hex .div-row {
+	margin-top: 10px;
+	padding: 0  10px;
+}
+
+#scr-hex #div-hex-row-1 {
+	margin-top: 15px;
+}
+
+#scr-hex .div-row > input {
+	width:  65px;
+	height: 55px;
+	margin: 0 5px;
+	font-size: 24px;
+	padding: 0;
+	vertical-align: middle;
+}
+
+#scr-hex .div-row > input:hover {
+	background-color: #606060;
+}
+
+#scr-hex #div-hex-row-5 > input {
+	height: 40px;
+	font-size: 16px;
+}
+
+#scr-hex #btn-hex-home {
+	width: 50px;
+	margin-left: 125px
+}
+
+#scr-hex #btn-hex-clear {
+	width: 110px;
+}
+
+#div-roman-field {
+	box-sizing: border-box;
+	height: 80px;
+	padding: 30px 10px 0;
+}
+
+#div-roman-field > div {
+	display: inline-block;
+	width: 140px;
+	height: 40px;
+	margin: 0;
+	vertical-align: middle;
+	word-wrap: break-word;
+	overflow: hidden;
+}
+
+#div-roman-field #lbl-roman-rom {
+	text-align: right;
+}
+
+#div-roman-field #lbl-roman-converts {
+	margin: 0 -5px;
+	width:  30px;
+	height: 30px;
+	background-image: url("../assets/fa-arrows-h.png");
+	background-size: 30px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+#scr-roman #div-roman-row-1 {
+	margin-top: 15px;
+}
+
+#scr-roman .div-row > input:hover {
+	background-color: #606060;
+}
+
+#scr-roman .div-row {
+	margin-top: 10px;
+	padding: 0 5px;
+}
+
+#scr-roman .div-row > input {
+	margin: 0 5px;
+	width: 60px;
+	vertical-align: middle;
+	padding: 0;
+	height: 50px;
+	font-size: 24px;
+}
+
+#scr-roman #div-roman-row-6 > input {
+	height: 40px;
+}
+
+#scr-roman #btn-roman-clear {
+	font-size: 16px;
+}
+
+#scr-roman #btn-roman-point,
+#scr-roman #btn-roman-clear {
+	width: 115px;
+}
+
+#scr-roman #btn-roman-home {
+	width: 50px;
+}
+
+#scr-roman .div-row:not(#div-roman-row-6) > input:nth-child(2) {
+	margin-right: 35px;
+}
+
+#scr-set .lbl-title {
+	text-align: center;
+	width: 100%;
+	height: 40px;
+	margin-top: 40px;
+}
+
+#scr-set input {
+	height: 40px;
+	font-size: 20px;
+}
+
+#scr-set .div-set {
+	margin: 30px 5px 0;
+}
+
+#scr-set #div-set-rgb {
+	margin-top: 35px;
+}
+
+#scr-set #div-set-au {
+	height: 90px;
+}
+
+#scr-set .div-set > * {
+	display: inline-block;
+	margin: 5px;
+}
+
+#scr-set .div-set > div {
+	height: 40px;
+	line-height: 40px;
+	font-size: 16px;
+}
+
+#scr-set .div-set > input {
+	float: right;
+	padding: 0;
+}
+
+#scr-set #inp-set-rgb {
+	width: 120px;
+	box-sizing: border-box;
+	padding: 8px;
+}
+
+#div-set-au input {
+	width: 70px;
+}
+
+#div-set-au #btn-set-au-turn {
+	width: 80px;
+	display: block;
+}
+
+#div-set-cc input {
+	width: 60px;
+}
+
+#scr-set #btn-set-home {
+	margin: 35px 135px 0;
+	width:  50px;
+	height: 40px;
+}
+
+#scr-set .div-set > input[type="button"]:hover {
+	background-color: #606060;
+}
