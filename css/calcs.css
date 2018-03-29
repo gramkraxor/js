@@ -2,6 +2,9 @@
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400');
 
+/* superscript minus sign */
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400&text=%E2%81%BB');
+
 /* positioning guide *
 #phone * {
 	background: linear-gradient(to bottom right, #F002, #0FF2) !important;

@@ -202,9 +202,9 @@ $(function() {
 	get("inp-set-rgb").on("change", function() {
 	  setAccentColor(get("inp-set-rgb").val());
 	});
-	btn("div-set-au", "btn-set-au-rad",  function() { setAU(RAD);  }, "rad");
-	btn("div-set-au", "btn-set-au-deg",  function() { setAU(DEG);  }, "deg");
 	btn("div-set-au", "btn-set-au-turn", function() { setAU(TURN); }, "turn");
+	btn("div-set-au", "btn-set-au-deg",  function() { setAU(DEG);  }, "deg");
+	btn("div-set-au", "btn-set-au-rad",  function() { setAU(RAD);  }, "rad");
 	btn("div-set-cc", "btn-set-cc-pi",   function() { setCC(PI);   }, "\u03C0");
 	btn("div-set-cc", "btn-set-cc-tau",  function() { setCC(TAU);  }, "\u03C4");
 

@@ -44,7 +44,7 @@ input[type='submit'] {
 
 input[type='text'] {
 	border-bottom: 1px solid;
-	transition: 0.25s;
+	transition: border 0.25s;
 	border-bottom-color: rgba(0, 0, 0, 0.25);
 }
 
@@ -106,7 +106,7 @@ label {
 input[type='radio'] + label:before {
 	content: '';
 	background-color: 0;
-	transition: 0.25s;
+	transition: background 0.25s;
 	border: 1px solid #000000;
 	box-sizing: border-box;
 	display: inline-block;
@@ -128,7 +128,7 @@ input[type='radio']:focus + label {
   outline: 0;
 }
 
-@media only screen and (orientation: portrait) {
+@media (max-width: 640px) {
 
 	body {
 		font-size:   36px;
@@ -175,7 +175,7 @@ input[type='radio']:focus + label {
 
 }
 
-@media only screen and (orientation: landscape) {
+@media (min-width: 641px) {
 
 	body {
 		font-size: 16px;
