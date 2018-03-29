@@ -41,7 +41,7 @@ $(function() {
 		)
 	);
 
-	// set the command-line prompt to include the user's IP address
+	// set the command-line prompt
 	$(".prompt").html(getPrompt());
 
 	// initialize a new terminal object
@@ -55,17 +55,16 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	var $output = document.querySelector(outputContainer);
 
 	// array of command objects
-	var Cmds = [];
+	var cmds = [];
 
-	var PushCmd = function(name, run) {
-		Cmds.push({
-			name: name.toLowerCase(),
-			run: run
-		});
+	function Cmd(name, run, push) {
+		this.name = name;
+		this.run  = run;
+		if (push !== false) cmds.push(this);
 	}
 
 	/*
-	PushCmd("cat", function(args) {
+	var cmdCat = new Cmd("cat", function(args) {
 		cmd = "cat";
 		var url = args[0];
 		if (!url) {
@@ -82,35 +81,35 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 		});
 	});
 	*/
-	
-	PushCmd("clear", function(args) {
+
+	var cmdClear = new Cmd("clear", function(args) {
 		$output.innerHTML = "";
 	});
 
-	PushCmd("date", function(args) {
+	var cmdDate = new Cmd("date", function(args) {
 		output(new Date());
 	});
 
-	PushCmd("echo", function(args) {
+	var cmdEcho = new Cmd("echo", function(args) {
 		output(args.join(" "));
 	});
 
-	PushCmd("help", function(args) {
+	var cmdHelp = new Cmd("help", function(args) {
 		var cmds = [];
-		for (let i = 0; i < Cmds.length; i++) cmds.push(Cmds[i].name);
+		for (let i = 0; i < cmds.length; i++) cmds.push(cmds[i].name);
 		cmds.sort();
 		output("<div class='ls-files'>" + cmds.join("<br>") + "</div>");
 	});
 
-	PushCmd("uname", function(args) {
+	var cmdUname = new Cmd("uname", function(args) {
 		output(navigator.appVersion);
 	});
 
-	PushCmd("su", function(args) {
+	var cmdSu = new Cmd("su", function(args) {
 		user.name = args[0] ? args[0] : "";
 	});
 
-	PushCmd("info", function(args) {
+	var cmdInfo = new Cmd("info", function(args) {
 		output(["(c)", year, author].join(" "));
 		output(desc);
 	});
@@ -192,15 +191,15 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 				args = args.splice(1); // remove cmd from arg list
 			}
 
-			for (let i = 0; i <= Cmds.length; i++) {
-				if (i == Cmds.length) {
+			for (let i = 0; i <= cmds.length; i++) {
+				if (i == cmds.length) {
 					if (cmd) {
 						output(cmd + ": command not found");
 					}
 					continue;
 				}
-				if (Cmds[i].name == cmd) {
-					Cmds[i].run(args);
+				if (cmds[i].name == cmd) {
+					cmds[i].run(args);
 					break;
 				}
 			}

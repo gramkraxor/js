@@ -6,5 +6,5 @@ js:
   - doz
   - romulus
   - clock
-rank: 5000
+rank: 4000
 ---

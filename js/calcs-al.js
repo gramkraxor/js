@@ -1,6 +1,6 @@
 /*
  * Calculator Supreme (App Lab port)
- * © 2018 Owen Graham
+ * © 2018 Gramkraxor
  */
 
 

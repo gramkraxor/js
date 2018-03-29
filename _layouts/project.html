@@ -8,18 +8,18 @@
 	<link rel="canonical" href="{{ page.url | absolute_url }}" />
 
 	{% if page.title_override %}
-	<title>{{ page.title_override }}</title>
+	<title>{{ page.title_override | escape }}</title>
 	{% elsif page.title %}
-	<title>{{ page.title }} - Gramkraxor JS</title>
+	<title>{{ page.title | escape }} - Gramkraxor JS</title>
 	{% endif %}
 
 	{% if page.desc %}
-	<meta name="description" content="{{ page.desc }}" />
+	<meta name="description" content="{{ page.desc | escape }}" />
 	{% endif %}
 
 	{% if page.icon %}
 	<link rel="icon" href="{{ '/assets/' | append: page.icon | relative_url }}" />
-	{%- endif -%}
+	{% endif %}
 
 	{%- if page.css -%}
 	{% for link in page.css %}
@@ -28,9 +28,13 @@
 	{%- endif -%}
 
 	{%- if page.js -%}
-	{% for link in page.js %}
+	{%- for link in page.js -%}
+	{% if link == 'jquery' %}
+	<script src="{{ site.jquery }}"></script>
+	{% else %}
 	<script src="{{ '/js/' | append: link | append: '.js' | relative_url }}"></script>
-	{% endfor %}
+	{% endif %}
+	{%- endfor -%}
 	{%- endif -%}
 
 	{% if jekyll.environment == 'production' and site.google_analytics %}

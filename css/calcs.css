@@ -1,9 +1,12 @@
 /* CSS by Gramkraxor */
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400');
-/*
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-*/
+
+/* positioning guide *
+#phone * {
+	background: linear-gradient(to bottom right, #F002, #0FF2) !important;
+}
+/**/
 
 #footer {
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
@@ -19,22 +22,30 @@
 	text-align: center;
 }
 
+body:not(.dark) #footer {
+	color: #000000;
+	opacity: 1;
+}
+
+html {
+	height: 100%;
+	box-sizing: border-box;
+}
+
 body * {
 	font-family: inherit;
 	color:       inherit;
 	font-size:   inherit;
 	line-height: inherit;
-	/*text-decoration: none;*/
 }
 
 body {
+	position: relative;
+	min-height: 672px;
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
-	/*
-	font-family: "Gotham 4r", "Montserrat", Arial, sans-serif;
-	*/
 	margin: 0;
 	color: #FFFFFF;
-	background: #102030;
+	background: #405060;
 	font-size: 16px;
 	text-align: center;
 
@@ -52,47 +63,68 @@ body.dark {
 }
 
 #phone {
-	padding: 64px 0px;
-	border-radius: 60px;
+	padding: 48px 12px;
+	border-radius: 48px;
 	position: relative;
 	margin: auto;
 	border-style: solid;
-	border-width: 8px 24px;
+	border-width: 0;
 
-	background: #405060;
-	border-color: #405060;
+	background: #102030;
 }
 
 body.dark #phone {
+	border-width: 2px;
 	background: #000000;
 	border-color: #FFFFFF;
-	border-bottom: 0;
-	border-right:  0;
-	padding-bottom: calc(64px + 8px);
-	padding-right:  calc(0px + 24px);
+}
+
+#btn-phone-home {
+	box-sizing: border-box;
+	padding: 0;
+	position: absolute;
+	height: 24px;
+	width: 72px;
+	bottom: 12px;
+	left: calc((360px - 72px) / 2 + 12px);
+	border: 2px solid #FFFFFF;
+	border-radius: 12px;
+}
+
+#btn-phone-home:active {
+	background: #FFFFFF;
 }
 
 .scr {
-	width: 320px;
-	height: 450px;
+	width: 360px;
+	height: 640px;
 	color: #FFFFFF;
 	background: #000000;
 	text-align: left;
 	position: relative;
-}
-
-body.dark .scr {
-	background: 0;
+	border-radius: 12px;
 }
 
 input {
 	height: 45px;
-	background: #404040;
+	background: 0;
 	border: 0;
+}
+
+input:hover {
+	background: #FFFFFF20;
+}
+
+input[type="button"]:active {
+	background: #FFFFFF40;
 }
 
 input:focus {
 	outline: 0;
+}
+
+input[type="text"]:focus {
+	background: #FFFFFF20;
 }
 
 input[type="button"] {
@@ -105,22 +137,43 @@ input[type="button"] {
 }
 
 .div-field {
-	background: #202020;
+	width: 100%;
+	background: 0;
 	margin: 0;
+	margin-bottom: 24px;
+	box-sizing: border-box;
+	border-bottom: 2px solid;
 }
 
 .lbl-title {
 	margin: auto;
-	font-size: 36px;
+	font-size: 48px;
+}
+
+#scr-calc  #div-calc-row-7,
+#scr-hex   #div-hex-row-5,
+#scr-roman #div-roman-row-6 {
+	position: absolute;
+	bottom: 16px;
+	width: 360px;
+	text-align: center;
+}
+
+#scr-calc  #div-calc-row-7  > input,
+#scr-hex   #div-hex-row-5   > input,
+#scr-roman #div-roman-row-6 > input {
+	font-size: 24px;
+	height: 56px;
+	width: 120px;
 }
 
 #scr-home {
 	text-align: center;
-	padding: 120px 0 -120px;
+	padding: 144px 0 -144px;
 }
 
 #scr-home .lbl-title {
-	height: 40px;
+	height: 48px;
 	text-transform: uppercase;
 	margin: 0 auto;
 	transform: scaleX(1.125);
@@ -128,22 +181,22 @@ input[type="button"] {
 }
 
 #scr-home input {
-	background: none;
+	font-size: 20px;
 	display: block;
 	margin: auto;
+	margin-top: 12px;
 	width: 160px;
-	height: 30px;
+	height: 36px;
 	padding: 0;
 }
 
 #scr-home #btn-home-goto-set {
-	width:  40px;
-	height: 40px;
+	width:  48px;
+	height: 48px;
 	background-image: url("../assets/fa-cog.png");
-	background-size: 40px;
+	background-size: 48px;
 	background-position: center;
 	background-repeat: no-repeat;
-	margin-top: 10px;
 }
 
 #btn-calc-home,
@@ -156,12 +209,12 @@ input[type="button"] {
 	background-repeat: no-repeat;
 }
 
-#scr-home input:hover {
-	background-color: #FFFFFF20;
+#scr-home #lbl-home-title-1 {
+	padding-top: 144px;
 }
 
-#scr-home #lbl-home-title-1 {
-	padding-top: 120px;
+#scr-home #lbl-home-title-2 {
+	margin-bottom: 144px;
 }
 
 @keyframes supreme {
@@ -169,11 +222,8 @@ input[type="button"] {
 	100% { opacity: 1; }
 }
 
-#scr-home #lbl-home-title-2 {
-	margin-bottom: 100px;
-}
-
 #scr-home #lbl-home-title-2 > span {
+	z-index: -1;
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -191,63 +241,41 @@ input[type="button"] {
 
 
 #scr-calc .div-field {
-	height: 80px;
-	padding: 15px 10px;
-	box-sizing: border-box;
+	height: 120px;
+	padding: 24px 16px 0;
 }
 
 #scr-calc .div-field div {
-	font-size: 20px;
-	height: 30px;
+	font-size: 24px;
+	height: 48px;
 	text-align: right;
 	word-wrap: break-word;
 	overflow: hidden;
 }
 
-#lbl-calc-answer {
-	color: #C0C0C0;
+#scr-calc #lbl-calc-answer {
+	color: #808080;
 }
 
 #scr-calc .div-row {
 	width: 100%;
-	padding: 0 2.5px;
-	margin-top: 5px;
+	padding: 0;
+	margin: 0;
 }
 
 #scr-calc .div-row > input {
-	width: 60px;
-	height: 45px;
+	width: 72px;
+	height: 64px;
 	line-height: 45px;
-	margin: 0 2.5px;
+	margin: 0;
 	padding: 0;
-	font-size: 24px;
+	font-size: 32px;
 	display: inline;
 	vertical-align: middle;
 }
 
-#scr-calc .div-row > input:hover {
-	background-color: #606060;
-}
-
-/*
-#scr-calc .div-row > input:active {
-	background-color: #808080;
-}
-*/
-
-#scr-calc .div-row > input:first-child,
-#scr-calc .div-row > input:nth-child(5),
-#scr-calc .div-row > #btn-calc-pi,
-#scr-calc .div-row > #btn-calc-tau {
-	width: 55px;
-}
-
-#scr-calc #div-calc-row-1 {
-	margin-top: 12.5px;
-}
-
 #scr-calc #div-calc-row-7 > input {
-	height: 40px;
+	height: 56px;
 }
 
 #scr-calc #btn-calc-sin,
@@ -255,121 +283,61 @@ input[type="button"] {
 #scr-calc #btn-calc-tan,
 #scr-calc #btn-calc-ln,
 #scr-calc #btn-calc-log,
-#scr-calc #btn-calc-sqrt,
+#scr-calc #btn-calc-sqrt {
+	font-size: 20px;
+}
+
 #scr-calc #btn-calc-ans {
-	font-size: 18px;
-}
-
-#scr-calc #btn-calc-clear,
-#scr-calc #btn-calc-del,
-#scr-calc #btn-calc-enter {
-	font-size: 16px;
-}
-
-#scr-calc #btn-calc-home {
-	width: 50px;
-	margin: 0 7.5px;
-}
-
-#scr-calc #btn-calc-enter {
-	width: 120px;
-}
-
-#div-calc-field,
-#div-roman-field {
-	min-height: 30px;
-}
-
-#div-calc-row-7 > input {
-	height: 40px;
-}
-
-#btn-calc-home {
-	width: 50px;
-	margin-left:  7.5px;
-	margin-right: 7.5px;
-}
-
-#btn-calc-enter {
-	width: 120px;
+	font-size: 28px;
+	width: 144px;
 }
 
 #div-hex-field {
-	height: 120px;
-	padding-top: 10px;
+	height: 144px;
+	padding: 12px 16px;
 	box-sizing: border-box;
 }
 
 #div-hex-field > div {
-	height: 25px;
+	height: 30px;
 	word-wrap: break-word;
 	overflow: hidden;
 }
 
 #div-hex-field > div > input {
-	background: none;
-	height: 25px;
-	width: 80px;
+	height: inherit;
+	width: 72px;
 	vertical-align: middle;
 	padding: 0;
-}
-
-#div-hex-field > div > input:hover {
-	background-color: #FFFFFF20;
 }
 
 #div-hex-field > div > div {
 	display: inline-block;
-	height: 25px;
-	width: 230px;
+	height: inherit;
+	width: 256px;
 	text-align: right;
 	vertical-align: middle;
 }
 
-#scr-hex .div-row {
-	margin-top: 10px;
-	padding: 0  10px;
-}
-
-#scr-hex #div-hex-row-1 {
-	margin-top: 15px;
-}
-
 #scr-hex .div-row > input {
-	width:  65px;
-	height: 55px;
-	margin: 0 5px;
-	font-size: 24px;
+	width:  90px;
+	height: 90px;
+	margin: 0;
+	font-size: 36px;
 	padding: 0;
 	vertical-align: middle;
 }
 
-#scr-hex .div-row > input:not(.no-hover):hover {
-	background-color: #606060;
-}
-
-#scr-hex .no-hover {
+#scr-hex .hex-unused {
 	cursor: initial;
-}
-
-#scr-hex #div-hex-row-5 > input {
-	height: 40px;
-	font-size: 16px;
-}
-
-#scr-hex #btn-hex-home {
-	width: 50px;
-	margin-left: 125px
-}
-
-#scr-hex #btn-hex-clear {
-	width: 110px;
+	background: 0;
+	color: #404040;
 }
 
 #div-roman-field {
 	box-sizing: border-box;
-	height: 80px;
-	padding: 30px 10px 0;
+	height: 96px;
+	padding: 36px 16px 0;
 }
 
 #div-roman-field > div {
@@ -387,56 +355,34 @@ input[type="button"] {
 }
 
 #div-roman-field #lbl-roman-converts {
-	margin: 0 -5px;
-	width:  30px;
-	height: 30px;
+	margin: 0 6px;
+	width:  36px;
+	height: 36px;
 	background-image: url("../assets/fa-arrows-h.png");
-	background-size: 30px;
+	background-size: 36px;
 	background-position: center;
 	background-repeat: no-repeat;
 }
 
-#scr-roman #div-roman-row-1 {
-	margin-top: 15px;
-}
-
-#scr-roman .div-row > input:hover {
-	background-color: #606060;
-}
-
 #scr-roman .div-row {
-	margin-top: 10px;
-	padding: 0 5px;
+	margin-top: 0;
 }
 
 #scr-roman .div-row > input {
-	margin: 0 5px;
-	width: 60px;
+	width: 80px;
+	height: 80px;
 	vertical-align: middle;
 	padding: 0;
-	height: 50px;
-	font-size: 24px;
+	font-size: 36px;
 }
 
-#scr-roman #div-roman-row-6 > input {
-	height: 40px;
+#scr-roman .div-row #btn-roman-point {
+	font-size: 36px;
 }
 
-#scr-roman #btn-roman-clear {
-	font-size: 16px;
-}
-
-#scr-roman #btn-roman-point,
-#scr-roman #btn-roman-clear {
-	width: 115px;
-}
-
-#scr-roman #btn-roman-home {
-	width: 50px;
-}
-
-#scr-roman .div-row:not(#div-roman-row-6) > input:nth-child(2) {
-	margin-right: 35px;
+#scr-roman .div-row:not(#div-roman-row-6) > input:nth-child(2),
+#scr-roman #btn-roman-point {
+	margin-right: 40px;
 }
 
 #scr-set .lbl-title {
@@ -444,6 +390,7 @@ input[type="button"] {
 	width: 100%;
 	height: 40px;
 	padding-top: 40px;
+	margin-bottom: 96px;
 }
 
 #scr-set input {
@@ -452,58 +399,34 @@ input[type="button"] {
 }
 
 #scr-set .div-set {
-	margin: 30px 5px 0;
-}
-
-#scr-set #div-set-rgb {
-	margin-top: 35px;
-}
-
-#scr-set #div-set-au {
-	height: 90px;
+	margin-top: 48px;
+	padding: 0 12px;
 }
 
 #scr-set .div-set > * {
 	display: inline-block;
-	margin: 5px;
+	height: 48px;
+	line-height: 48px;
+	box-sizing: border-box;
+	padding: 0 12px;
 }
 
 #scr-set .div-set > div {
-	height: 40px;
-	line-height: 40px;
 	font-size: 16px;
+	color: #C0C0C0;
 }
 
 #scr-set .div-set > input {
 	float: right;
-	padding: 0;
 }
 
 #scr-set #inp-set-rgb {
 	width: 120px;
 	box-sizing: border-box;
-	padding: 8px;
+	text-align: right;
 }
 
-#div-set-au input {
-	width: 70px;
-}
-
-#div-set-au #btn-set-au-turn {
-	width: 80px;
-	display: block;
-}
-
-#div-set-cc input {
-	width: 60px;
-}
-
-#scr-set #btn-set-home {
-	margin: 35px 135px 0;
-	width:  50px;
-	height: 40px;
-}
-
-#scr-set .div-set > input[type="button"]:hover {
-	background-color: #606060;
+#scr-set #div-set-cc > input {
+	width: 48px;
+	box-sizing: border-box;
 }

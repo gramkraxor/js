@@ -5,31 +5,31 @@
 <head>
 	<title>JS Projects by Gramkraxor</title>
 	<link href='../css/index.css' rel='stylesheet'/>
-	<script src='../js/jquery.js'></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 
 		var pages = [];
 
 		var HTML = ".html";
 
-		function Page(file, name) {
+		function page(file, name) {
 			var r = {};
 			r.file = (file.toLowerCase().endsWith(HTML))? file.substring(file.length - HTML.length) : file;
 			r.name = (typeof name != "undefined")? name : r.file;
 			pages.push(r);
 		}
 
-		Page("ttt");
-		Page("dozer");
-		Page("eanto");
-		Page("clock");
-		Page("connect4");
-		Page("phi");
-		Page("devx");
-		Page("dozagon");
-		Page("numblr");
-		Page("calcs");
-		Page("calcs-al");
+		page("ttt");
+		page("dozer");
+		page("eanto");
+		page("calcs");
+		page("clock");
+		page("connect4");
+		page("phi");
+		page("dozagon");
+		page("numblr");
+		page("devx");
+		page("calcs-al");
 
 		$(function() {
 			$("body").append($("<div/>").attr("id", "list"));

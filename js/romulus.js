@@ -3,22 +3,22 @@
  * © MMXVIII (2018) Gramkraxor
  */
 
-const Rom = {};
+const Rom = function(v) { return Rom.convert(v); }
 const Romulus = Rom;
 
 Rom.NAME = "Romulus";
-Rom.VERSION = 3;
+Rom.VERSION = 4;
 Rom.AUTHORS = [ "Gramkraxor" ];
 Rom.YEAR = 2018;
 
-Rom.n = "N";
-Rom.i = "I";
-Rom.v = "V";
-Rom.x = "X";
-Rom.l = "L";
-Rom.c = "C";
-Rom.d = "D";
-Rom.m = "M";
+Rom.N = "N";
+Rom.I = "I";
+Rom.V = "V";
+Rom.X = "X";
+Rom.L = "L";
+Rom.C = "C";
+Rom.D = "D";
+Rom.M = "M";
 
 Rom.ONES      = [ "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ];
 Rom.TENS      = [ "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ];
@@ -28,8 +28,8 @@ Rom.THOUSANDS = [ "", "M", "MM", "MMM"];
 Rom.FOURS = [  "IIII",  "XXXX",  "CCCC",  "MMMM" ];
 Rom.NINES = [ "VIIII", "LXXXX", "DCCCC" ]
 
-Rom.u = "*";
-Rom.s = "S";
+Rom.U = "*";
+Rom.S = "S";
 
 Rom.UNCIAE  = [ "", "*", "**", "***", "****", "*****", "S", "S*", "S**", "S***", "S****", "S*****" ];
 
@@ -45,14 +45,27 @@ Rom.cent = new Rom.Place(Rom.HUNDREDS);
 Rom.dec  = new Rom.Place(Rom.TENS);
 Rom.un   = new Rom.Place(Rom.ONES);
 
-// float to Roman string
-Rom.numeral = function(n, subRule, nulla) { // nulla determines whether to allow "N" as output
+
+Rom.convert = function(v) {
+	if (typeof v == "string") return Rom.getNumber(v);
+	return Rom.getString(v);
+}
+
+Rom.str = function(v) {
+	return Rom.getString(v);
+}
+
+Rom.num = function(v) {
+	return Rom.getNumber(v);
+}
+
+Rom.getString = function(n, subRule, nulla) { // nulla determines whether to allow "N" as output
 	if (typeof n != "number" || isNaN(n)) return "";
 
-	if (typeof subRule == typeof undefined) subRule = true;
+	if (typeof subRule == "undefined") subRule = true;
 
 	if (n < 0) n *= -1;
-	if (n == 0) return (nulla ? Rom.n : "");
+	if (n == 0) return (nulla ? Rom.N : "");
 	remainder = n - Math.floor(n);
 	n = Math.floor(n);
 	if (n >= 4000) return "";
@@ -78,8 +91,7 @@ Rom.numeral = function(n, subRule, nulla) { // nulla determines whether to allow
 	return r;
 }
 
-// Roman string to float
-Rom.integer = function(s) {
+Rom.getNumber = function(s) {
 	s = s.trim().toUpperCase();
 	var r = 0;
 
@@ -116,12 +128,7 @@ Rom.integer = function(s) {
 	return r;
 }
 
-function R$(v) {
-	if (typeof v == "string") v = parseInt(v);
-	return Rom.numeral(v);
-}
-
 
 Rom.log = function() {
-	console.log(Rom.NAME + " version " + R$(Rom.VERSION) + " by " + Rom.AUTHORS[0] + "\nCopyright \u00A9 " + R$(Rom.YEAR) + " (Hindu-Arabic " + Rom.YEAR + ")");
+	console.log(Rom.NAME + " version " + Rom(Rom.VERSION) + " by " + Rom.AUTHORS[0] + "\nCopyright \u00A9 " + Rom(Rom.YEAR) + " (Hindu-Arabic " + Rom.YEAR + ")");
 }

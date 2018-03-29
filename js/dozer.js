@@ -1,5 +1,5 @@
 /*
- * Dozer, the HTML interface for doz.js
+ * Dozer, the HTML interface for doz.js and romulus.js
  * © 2018 Gramkraxor
  */
 
@@ -16,7 +16,8 @@ copyYear = Doz.YEAR,
 copy = Doz.AUTHORS[0],
 bases = [],
 labelBase = 12,
-usedModes = [ Doz.ab, Doz.xe, Doz.zeu ],
+usedModes = [ "AB", "XE", "ZEU" ],
+currentMode = Doz.AB,
 BASE = "base",
 CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -42,11 +43,11 @@ function Base(c, a) {
 }
 
 var
-bin = new Base(2,  [ "bin", "b", "binary" ]),
-oct = new Base(8,  [ "oct", "o", "octal" ]),
-dec = new Base(10, [ "dec", "d", "decimal" ]),
-doz = new Base(12, [ "doz", "z", "dozenal", "duodecimal" ]),
-hex = new Base(16, [ "hex", "x", "hexadecimal" ]);
+bBin = new Base(2,  [ "bin", "b", "binary" ]),
+bOct = new Base(8,  [ "oct", "o", "octal" ]),
+bDec = new Base(10, [ "dec", "d", "decimal" ]),
+bDoz = new Base(12, [ "doz", "z", "dozenal", "duodecimal" ]),
+bHex = new Base(16, [ "hex", "x", "hexadecimal" ]);
 
 $(function() {
 
@@ -75,7 +76,7 @@ $(function() {
 				.attr("type", "text")
 				.attr("name", "roman")
 				.click(function() {
-					if ($(this).val() == Rom.n) $(this).val("");
+					if ($(this).val() == Rom.N) $(this).val("");
 					setLabels($(this).attr("name"));
 				})
 				.keypress(function(e) {
@@ -116,24 +117,24 @@ $(function() {
 	}
 
 	for (let i = 0; i < usedModes.length; i++) {
-		let m = usedModes[i];
+		let mIndex = usedModes[i];
+		let m = Doz[mIndex];
 		$("#mode").append(
 			$("<p/>")
 				.append($("<input/>")
-					.attr("id", m.a)
+					.attr("id", mIndex.toLowerCase())
 					.attr("type", "radio")
 					.attr("name", "mode")
 					.click(function() {
-						setMode();
+						setMode(Doz[this.id.toUpperCase()]);
 					})
-					.prop("checked", m == Doz.mode)
+					.prop("checked", m == currentMode)
 				)
 				.append($("<label/>")
-					.attr("for", m.a)
+					.attr("for", mIndex.toLowerCase())
 					.append($("<span/>")
-						.html(m.c.join(" "))
+						.html(m[0] + " " + m[1])
 					)
-					//.append(" (" + m.n + ")")
 				)
 		);
 	}
@@ -147,45 +148,27 @@ function repl(s, o, n) {
 	return s;
 }
 
-function getMode() {
-	var mode = $("input[name='mode']:checked").attr("id");
+function getModeIndex(x) {
 	for (let i = 0; i < usedModes.length; i++) {
-		if (usedModes[i].a == mode) {
-			return usedModes[i];
-		}
+		if (Doz[usedModes[i]] == x) return usedModes[i];
 	}
-	return Doz.ab;
 }
 
 function setMode(m) {
-	if (typeof m == "undefined") {
-		m = getMode();
+	$("#" + getModeIndex(m).toLowerCase()).prop("checked", true)
+	if (usedModes.includes(m)) {
+		m = Doz[m];
 	}
-	if (typeof m == "string") {
-		getmode:
-		for (let i = 0; i < usedModes.length; i++) {
-			if (m == usedModes[i].a) {
-				m = usedModes[i];
-				break getmode;
-			}
-		}
-	}
-	if (typeof m != "object") {
-		return;
-	}
-	Doz.setMode(m);
-	$("#" + m.a).prop("checked", true)
+	currentMode = m;
 	setLabels();
 }
 
 function dozMode(s, m) {
-	s = s.toUpperCase();
 	for (let i = 0; i < usedModes.length; i++) {
-		for (let j = 0; j < usedModes[i].c.length; j++) {
-			let c = usedModes[i].c[j];
-			s = repl(s, c, m.c[j]);
+		for (let j = 0; j < 3; j++) {
+			let c = Doz[usedModes[i]][j];
+			s = repl(s, c, m[j]);
 		}
-		s = repl(s, usedModes.p, m.p);
 	}
 	return s;
 }
@@ -205,11 +188,6 @@ function getBase(v) {
 
 function enter(b) {
 	setLabels(b);
-	var mode = Doz.mode;
-	if (mode != getMode() && b == 0xC) {
-		$("#" + mode.a).prop("checked", true);
-		setLabels();
-	}
 
 	var input;
 	if (b == "roman") {
@@ -218,7 +196,7 @@ function enter(b) {
 		b = getBase(b);
 		input = $("input[type='text'][name='" + b.a[0] + "']");
 	}
-	var v = input.val();
+	var v = input.val().toUpperCase();
 
 	if (cheat(v)) {
 		input.val("");
@@ -226,21 +204,21 @@ function enter(b) {
 	}
 
 	if (b == "roman") {
-		v = Rom.integer(repl(v, "\u2022", "*"));
+		v = Rom(repl(v, "\u2022", "*"));
 	} else {
-		if (b.r == 12) v = dozMode(v, Doz.ab);
+		if (b.r == 12) v = dozMode(v, Doz.AB);
 		while (v.startsWith("0") && v.length > 1) v = v.substring(1, v.length);
 		if (v.length == 0) v == "0";
-		v = Doz.floatBase(v, b.r);
+		v = Doz.getNumber(v, b.r);
 	}
 
 	for (let i = 0; i < bases.length; i++) {
-		var val = Doz.stringBase(v, bases[i].r);
-		if (bases[i].r == 12) val = dozMode(val, mode);
+		var val = Doz.getString(v, bases[i].r);
+		if (bases[i].r == 12) val = dozMode(val, currentMode);
 		if (val == "0") val = "";
 		$("input[type='text'][name='" + bases[i].a[0] + "']").val(val);
 	}
-	$("#roman input").val(repl(Rom.numeral(v, true), "*", "\u2022")); // replace dozenths (*) with bullet character
+	$("#roman input").val(repl(Rom.getString(v, true, true), "*", "\u2022")); // replace dozenths (*) with bullet character
 }
 
 function setLabels(b) {
@@ -251,12 +229,12 @@ function setLabels(b) {
 	} else {
 		b = labelBase;
 	}
-	var v = r ? R$(version)  : Doz$(version,  b, Doz.mode);
-	var y = r ? R$(copyYear) : Doz$(copyYear, b, Doz.mode);
+	var v = r ? Rom(version)  : Doz(version,  b, currentMode);
+	var y = r ? Rom(copyYear) : Doz(copyYear, b, currentMode);
 
 	$("#title").text(title + " v" + v);
 	$("#footer").text(["\u00A9", y, copy].join(" "));
-	//$("#footer").html("&copy; " + $z(copyYear, Doz.mode) + " (" + copyYear + ") " + copy);
+	//$("#footer").html("&copy; " + $z(copyYear, currentMode) + " (" + copyYear + ") " + copy);
 }
 
 function cheat(v) {

@@ -45,18 +45,17 @@ vectors.add = function(v0, v1) {
 
 var bodies = [];
 
-function body(vpos, vvel, vsiz, nmas, scol) {
-	b = {};
-	b.pos = und(vpos)? vector(0, 0) : vpos;
-	b.vel = und(vvel)? vector(0, 0) : vvel;
-	b.siz = und(vsiz)? vector(4, 4) : vsiz;
-	b.mas = und(nmas)? 1 : nmas;
-	b.col = und(scol)? "#FF0000" : scol;
-	b.draw = function() {
-		stage.rect(b.pos, b.siz, b.col);
-	}
-	bodies.push(b);
-	return b;
+function Body(vpos, vvel, vsiz, nmas, scol) {
+	this.pos = und(vpos)? vector(0, 0) : vpos;
+	this.vel = und(vvel)? vector(0, 0) : vvel;
+	this.siz = und(vsiz)? vector(4, 4) : vsiz;
+	this.mas = und(nmas)? 1 : nmas;
+	this.col = und(scol)? "#FF0000" : scol;
+	bodies.push(this);
+}
+
+Body.prototype.draw= function() {
+	stage.rect(this.pos, this.siz, this.col);
 }
 
 stage.fill = function(style) {
@@ -95,7 +94,7 @@ function draw() {
 		 		let Dx = b2.pos.x - b1.pos.x;
 				let Dy = b2.pos.y - b1.pos.y;
 
-				let r  = Math.sqrt(Math.pow(Dx, 2) + Math.pow(Dy, 2));
+				let r  = Math.hypot(Dx, Dy);
 
 				let F  = G * m1 * m2 / Math.pow(r, 2);
 
@@ -157,8 +156,8 @@ function dark(b) {
 body(vector(216, 288), vector(0, 1), vector(10, 10), 1, "#FF00FF");
 body(vector(288, 288), vector(0, -0.1), vector(20, 20), 10, "#00FF00");
 */
-body(vector(216, 288), vector( 0,  1), vector(10, 10), 5, "#FF0000");
-body(vector(288, 216), vector(-1,  0), vector(10, 10), 5, "#80FF00");
-body(vector(360, 288), vector( 0, -1), vector(10, 10), 5, "#00FFFF");
-body(vector(288, 360), vector( 1,  0), vector(10, 10), 5, "#0800FF");
-body(vector(288, 288), vector( 0,  0), vector(10, 10), 5, "#FFFFFF");
+new Body(vector(216, 288), vector( 0,  1), vector(10, 10), 5, "#FF0000");
+new Body(vector(288, 216), vector(-1,  0), vector(10, 10), 5, "#00FF00");
+new Body(vector(360, 288), vector( 0, -1), vector(10, 10), 5, "#00FFFF");
+new Body(vector(288, 360), vector( 1,  0), vector(10, 10), 5, "#FF00FF");
+new Body(vector(288, 288), vector( 0,  0), vector(10, 10), 5, "#FFFFFF");

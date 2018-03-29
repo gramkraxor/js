@@ -15,6 +15,11 @@
 	text-align: center;
 }
 
+html {
+	height: 100%;
+	box-sizing: border-box;
+}
+
 * {
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
 	color: inherit;
@@ -24,7 +29,10 @@
 }
 
 body {
+	position: relative;
+	min-height: 100%;
 	margin: 64px;
+	margin-bottom: 0;
 	background: #FFFFFF;
 	color: #000000;
 	border-color: #000000;

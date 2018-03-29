@@ -1,16 +1,11 @@
 /*
  * Calculator Supreme
- * © 2018 Owen Graham
- */
-
-/*
- * TODO
-	* Accept key input
+ * © 2018 Gramkraxor
  */
 
 const NAME = "Calculator Supreme"
-const YEAR = 2018;
 const AUTHORS = [ "Gramkraxor" ];
+const YEAR = 2018;
 
 function get(id) {
 	return $("#" + id);
@@ -83,7 +78,6 @@ $(function() {
 	div("scr-calc", "div-calc-field").addClass("div-field");
 	div("div-calc-field", "lbl-calc-entry");
 	div("div-calc-field", "lbl-calc-answer");
-	div("scr-calc", "lbl-calc-accent-1").addClass("accent-stripe");
 	div("scr-calc", "div-calc-row-1").addClass("div-row");
 	div("scr-calc", "div-calc-row-2").addClass("div-row");
 	div("scr-calc", "div-calc-row-3").addClass("div-row");
@@ -123,7 +117,6 @@ $(function() {
 	btn("div-calc-row-6", "btn-calc-ans",   function() { onOp(opAns  ); }, "ans");
 	btn("div-calc-row-7", "btn-calc-clear", onCalcClear, "clear");
 	btn("div-calc-row-7", "btn-calc-del",   onCalcDel, "del");
-	btn("div-calc-row-7", "btn-calc-home",  gotoHome);
 	btn("div-calc-row-7", "btn-calc-enter", onCalcEnter,   "enter");
 
 	scr("scr-hex");
@@ -140,7 +133,6 @@ $(function() {
 	div("scr-hex-oct", "lbl-hex-oct");
 	div("scr-hex-dec", "lbl-hex-dec");
 	div("scr-hex-hex", "lbl-hex-hex");
-	div("scr-hex", "lbl-hex-accent-1").addClass("accent-stripe");
 	div("scr-hex", "div-hex-row-1").addClass("div-row");
 	div("scr-hex", "div-hex-row-2").addClass("div-row");
 	div("scr-hex", "div-hex-row-3").addClass("div-row");
@@ -162,7 +154,6 @@ $(function() {
 	btn("div-hex-row-4", "btn-hex-d", function() { onHex(0xD); }, "D");
 	btn("div-hex-row-4", "btn-hex-e", function() { onHex(0xE); }, "E");
 	btn("div-hex-row-4", "btn-hex-f", function() { onHex(0xF); }, "F");
-	btn("div-hex-row-5", "btn-hex-home", gotoHome);
 	btn("div-hex-row-5", "btn-hex-clear", onHexClear, "clear");
 
 	scr("scr-roman");
@@ -170,7 +161,6 @@ $(function() {
 	div("div-roman-field", "lbl-roman-dec");
 	div("div-roman-field", "lbl-roman-converts");
 	div("div-roman-field", "lbl-roman-rom");
-	div("scr-roman", "lbl-roman-accent-1").addClass("accent-stripe");
 	div("scr-roman", "div-roman-row-1").addClass("div-row");
 	div("scr-roman", "div-roman-row-2").addClass("div-row");
 	div("scr-roman", "div-roman-row-3").addClass("div-row");
@@ -198,7 +188,6 @@ $(function() {
 	btn("div-roman-row-5", "btn-roman-s", function() { onRomanNumeral("S"); }, "S");
 	btn("div-roman-row-5", "btn-roman-uncia", function() { onRomanNumeral("\u2022"); }, "\u2022");
 	btn("div-roman-row-6", "btn-roman-point", function() { onRomanDigit("."); }, ".");
-	btn("div-roman-row-6", "btn-roman-home",  gotoHome);
 	btn("div-roman-row-6", "btn-roman-clear", onRomanClear, "clear");
 
 	scr("scr-set");
@@ -218,13 +207,14 @@ $(function() {
 	btn("div-set-au", "btn-set-au-turn", function() { setAU(TURN); }, "turn");
 	btn("div-set-cc", "btn-set-cc-pi",   function() { setCC(PI);   }, "\u03C0");
 	btn("div-set-cc", "btn-set-cc-tau",  function() { setCC(TAU);  }, "\u03C4");
-	btn("scr-set", "btn-set-home", gotoHome);
+
+	btn("phone", "btn-phone-home", gotoHome);
 
 	begin();
 });
 
-// accuracy in decimal places
-var accuracy = 8;
+// accuracy in decimal places, optional
+var accuracy = 12;
 
 // go home from any other screen
 function gotoHome() {
@@ -245,25 +235,23 @@ function setAccentColor(color, setTxt) {
 	if (setTxt) get("inp-set-rgb").val(color);
 	accentColor = color;
 
-	var b = function(id) { get(id).css("background-color", color); };
-	var t = function(id) { get(id).css(           "color", color); };
+	var b = function(s) { $(s).css(    "border-color", color); };
+	var t = function(s) { $(s).css(           "color", color); };
 
-	b("lbl-calc-accent-1");
-	t("lbl-home-title-2");
-	b("lbl-hex-accent-1");
-	t("btn-hex-bin");
-	t("btn-hex-oct");
-	t("btn-hex-hex");
-	t("btn-hex-dec");
-	b("lbl-roman-accent-1");
-	t("lbl-set-rgb");
+	b("#phone");
+	b(".div-field");
+	t("#lbl-home-title-2");
+	t("#btn-hex-bin");
+	t("#btn-hex-oct");
+	t("#btn-hex-hex");
+	t("#btn-hex-dec");
+	t("#lbl-set-rgb");
 	if (currentBase) colorBases();
 
 	setAU(currentAU);
 	setCC(currentCC);
 }
 
-// psuedo-ena
 var DEG  = { btn: "btn-set-au-deg",  v: 2 * Math.PI / 360 };
 var RAD  = { btn: "btn-set-au-rad",  v: 1 };
 var TURN = { btn: "btn-set-au-turn", v: 2 * Math.PI };
@@ -324,13 +312,12 @@ function rFn(r) {
 }
 
 // operation functions
-// I feel like I'm missing arctrig functions
+// missing arctrig functions
 var fnSin = function(a) {return Math.sin(a * currentAU.v);};
 var fnCos = function(a) {return Math.cos(a * currentAU.v);};
 var fnTan = function(a) {return Math.tan(a * currentAU.v);};
 var fnLn  = Math.log;
 var fnLog = Math.log10;
-//var fnLog = function(a) {return Math.log(a)/Math.log(10);};
 var fnLp = function(a) {return a;};                  // (
 
 var fnSqrt = function(a) {return Math.pow(a, 1/2);}; // √(, \u221A
@@ -347,46 +334,48 @@ var fnAns = function() {return calcAns;};
 
 // operations
 function Op(str, name, fn) {
-	return {str: str, name: name, fn: fn};
+	this.str  = str;
+	this.name = name;
+	this.fn   = fn;
 }
 
-var opSin   = Op("sin(",         "sin",   fnSin      ); // sin(
-var opCos   = Op("cos(",         "cos",   fnCos      ); // cos(
-var opTan   = Op("tan(",         "tan",   fnTan      ); // tan(
-var opLn    = Op("ln(",          "ln",    fnLn       ); // ln(
-var opLog   = Op("log(",         "log",   fnLog      ); // log(
-var opLp    = Op("(",            "lp",    fnLp       ); // (
-var opSqrt  = Op("\u221A(",      "sqrt",  fnSqrt     ); // √(, \u221A(
+var opSin   = new Op("sin(",         "sin",   fnSin      ); // sin(
+var opCos   = new Op("cos(",         "cos",   fnCos      ); // cos(
+var opTan   = new Op("tan(",         "tan",   fnTan      ); // tan(
+var opLn    = new Op("ln(",          "ln",    fnLn       ); // ln(
+var opLog   = new Op("log(",         "log",   fnLog      ); // log(
+var opLp    = new Op("(",            "lp",    fnLp       ); // (
+var opSqrt  = new Op("\u221A(",      "sqrt",  fnSqrt     ); // √(, \u221A(
 
-var opRp    = Op(")",            "rp",    rFn(")")   ); // )
+var opRp    = new Op(")",            "rp",    rFn(")")   ); // )
 
-var opSqr   = Op("\u00B2",       "sqr",   fnSqr      ); // ², \u00B2
-var opRcp   = Op("\u207B\u00B9", "rcp",   fnRcp      ); // ⁻¹, \u207B\u00B9
+var opSqr   = new Op("\u00B2",       "sqr",   fnSqr      ); // ², \u00B2
+var opRcp   = new Op("\u207B\u00B9", "rcp",   fnRcp      ); // ⁻¹, \u207B\u00B9
 
-var opDiv   = Op("\u00F7",       "div",   fnDiv      ); // ÷, \u00F7
-var opMlt   = Op("\u00D7",       "mlt",   fnMlt      ); // ×, \u00D7
-var opSub   = Op("\u2212",       "sub",   fnSub      ); // −, \u2212
-var opAdd   = Op("+",            "add",   fnAdd      ); // +
-var opPow   = Op("^",            "pow",   fnPow      ); // ^
+var opDiv   = new Op("/",            "div",   fnDiv      ); // /  // ÷, \u00F7
+var opMlt   = new Op("\u00D7",       "mlt",   fnMlt      ); // ×, \u00D7
+var opSub   = new Op("\u2212",       "sub",   fnSub      ); // −, \u2212
+var opAdd   = new Op("+",            "add",   fnAdd      ); // +
+var opPow   = new Op("^",            "pow",   fnPow      ); // ^
 
 // numbers and point won't actually use their callback function
-// they will be parsed as numbers with parseFloat()
-var opPoint = Op(".",            "point", rFn(".")   ); // .
-var op0     = Op("0",            "0",     rFn(0)     ); // 0
-var op1     = Op("1",            "1",     rFn(1)     ); // 1
-var op2     = Op("2",            "2",     rFn(2)     ); // 2
-var op3     = Op("3",            "3",     rFn(3)     ); // 3
-var op4     = Op("4",            "4",     rFn(4)     ); // 4
-var op5     = Op("5",            "5",     rFn(5)     ); // 5
-var op6     = Op("6",            "6",     rFn(6)     ); // 6
-var op7     = Op("7",            "7",     rFn(7)     ); // 7
-var op8     = Op("8",            "8",     rFn(8)     ); // 8
-var op9     = Op("9",            "9",     rFn(9)     ); // 9
+// they will be parsed as strings with parseFloat()
+var opPoint = new Op(".",            "point", rFn(".")   ); // .
+var op0     = new Op("0",            "0",     rFn(0)     ); // 0
+var op1     = new Op("1",            "1",     rFn(1)     ); // 1
+var op2     = new Op("2",            "2",     rFn(2)     ); // 2
+var op3     = new Op("3",            "3",     rFn(3)     ); // 3
+var op4     = new Op("4",            "4",     rFn(4)     ); // 4
+var op5     = new Op("5",            "5",     rFn(5)     ); // 5
+var op6     = new Op("6",            "6",     rFn(6)     ); // 6
+var op7     = new Op("7",            "7",     rFn(7)     ); // 7
+var op8     = new Op("8",            "8",     rFn(8)     ); // 8
+var op9     = new Op("9",            "9",     rFn(9)     ); // 9
 
-var opE     = Op("e",            "e",     rFn(Math.E)); // e
-var opPi    = Op("\u03C0",       "pi",    rFn(PI.v)  ); // π, \u03C0
-var opTau   = Op("\u03C4",       "tau",   rFn(TAU.v) ); // τ, \u03C4
-var opAns   = Op("ans",          "ans",   fnAns      ); // ans
+var opE     = new Op("e",            "e",     rFn(Math.E)); // e
+var opPi    = new Op("\u03C0",       "pi",    rFn(PI.v)  ); // π, \u03C0
+var opTau   = new Op("\u03C4",       "tau",   rFn(TAU.v) ); // τ, \u03C4
+var opAns   = new Op("ans",          "ans",   fnAns      ); // ans
 
 // operations that begin a grouping
 var lps = [ opSin, opCos, opTan, opLn, opLog, opLp, opSqrt ];
@@ -401,7 +390,7 @@ var bins = [ opDiv, opMlt, opSub, opAdd, opPow ];
 var digs = [ opPoint, op0, op1, op2, op3, op4, op5, op6, op7, op8, op9 ];
 
 // constants
-var consts = [ opE, opPi, opTau, opAns ]; // also opAns, if I add that in
+var consts = [ opE, opPi, opTau, opAns ];
 
 
 // math button pressed
@@ -459,6 +448,10 @@ function tryToAnswer() {
 	  error();
 	  r = 0;
 	}
+	if (isNaN(r)) {
+	  error();
+	  r = 0;
+	}
 	return r;
 }
 
@@ -505,14 +498,11 @@ function answer() {
 	// copy of entry[] for parsing
 	var entered = entry.slice();
 
-	// locations of unary operations, for conversion
-	//var unIndexes = [];
 	// number of unary operations, for conversion
 	var unCount = 0;
 	for (var i = 0; i < entered.length; i++) {
 	  listUns: for (var j = 0; j < uns.length; j++) {
 	    if (entry[i].name === uns[j].name) {
-	      //unIndexes.push(i);
 	      unCount++;
 	      break listUns;
 	    }
@@ -590,9 +580,6 @@ function answer() {
 	  }
 	}
 
-	//console.log();
-	//logParsed();
-
 
 	// STEP 2
 	// add in multiplication where necessary
@@ -616,8 +603,6 @@ function answer() {
 	  if (spliceAtI) spliceOp(i, opMlt);
 
 	}
-
-	//logParsed();
 
 
 	// STEP 3
@@ -664,8 +649,6 @@ function answer() {
 	  entered.splice(is[0], is[1] - is[0], parsed);
 	}
 
-	//logParsed();
-
 
 	// STEP 4
 	// repeat: find and execute the bottom operation
@@ -702,8 +685,6 @@ function answer() {
 	  return [deepestIndexStart, deepestIndexEnd];
 	}
 
-	//console.log("deepest place: " + deepestPlace());
-
 	// evaluate
 	var dontBeInfinite = 0;
 
@@ -718,17 +699,13 @@ function answer() {
 	  }
 
 	  // if the place has any unary minus signs, get 'em
-	  //for (i = place[0] + 1; i < place[1]; i++) {
 	  var changedArray = false;
 	  for (i = place[1] - 1; i >= place[0]; i--) {
 	    if (entered[i].name === opSub.name) {
 	      //console.log("minus at " + i);
 	      if (i === 0 || hasOp(lps, entered[i - 1]) || hasOp(uns, entered[i - 1]) || hasOp(bins, entered[i - 1])) {
 	        changedArray = true;
-	        //console.log("it\'s unary!");
-	        //console.log(entered);
 	        entered.splice(i, 2, entered[i + 1] * -1);
-	        //console.log(entered);
 	      }
 	    }
 	  }
@@ -778,10 +755,13 @@ function answer() {
 	  }
 	}
 
-	//console.log(entered);
-	var a = Math.pow(10, accuracy);
-	var theAnswer = Math.round(a * entered[0]) / a;
-	//console.log(theAnswer);
+	var theAnswer;
+	if (accuracy) {
+		var a = Math.pow(10, accuracy);
+		var theAnswer = Math.round(a * entered[0]) / a;
+	} else {
+		theAnswer = entered[0];
+	}
 
 	// finally, display answer
 	get("lbl-calc-answer").text(theAnswer);
@@ -820,7 +800,7 @@ function colorBases() {
 	  if (base.r === currentBase.r) {
 	    get(base.btn).css("color", accentColor);
 	  } else {
-	    get(base.btn).css("color", "#C0C0C0");
+	    get(base.btn).css("color", "");
 	  }
 	}
 
@@ -828,11 +808,9 @@ function colorBases() {
 	for (let i = 0; i < 0x10; i++) {
 		let b = get("btn-hex-" + i.toString(0x10).toLowerCase());
 		if (i < currentBase.r) {
-			b.css("color", "#FFFFFF");
-			b.removeClass("no-hover");
+			b.removeClass("hex-unused");
 		} else {
-			b.css("color", "#606060");
-			b.addClass("no-hover");
+			b.addClass("hex-unused");
 		}
 	}
 }
@@ -897,25 +875,14 @@ function gotoRoman() {
 	setScreen("scr-roman");
 }
 
-var fontSizeSmall = 18;
+var fontSizeSmall = 20;
 var fontSizeNormal = 32;
+var romanMaxLength = 8;
 var lastFieldWasRoman = false; // true if the previous number button pressed was on the Roman side
 
 // Roman numeral character sets
-var UNCIAE    = [
-	"",
-	"\u2022",
-	"\u2022\u2022",
-	"\u2022\u2022\u2022",
-	"\u2022\u2022\u2022\u2022",
-	"\u2022\u2022\u2022\u2022\u2022",
-	"S",
-	"S\u2022",
-	"S\u2022\u2022",
-	"S\u2022\u2022\u2022",
-	"S\u2022\u2022\u2022\u2022",
-	"S\u2022\u2022\u2022\u2022\u2022"
-];
+var UNCIAE    = [];
+for (let i = 0; i < 12; i++) UNCIAE.push(((i >= 6)? "S" : "") + "\u2022".repeat(i % 6));
 var ONES      = [ "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ];
 var TENS      = [ "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ];
 var HUNDREDS  = [ "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ];
@@ -1005,12 +972,12 @@ function onRomanClear() {
 function romanCheckSizes() {
 	var dec = get("lbl-roman-dec").text();
 	var rom = get("lbl-roman-rom").text();
-	if (dec.length > 6) {
+	if (dec.length > romanMaxLength) {
 	  get("lbl-roman-dec").css("font-size", fontSizeSmall);
 	} else {
 	  get("lbl-roman-dec").css("font-size", fontSizeNormal);
 	}
-	if (rom.length > 5) {
+	if (rom.length > romanMaxLength) {
 	  get("lbl-roman-rom").css("font-size", fontSizeSmall);
 	} else {
 	  get("lbl-roman-rom").css("font-size", fontSizeNormal);

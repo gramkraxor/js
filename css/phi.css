@@ -15,7 +15,14 @@
 	text-align: center;
 }
 
+html {
+	height: 100%;
+	box-sizing: border-box;
+}
+
 body {
+	position: relative;
+	min-height: 100%;
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
 	color: #000000;
 	font-size: 20px;
@@ -43,6 +50,7 @@ body.dark {
 
 #stage {
 	border: 1px solid #FFFFFF;
+	margin-bottom: 48px;
 }
 
 a {

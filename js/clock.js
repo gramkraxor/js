@@ -3,8 +3,6 @@
  * © 2018 Gramkraxor
  */
 
-//TODO Add timer and more cool stuff
-
 var now = new Date();
 
 const AUTHORS = [ "Gramkraxor" ];
@@ -102,12 +100,12 @@ var sBase = new Setting("s-base", [
 ]);
 
 var sMode = new Setting("s-mode", [
-	new Option("X\u0190",      function() { mode = xel; }),
-	new Option("XE",           function() { mode = xe;  }),
-	new Option("Z\u0190",      function() { mode = zel; }),
-	new Option("ZE",           function() { mode = ze;  }),
-	new Option("AB",           function() { mode = ab;  }),
-	new Option("\u218A\u218B", function() { mode = zeu; })
+	new Option("X\u0190",      function() { mode = Doz.XEL; }),
+	//new Option("XE",           function() { mode = Doz.XE;  }),
+	//new Option("Z\u0190",      function() { mode = "Z\u0190;"; }),
+	//new Option("ZE",           function() { mode = Doz.ZE;  }),
+	new Option("AB",           function() { mode = Doz.AB;  }),
+	new Option("\u218A\u218B", function() { mode = Doz.ZEU; })
 ]);
 
 var sDark = new Setting("s-dark", [
@@ -115,14 +113,7 @@ var sDark = new Setting("s-dark", [
 	new Option("dark",  function() { $("body").addClass("dark"); })
 ]);
 
-var xel = new Doz.Mode([ "X", "\u0190" ]);
-var xe  = new Doz.Mode([ "X", "E" ]);
-var zel = new Doz.Mode([ "Z", "\u0190" ]);
-var ze  = new Doz.Mode([ "Z", "E" ]);
-var ab  = new Doz.Mode([ "A", "B" ]);
-var zeu = new Doz.Mode([ "\u218A", "\u218B" ]);
-
-var mode = xel;
+var mode = Doz.XEL;
 var base;
 var face = f1;
 
@@ -199,13 +190,14 @@ function fix(n, max) {
 		if (typeof n != "string") {
 			return;
 		}
-		n = Doz$(n, base);
+		n = Doz(n, base);
 	}
 	if (typeof max == "undefined") {
 		var max = 1;
 	}
-	var v = Doz$(n, base, mode);
-	while (v.length < Doz$(max, base).length) {
+	var v = Doz(n, base);
+	if (base == 12) v = Doz.toMode(v, mode);
+	while (v.length < Doz(max, base).length) {
 		v = "0" + v;
 	}
 	return v;

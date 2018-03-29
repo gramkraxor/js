@@ -4,5 +4,5 @@ css: connect4
 js:
   - jquery
   - connect4
-rank: 4000
+rank: 3000
 ---
