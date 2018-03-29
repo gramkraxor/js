@@ -21,6 +21,10 @@
 	<link rel="icon" href="{{ '/assets/' | append: page.icon | relative_url }}" />
 	{% endif %}
 
+	{% if page.meta_viewport %}
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	{% endif %}
+
 	{%- if page.css -%}
 	{% for link in page.css %}
 	<link rel="stylesheet" href="{{ '/css/' | append: link | append: '.css' | relative_url }}" />

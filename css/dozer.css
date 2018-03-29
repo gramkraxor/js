@@ -128,7 +128,7 @@ input[type='radio']:focus + label {
   outline: 0;
 }
 
-@media (max-width: 640px) {
+@media only screen and (orientation: portrait) {
 
 	body {
 		font-size:   36px;
@@ -175,7 +175,7 @@ input[type='radio']:focus + label {
 
 }
 
-@media (min-width: 641px) {
+@media only screen and (orientation: landscape) {
 
 	body {
 		font-size: 16px;
