@@ -11,7 +11,8 @@
 #footer {
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
 	font-weight: 400;
-	position: absolute;
+	position: fixed;
+	z-index: -1;
 	bottom: 8px;
 	left: 0;
 	right: 0;
@@ -41,7 +42,7 @@ body * {
 
 body {
 	position: relative;
-	min-height: 672px;
+	min-height: 100%;
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
 	margin: 0;
 	color: #FFFFFF;
@@ -69,8 +70,8 @@ body.dark {
 	margin: auto;
 	border-style: solid;
 	border-width: 0;
-
 	background: #102030;
+	margin-bottom: 48px;
 }
 
 body.dark #phone {

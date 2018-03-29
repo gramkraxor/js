@@ -32,9 +32,11 @@ input {
 	margin: 0;
 	padding: 8px;
 	background: 0;
+	font-size: inherit;
+	line-height: inherit;
 }
 
-input[type='submit'] {
+input[type='button'] {
 	padding: 8px 0;
 	cursor: pointer;
 	width: 36px;
@@ -52,13 +54,9 @@ input[type='text']:focus {
 	border-bottom-color: #000000;
 }
 
-input[type='radio'] {
-}
-
 #bod {
 	padding: 16px;
 	margin: auto;
-	/*max-width: 324px;*/
 	max-width: initial;
 }
 
@@ -131,30 +129,41 @@ input[type='radio']:focus + label {
 @media only screen and (orientation: portrait) {
 
 	body {
-		font-size:   36px;
-		line-height: 36px;
-		margin: 64px 16px;
+		font-size:   5vw;
+		line-height: 5vw;
+		margin: 0;
 	}
 
-	input[type='submit'] {
-		padding: 8px 0;
-		width: 144px;
-		max-width: 12.5%;
-		margin-right: 8px;
+	#bod {
+		padding: 10vw 0;
+	}
+
+	#convert {
+		padding: 0;
+	}
+
+	input[type='button'] {
+		padding: 0;
+		width: 18.75%;
+		max-width: initial;
+		height: 15vw;
+		margin: 0;
 	}
 
 	input[type='text'] {
 		width: 75%;
-		height: 96px;
+		height: 15vw;
 	}
 
 	#mode {
 		text-align: center;
+		width: 100%;
+		margin: auto;
 	}
 
 	#mode p:not(#mode-title) {
 		display: inline-block;
-		margin: 0 48px;
+		margin: 0 3vw;
 	}
 
 	#mode-title {
@@ -162,15 +171,15 @@ input[type='radio']:focus + label {
 	}
 
 	input[type='radio'] + label:before {
-		border-width: 3px;
-		width:  16px;
-		height: 16px;
-		padding: 4px;
-		margin-right: 16px;
+		border-width: 0.5vw;
+		width:  3vw;
+		height: 3vw;
+		padding: 1vw;
+		margin-right: 4vw;
 	}
 
 	#roman {
-		margin-top: 36px;
+		margin-top: 5vw;
 	}
 
 }

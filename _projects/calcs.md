@@ -1,5 +1,6 @@
 ---
 title: Calculator Supreme
+meta_viewport: true
 css: calcs
 js:
   - jquery

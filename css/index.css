@@ -7,7 +7,7 @@ body {
 	font-size:   36px;
 	line-height: 48px;
 	text-align: center;
-	margin: 128px;
+	margin: 128px 0;
 	background: #FFFFFF;
 	color: #000000;
 }
@@ -33,10 +33,3 @@ a {
 	display: block;
 	margin: 16px;
 }
-
-/*
-::selection {
-	color: #000000;
-	background: #C0C0C0;
-}
-*/

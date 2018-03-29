@@ -95,7 +95,7 @@ $(function() {
 		$("#convert").append(
 			$("<p/>")
 				.append($("<input/>")
-					.attr("type", "submit")
+					.attr("type", "button")
 					.attr("name", b.a[0])
 					.attr("value", b.a[0])
 					.attr("tabindex", -1)
