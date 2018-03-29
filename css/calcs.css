@@ -11,8 +11,7 @@
 #footer {
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
 	font-weight: 400;
-	position: fixed;
-	z-index: -1;
+	position: absolute;
 	bottom: 8px;
 	left: 0;
 	right: 0;
@@ -21,6 +20,7 @@
 	font-size: 12px;
 	line-height: 12px;
 	text-align: center;
+	margin-top: 48px;
 }
 
 body:not(.dark) #footer {
@@ -42,7 +42,6 @@ body * {
 
 body {
 	position: relative;
-	min-height: 100%;
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
 	margin: 0;
 	color: #FFFFFF;
@@ -71,13 +70,22 @@ body.dark {
 	border-style: solid;
 	border-width: 0;
 	background: #102030;
-	margin-bottom: 48px;
 }
 
 body.dark #phone {
 	border-width: 2px;
 	background: #000000;
 	border-color: #FFFFFF;
+}
+
+@media only screen and (max-height: 800px) {
+	body {
+		min-height: 800px;
+	}
+	
+	#phone {
+		margin-top: 0;
+	}
 }
 
 #btn-phone-home {
