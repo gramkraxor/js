@@ -25,8 +25,8 @@ funny.sayHi = function() {
 }
 
 
-classy("Classy here!");
+classy("Meet Classy!");
 classy.sayHi();
 
-funny("Funny here!");
+funny("Meet Funny!");
 funny.sayHi();

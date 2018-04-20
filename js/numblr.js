@@ -102,10 +102,9 @@ function b2b(n, b0, b1) {
 	return parseInt(n, b0).toString(b1).toUpperCase();
 }
 
-var x = 0;
+let x = 0;
 function y() {
 	let hue = 150 + 30 * Math.sin(x++/60);
 	$("body").css("background", "hsl(" + hue + ", 80%, 40%)");
-	setTimeout(y, 50);
 }
-y();
+setInterval(y, 50);

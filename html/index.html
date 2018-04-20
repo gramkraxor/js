@@ -36,8 +36,7 @@
 			$("body").append($("<div/>").attr("id", "list"));
 			for (let i = 0; i < pages.length; i++) {
 				let link = pages[i].file;
-				//if (location.protocol == "file:") link += HTML;
-				link += HTML;
+				/*if (location.protocol == "file:")*/ link += HTML;
 				$("#list").append($("<p/>")
 					.addClass(pages[i].name)
 					.append($("<a/>")

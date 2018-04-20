@@ -5,7 +5,7 @@
 
 Eo.log();
 
-var
+let
 name = Eo.NAME,
 version = Eo.VERSION,
 copyYear = Eo.YEAR,
@@ -67,12 +67,12 @@ function kopii() {
 }
 
 function dark(b) {
-	var body = $("body");
-	var d = "dark";
-	if (typeof b != "boolean") var b = !body.hasClass(d);
+	let $body = $("body");
+	let d = "dark";
+	if (typeof b != "boolean") b = !$body.hasClass(d);
 	if (b) {
-		body.addClass(d);
+		$body.addClass(d);
 	} else {
-		body.removeClass(d);
+		$body.removeClass(d);
 	}
 }

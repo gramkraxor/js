@@ -73,13 +73,13 @@ Rom.getString = function(n, subRule, nulla) { // nulla determines whether to all
 	while (n.length < 4) {
 		n = "0" + n;
 	}
-	var a = n.split("");
+	let a = n.split("");
 	for (let i = 0; i < a.length; i++) {
 		a[i] = Rom.places[i].c[parseInt(a[i])];
 	}
-	var rem = Math.round(remainder * 12);
+	let rem = Math.round(remainder * 12);
 	if (rem >= Rom.UNCIAE.length) rem = Rom.UNCIAE.length - 1;
-	var r = a.join("") + Rom.UNCIAE[rem];
+	let r = a.join("") + Rom.UNCIAE[rem];
 	if (!subRule) {
 		for (let i = 0; i < Rom.NINES.length; i++) {
 			r = r.split(Rom.places[Rom.places.length - 1 - i].c[9]).join(Rom.NINES[i]);
@@ -93,7 +93,7 @@ Rom.getString = function(n, subRule, nulla) { // nulla determines whether to all
 
 Rom.getNumber = function(s) {
 	s = s.trim().toUpperCase();
-	var r = 0;
+	let r = 0;
 
 	for (let i = 0; i < Rom.NINES.length; i++) {
 		s = s.split(Rom.NINES[i]).join(Rom.places[Rom.places.length - 1 - i].c[9]);
@@ -102,7 +102,7 @@ Rom.getNumber = function(s) {
 		s = s.split(Rom.FOURS[i]).join(Rom.places[Rom.places.length - 1 - i].c[4]);
 	}
 
-	//var places = [ Rom.ONES, Rom.TENS, Rom.HUNDREDS, Rom.THOUSANDS ];
+	//let places = [ Rom.ONES, Rom.TENS, Rom.HUNDREDS, Rom.THOUSANDS ];
 	for (let p = 0; p < Rom.places.length; p++) {
 		let place = Rom.places[p].c;
 

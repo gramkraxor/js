@@ -3,20 +3,22 @@
  * © 2018 Gramkraxor
  */
 
+
+// namespace object
+const stage = {};
+stage.size = vect(576, 576);
+stage.bg   = "#000000";
+
 const mspf = 25; // milliseconds per frame
-const stageSize = new vector(576, 576);
-var bg = "#000000";
 
 const AUTHORS = [ "Gramkraxor" ];
 const YEAR = 2018;
 
-// namespace objects
-const
-vectors = {},
-stage   = {};
-
 // gravity constant
-var G = 7.6;
+let G = 7.6;
+
+// ID of setInterval(draw)
+let loopId;
 
 function und(x) {
 	return typeof x == "undefined";
@@ -28,33 +30,32 @@ function s() {
 }
 
 // object with x and y components
-function vector(x, y) {
-	var v = {};
-	v.x = und(x)? 0 : x;
-	v.y = und(y)? 0 : y;
-	v.isVector = true;
-	v.plus = function(vec) {
-		return vector(v.x + vec.x, v.y + vec.y);
-	}
-	return v;
+function Vector(x, y) {
+	this.x = isNaN(x)? 0 : x;
+	this.y = isNaN(y)? 0 : y;
 }
 
-vectors.add = function(v0, v1) {
-	return vector(v0.x + v1.x, v0.y + v1.y);
+Vector.prototype.plus = function(v) {
+	return new Vector(this.x + v.x, this.y + v.y);
 }
 
-var bodies = [];
+function vect(x, y) {
+	return new Vector(x, y);
+}
+
+// all bodies in the stage
+let bodies = [];
 
 function Body(vpos, vvel, vsiz, nmas, scol) {
-	this.pos = und(vpos)? vector(0, 0) : vpos;
-	this.vel = und(vvel)? vector(0, 0) : vvel;
-	this.siz = und(vsiz)? vector(4, 4) : vsiz;
-	this.mas = und(nmas)? 1 : nmas;
-	this.col = und(scol)? "#FF0000" : scol;
+	this.pos = vpos instanceof Vector ? vpos : vect(0, 0);
+	this.vel = vvel instanceof Vector ? vvel : vect(0, 0);
+	this.siz = vsiz instanceof Vector ? vsiz : vect(4, 4);
+	this.mas = isNaN(nmas)? 1         : nmas;
+	this.col = und(scol)?   "#FF0000" : scol;
 	bodies.push(this);
 }
 
-Body.prototype.draw= function() {
+Body.prototype.draw = function() {
 	stage.rect(this.pos, this.siz, this.col);
 }
 
@@ -62,7 +63,7 @@ stage.fill = function(style) {
 	s().fillStyle = style;
 }
 
-// takes two vector objects
+// takes two Vector objects
 // and a color, too
 stage.rect = function(pos, siz, col) {
 	if (!und(col)) s().fillStyle = col;
@@ -71,13 +72,13 @@ stage.rect = function(pos, siz, col) {
 
 // looping refresh drawing function
 function draw() {
-	var ctx = $("#stage")[0].getContext("2d");
-	ctx.fillStyle = bg;
-	ctx.fillRect(0, 0, stageSize.x, stageSize.y);
+	let ctx = $("#stage")[0].getContext("2d");
+	ctx.fillStyle = stage.bg;
+	ctx.fillRect(0, 0, stage.size.x, stage.size.y);
 
 	for (let i = 0; i < bodies.length; i++) {
 		let b = bodies[i];
-		b.pos = vectors.add(b.pos, b.vel);
+		b.pos = b.pos.plus(b.vel);
 		ctx.fillStyle = b.col;
 		ctx.fillRect(b.pos.x - b.siz.x / 2, b.pos.y - b.siz.y / 2, b.siz.x, b.siz.y);
 
@@ -104,13 +105,11 @@ function draw() {
 				let ax = Fx / m1;
 				let ay = Fy / m1;
 
-				let acc = vector(ax, ay);
+				let acc = vect(ax, ay);
 
-				b1.vel = vectors.add(b1.vel, acc)
+				b1.vel = b1.vel.plus(acc);
 		}
 	}
-
-	setTimeout(draw, mspf); // loop at proper fps
 }
 
 // on document load
@@ -125,8 +124,8 @@ $(function() {
 			)
 			.append($("<canvas/>")
 				.attr("id", "stage")
-				.attr("width",  stageSize.x)
-				.attr("height", stageSize.y)
+				.attr("width",  stage.size.x)
+				.attr("height", stage.size.y)
 			)
 		)
 		.append($("<div/>")
@@ -137,27 +136,28 @@ $(function() {
 	;
 
 	dark();
-	draw();
+
+	loopId = setInterval(draw, mspf); // loop at proper fps
 
 });
 
 function dark(b) {
-	var body = $("body");
-	var d = "dark";
-	if (typeof b != "boolean") var b = !body.hasClass(d);
+	let $body = $("body");
+	let d = "dark";
+	if (typeof b != "boolean") b = !$body.hasClass(d);
 	if (b) {
-		body.addClass(d);
+		$body.addClass(d);
 	} else {
-		body.removeClass(d);
+		$body.removeClass(d);
 	}
 }
 
 /*
-body(vector(216, 288), vector(0, 1), vector(10, 10), 1, "#FF00FF");
-body(vector(288, 288), vector(0, -0.1), vector(20, 20), 10, "#00FF00");
+body(vect(216, 288), vect(0, 1), vect(10, 10), 1, "#FF00FF");
+body(vect(288, 288), vect(0, -0.1), vect(20, 20), 10, "#00FF00");
 */
-new Body(vector(216, 288), vector( 0,  1), vector(10, 10), 5, "#FF0000");
-new Body(vector(288, 216), vector(-1,  0), vector(10, 10), 5, "#00FF00");
-new Body(vector(360, 288), vector( 0, -1), vector(10, 10), 5, "#00FFFF");
-new Body(vector(288, 360), vector( 1,  0), vector(10, 10), 5, "#FF00FF");
-new Body(vector(288, 288), vector( 0,  0), vector(10, 10), 5, "#FFFFFF");
+new Body(vect(216, 288), vect( 0,  1), vect(10, 10), 5, "#FF0000");
+new Body(vect(288, 216), vect(-1,  0), vect(10, 10), 5, "#00FF00");
+new Body(vect(360, 288), vect( 0, -1), vect(10, 10), 5, "#00FFFF");
+new Body(vect(288, 360), vect( 1,  0), vect(10, 10), 5, "#FF00FF");
+new Body(vect(288, 288), vect( 0,  0), vect(10, 10), 5, "#FFFFFF");

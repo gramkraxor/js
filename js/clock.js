@@ -3,87 +3,99 @@
  * © 2018 Gramkraxor
  */
 
-var now = new Date();
+let now = new Date();
 
 const AUTHORS = [ "Gramkraxor" ];
 const YEAR = 2018;
 
-var timeout = 83;
+let timeout = 83;
 
 function Meter(id, get) {
 	this.id = id;
 	this.get = get;
 }
 
-var year       = new Meter("year",     function() { return fix(now.getFullYear(),  2047); });
-var month      = new Meter("month",    function() { return fix(now.getMonth() + 1, 11); });
-var day        = new Meter("day",      function() { return fix(now.getDate(), 31); });
-var mHours     = new Meter("hour",     function() { return fix(now.getHours(), 23); });
-var mMinutes   = new Meter("minute",   function() { return fix(now.getMinutes(), 59); });
-var mSeconds   = new Meter("second",   function() { return fix(now.getSeconds(), 59); });
-var mMeridian  = new Meter("meridian", function() { return now.getHours() > 11 ? "PM" : "AM"; });
-var mMeridian2 = new Meter("meridian", function() { return now.getHours() > 11 ? "P" : "A"; });
-var mMeridian3 = new Meter("meridian", function() { return now.getHours() > 11 ? "*" : "\u00A0"; });
-var mHours12   = new Meter("hour",     function() {
-	let h = ((now.getHours() + 11) % 12) + 1;
+function get(fnLocal, fnUtc) { return function() { return utc ? now[fnUtc]() : now[fnLocal]() } }
+let getFullYear = get("getFullYear", "getUTCFullYear");
+let getMonth    = get("getMonth", "getUTCMonth");
+let getDate     = get("getDate", "getUTCDate");
+let getHours    = get("getHours", "getUTCHours");
+let getMinutes  = get("getMinutes", "getUTCMinutes");
+let getSeconds  = get("getSeconds", "getUTCSeconds");
+let getMilliseconds = get("getMilliseconds", "getUTCMilliseconds");
+
+let year       = new Meter("year",     function() { return fix(getFullYear(),  9999); });
+let month      = new Meter("month",    function() { return fix(getMonth() + 1, 11); });
+let day        = new Meter("day",      function() { return fix(getDate(), 31); });
+let mHours     = new Meter("hour",     function() { return fix(getHours(), 23); });
+let mMinutes   = new Meter("minute",   function() { return fix(getMinutes(), 59); });
+let mSeconds   = new Meter("second",   function() { return fix(getSeconds(), 59); });
+let mMeridian  = new Meter("meridian", function() { return getHours() > 11 ? "PM" : "AM"; });
+let mMeridian2 = new Meter("meridian", function() { return getHours() > 11 ? "P" : "A"; });
+let mMeridian3 = new Meter("meridian", function() { return getHours() > 11 ? "*" : "\u00A0"; });
+let mHours12   = new Meter("hour",     function() {
+	let h = ((getHours() + 11) % 12) + 1;
 	h = fix(h);
 	if (h.length < 2) h = "\u00A0" + h;
 	return h;
 });
 
 // https://dozenal.ae-web.ca
-var mBicia = new Meter("second", function() {
+let mBicia = new Meter("second", function() {
 	return fix(getBicia(), 12);
 });
-var mNilqua = new Meter("minute", function() {
+let mNilqua = new Meter("minute", function() {
 	return fix(getNilqua(), 12);
 });
-var mBiqua  = new Meter("hour",   function() {
+let mBiqua  = new Meter("hour",   function() {
 	let b = getBiqua();
 	b = fix(b);
 	if (b.length < 2) b = "\u00A0" + b;
 	return b;
 });
 
-var faces = [];
+let faces = [];
 
-function Face(n, m) {
-	this.n = n;
+function Face(name, str, m) {
+	this.name = name;
+	this.str = str;
 	this.m = m;
 	faces.push(this);
 }
 
-var f1 = new Face("standard",   [ mHours, mMinutes, mSeconds ]);
-var f2 = new Face("AM/PM",      [ mMeridian, mHours12, mMinutes, mSeconds ]);
-var f3 = new Face("A/P",        [ mHours12, mMinutes, mSeconds, mMeridian2 ]);
-var f4 = new Face("min",        [ mHours12, mMinutes ]);
-var fZ = new Face("dozenalist", [ mBiqua, mNilqua, mBicia ]);
+let fStandard = new Face("standard", "standard",   [ mHours, mMinutes, mSeconds ]);
+//let fAmPm     = new Face("ampm", "AM/PM",      [ mMeridian, mHours12, mMinutes, mSeconds ]);
+let fAP       = new Face("ap", "A/P",        [ mHours12, mMinutes, mSeconds, mMeridian2 ]);
+let fMin      = new Face("min", "min",        [ mHours12, mMinutes ]);
+let fDozenal  = new Face("dozenalist", "dozenalist", [ mBiqua, mNilqua, mBicia ]);
 
-var settings = [];
+let settings = [];
 
-function Setting(n, o) {
+function Setting(name, o) {
 	this.s = 0;
-	this.n = n;
+	this.name = name;
+	this.id = "s-" + name;
 	this.o = o;
 	settings.push(this);
 }
 
-function Option(n, f) {
-	this.n = n;
+function Option(name, str, f) {
+	this.name = name;
+	this.str = str;
 	this.f = f;
 }
 
-var faceOps = [];
+let faceOps = [];
 for (let i = 0; i < faces.length; i++) {
 	let f = faces[i];
-	if (f == fZ) {
-		faceOps.push(new Option(f.n, function() {
+	if (f == fDozenal) {
+		faceOps.push(new Option(f.name, f.str, function() {
 			setFace(f);
 			sBase.o[1].f();
 			$("#s-base").hide();
 		}));
 	} else {
-		faceOps.push(new Option(f.n, function() {
+		faceOps.push(new Option(f.name, f.str, function() {
 			setFace(f);
 			sBase.o[sBase.s].f();
 			$("#s-base").show();
@@ -91,31 +103,37 @@ for (let i = 0; i < faces.length; i++) {
 	}
 }
 
-var sFace = new Setting("s-face", faceOps);
+let sFace = new Setting("face", faceOps);
 
-var sBase = new Setting("s-base", [
-	new Option("decimal",     function() { base = 10; $("#s-mode").hide(); }),
-	new Option("dozenal",     function() { base = 12; $("#s-mode").show(); }),
-	new Option("hexadecimal", function() { base = 16; $("#s-mode").hide(); })
+let sUtc = new Setting("utc", [
+	new Option("false", "local", function() { utc = false; }),
+	new Option("true",  "UTC",   function() { utc = true;  })
 ]);
 
-var sMode = new Setting("s-mode", [
-	new Option("X\u0190",      function() { mode = Doz.XEL; }),
-	//new Option("XE",           function() { mode = Doz.XE;  }),
-	//new Option("Z\u0190",      function() { mode = "Z\u0190;"; }),
-	//new Option("ZE",           function() { mode = Doz.ZE;  }),
-	new Option("AB",           function() { mode = Doz.AB;  }),
-	new Option("\u218A\u218B", function() { mode = Doz.ZEU; })
+let sBase = new Setting("base", [
+	new Option("dec", "decimal",     function() { base = 10; $("#s-mode").hide(); }),
+	new Option("doz", "dozenal",     function() { base = 12; $("#s-mode").show(); }),
+	new Option("hex", "hexadecimal", function() { base = 16; $("#s-mode").hide(); })
 ]);
 
-var sDark = new Setting("s-dark", [
-	new Option("light", function() { $("body").removeClass("dark"); }),
-	new Option("dark",  function() { $("body").addClass("dark"); })
+let sMode = new Setting("mode", [
+	new Option("xel", "X\u0190",      function() { mode = Doz.XEL; }),
+	//new Option("xe",  "XE",           function() { mode = Doz.XE;  }),
+	//new Option("zel", "Z\u0190",      function() { mode = "Z\u0190;"; }),
+	//new Option("ze",  "ZE",           function() { mode = Doz.ZE;  }),
+	new Option("ab",  "AB",           function() { mode = Doz.AB;  }),
+	new Option("zel", "\u218A\u218B", function() { mode = Doz.ZEU; })
 ]);
 
-var mode = Doz.XEL;
-var base;
-var face = f1;
+let sDark = new Setting("dark", [
+	new Option("false", "light", function() { $("body").removeClass("dark"); }),
+	new Option("true",  "dark",  function() { $("body").addClass("dark"); })
+]);
+
+let mode = Doz.XEL;
+let base;
+let face = fStandard;
+let utc = false;
 
 $(function() {
 	$("body")
@@ -136,13 +154,13 @@ $(function() {
 	for (let i = 0; i < settings.length; i++) {
 		let s = settings[i];
 		$("#settings").append($("<input/>")
-				.attr("id", s.n)
+				.attr("id", s.id)
 				.attr("type", "submit")
-				.attr("value", s.o[s.s].n)
+				.attr("value", s.o[s.s].str)
 				.click(function() {
 					s.s++;
 					s.s %= s.o.length;
-					$("#" + s.n).attr("value", s.o[s.s].n);
+					$("#" + s.id).attr("value", s.o[s.s].str);
 					s.o[s.s].f();
 				})
 		);
@@ -152,10 +170,10 @@ $(function() {
 		s.o[s.s].f();
 	}
 	if ((now.getHours() + 6) % 24 <= 12) {
-		$("#" + sDark.n).click();
+		$("#" + sDark.id).click();
 	}
 	setFace(face);
-	startTime();
+	setInterval(loopTime, timeout);
 });
 
 function setFace(f) {
@@ -168,18 +186,16 @@ function setFace(f) {
 	}
 }
 
-function startTime() {
+function loopTime() {
 	now = new Date();
 	for (let i = 0; i < face.m.length; i++) {
 		let m = face.m[i];
 		set(m.id, m.get());
 	}
-
-	setTimeout(startTime, timeout);
 }
 
 function set(id, val) {
-	var obj = $("#" + id);
+	let obj = $("#" + id);
 	if (obj.html().trim() != val.trim()) {
 		obj.html(val + " ");
 	}
@@ -193,9 +209,9 @@ function fix(n, max) {
 		n = Doz(n, base);
 	}
 	if (typeof max == "undefined") {
-		var max = 1;
+		let max = 1;
 	}
-	var v = Doz(n, base);
+	let v = Doz(n, base);
 	if (base == 12) v = Doz.toMode(v, mode);
 	while (v.length < Doz(max, base).length) {
 		v = "0" + v;
@@ -204,13 +220,13 @@ function fix(n, max) {
 }
 
 function getBiqua() {
-	return Math.floor(now.getHours() / 2);
+	return Math.floor(getHours() / 2);
 }
 function getMsThisBiqua() {
-	let ms = now.getMilliseconds();
-	ms += now.getSeconds() * 1000;
-	ms += now.getMinutes() * 60 * 1000;
-	ms += (now.getHours() % 2) * 60 * 60 * 1000;
+	let ms = getMilliseconds();
+	ms += getSeconds() * 1000;
+	ms += getMinutes() * 60 * 1000;
+	ms += (getHours() % 2) * 60 * 60 * 1000;
 	return ms;
 }
 // there are 1000 * 60 * 60 * 2 ms in a biqua

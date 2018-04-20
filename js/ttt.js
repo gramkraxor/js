@@ -66,7 +66,7 @@ ttt.sizeIndex = 1; // index of scrolling through ttt.sizes
 
 // generate cell name
 ttt.getName = function(gx, gy, mx, my) {
-	var r = ttt.G + gx + gy;
+	let r = ttt.G + gx + gy;
 	if (!isNaN(my)) r += ttt.M + mx + my;
 	return r;
 }
@@ -236,7 +236,7 @@ ttt.resize = function() {
 
 // add hover-higlight class for possible next moves
 ttt.drawish = function(nope) {
-	var ish = (ttt.turn == ttt.O)? ttt.Oish : ttt.Xish;
+	let ish = (ttt.turn == ttt.O)? ttt.Oish : ttt.Xish;
 	for (let i = 0; i < ttt.posPos.length; i++) ttt.getCell(ttt.posPos[i][0], ttt.posPos[i][1]).addClass(ish);
 	if (nope) $("." + ttt.G).addClass(ttt.nope);
 }
@@ -362,10 +362,10 @@ ttt.newBoard = function(size) {
 	// make all the squares
 	for (let gy = 0; gy < ttt.rows; gy++) {
 
-		var ROW = "row";
-		var BOX = "box";
-		var GROW = ttt.G + ROW;
-		var GBOX = ttt.G + BOX;
+		let ROW = "row";
+		let BOX = "box";
+		let GROW = ttt.G + ROW;
+		let GBOX = ttt.G + BOX;
 		$("#board").append($("<div/>") // starting with the row divs
 			.addClass(GROW)
 		);
@@ -383,8 +383,8 @@ ttt.newBoard = function(size) {
 			// now make the smaller ones
 			for (let my = 0; my < ttt.rows; my++) {
 
-				var MROW = ttt.M + ROW;
-				var MBOX = ttt.M + BOX;
+				let MROW = ttt.M + ROW;
+				let MBOX = ttt.M + BOX;
 				$("#" + ttt.getName(gx, gy)).append($("<div/>")
 					.addClass(MROW)
 				);

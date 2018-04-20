@@ -49,13 +49,13 @@ $(function() {
 
 });
 
-var Terminal = function(cmdLineContainer, outputContainer) {
+let Terminal = function(cmdLineContainer, outputContainer) {
 
-	var $cmdLine = document.querySelector(cmdLineContainer);
-	var $output = document.querySelector(outputContainer);
+	let $cmdLine = document.querySelector(cmdLineContainer);
+	let $output = document.querySelector(outputContainer);
 
 	// array of command objects
-	var cmds = [];
+	let cmds = [];
 
 	function Cmd(name, run, push) {
 		this.name = name;
@@ -64,9 +64,9 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	}
 
 	/*
-	var cmdCat = new Cmd("cat", function(args) {
+	let cmdCat = new Cmd("cat", function(args) {
 		cmd = "cat";
-		var url = args[0];
+		let url = args[0];
 		if (!url) {
 			output("Usage: " + cmd + " http://...");
 			output("Example: " + cmd + " https://gramkraxor.github.io/js/js/devx.js");
@@ -74,7 +74,7 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 		}
 
 		$.get(url, function(data) {
-			var encodedStr = data.replace(/[\u00A0-\uFFFF<>\&]/gim, function(i) {
+			let encodedStr = data.replace(/[\u00A0-\uFFFF<>\&]/gim, function(i) {
 				 return "&#"+i.charCodeAt(0)+";";
 			});
 			output("<pre>" + encodedStr + "</pre>");
@@ -82,41 +82,41 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	});
 	*/
 
-	var cmdClear = new Cmd("clear", function(args) {
+	let cmdClear = new Cmd("clear", function(args) {
 		$output.innerHTML = "";
 	});
 
-	var cmdDate = new Cmd("date", function(args) {
+	let cmdDate = new Cmd("date", function(args) {
 		output(new Date());
 	});
 
-	var cmdEcho = new Cmd("echo", function(args) {
+	let cmdEcho = new Cmd("echo", function(args) {
 		output(args.join(" "));
 	});
 
-	var cmdHelp = new Cmd("help", function(args) {
-		var cmds = [];
-		for (let i = 0; i < cmds.length; i++) cmds.push(cmds[i].name);
-		cmds.sort();
-		output("<div class='ls-files'>" + cmds.join("<br>") + "</div>");
+	let cmdHelp = new Cmd("help", function(args) {
+		let cmdsList = [];
+		for (let i = 0; i < cmds.length; i++) cmdsList.push(cmds[i].name);
+		cmdsList.sort();
+		output("<div class='ls-files'>" + cmdsList.join("<br>") + "</div>");
 	});
 
-	var cmdUname = new Cmd("uname", function(args) {
+	let cmdUname = new Cmd("uname", function(args) {
 		output(navigator.appVersion);
 	});
 
-	var cmdSu = new Cmd("su", function(args) {
+	let cmdSu = new Cmd("su", function(args) {
 		user.name = args[0] ? args[0] : "";
 	});
 
-	var cmdInfo = new Cmd("info", function(args) {
+	let cmdInfo = new Cmd("info", function(args) {
 		output(["(c)", year, author].join(" "));
 		output(desc);
 	});
 
-	var history = [];
-	var histpos = 0;
-	var histtemp = 0;
+	let history = [];
+	let histpos = 0;
+	let histtemp = 0;
 
 	window.addEventListener("click", function(e) {
 		$cmdLine.focus();
@@ -175,19 +175,20 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 			}
 
 			// duplicate current input and append to output section
-			var line = this.parentNode.parentNode.cloneNode(true);
+			let line = this.parentNode.parentNode.cloneNode(true);
 			line.removeAttribute("id")
 			line.classList.add("line");
-			var input = line.querySelector("input.cmdline");
+			let input = line.querySelector("input.cmdline");
 			input.autofocus = false;
 			input.readOnly = true;
 			$output.appendChild(line);
 
+			let cmd, args;
 			if (this.value && this.value.trim()) {
-				var args = this.value.split(" ").filter(function(val, i) {
+				args = this.value.split(" ").filter(function(val, i) {
 					return val;
 				});
-				var cmd = args[0].toLowerCase();
+				cmd = args[0].toLowerCase();
 				args = args.splice(1); // remove cmd from arg list
 			}
 
@@ -208,7 +209,7 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 			this.value = ""; // clear/setup line for next input
 
 			// Update the terminal prompt
-			var prompt = this.parentNode.parentNode.querySelector("div.prompt");
+			let prompt = this.parentNode.parentNode.querySelector("div.prompt");
 			prompt.innerHTML = getPrompt();
 		}
 	}, false);
@@ -220,7 +221,7 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 
 	// cross-browser impl to get document"s height
 	function getDocHeight() {
-		var d = document;
+		let d = document;
 		return Math.max(
 				Math.max(d.body.scrollHeight, d.documentElement.scrollHeight),
 				Math.max(d.body.offsetHeight, d.documentElement.offsetHeight),
@@ -231,11 +232,11 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 	//
 	return {
 		init: function() {
-			var d = new Date();
+			let d = new Date();
 			function c(i) {
 					return (i < 10) ? "0" + i : i;
 			}
-			var date =
+			let date =
 				d.getFullYear()     + "-" +
 				c(d.getMonth() + 1) + "-" +
 				c(d.getDate())      + " " +
@@ -248,7 +249,7 @@ var Terminal = function(cmdLineContainer, outputContainer) {
 				) +
 				c(Math.floor(Math.abs(d.getTimezoneOffset())) % 60);
 
-			var imgSrc = "assets/devx.svg";
+			let imgSrc = "assets/devx.svg";
 			if (location.protocol == "file:") imgSrc = "../" + imgSrc;
 			output("<img align='left' src='" + imgSrc + "' width='100' height='100' style='padding: 0px 10px 20px 0px'><h2 style='letter-spacing: 4px'>DEVX Terminal</h2><p>" + date + "</p><p>Enter 'help' for more information.</p><br/>");
 		},

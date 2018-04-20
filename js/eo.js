@@ -3,8 +3,6 @@
  * © 2018 Gramkraksoro
  */
 
-// numbers are in the radix-independent String.prototype.length form
-
 const Eo = {};
 // const Alias = Eo;
 

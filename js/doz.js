@@ -79,14 +79,14 @@ Doz.getNumber = function(s, b, integer) {
 	if (s.length - Doz.repl(s, ".", "").length > 1) return parseInt(s, b);
 
 	// parseFloat() doesn't accept a radix
-	var f = s.length - 1 - s.indexOf(".");
+	let f = s.length - 1 - s.indexOf(".");
 	s = Doz.repl(s, ".", "");
 	return parseInt(s, b) / (b ** f);
 }
 
 Doz.getString = function(n, b) {
 	if (n == 0 || n > Doz.X ** Doz.Z || isNaN(n)) return "0";
-	var s = n.toString(b).toUpperCase();
+	let s = n.toString(b).toUpperCase();
 	return s;
 }
 
@@ -103,8 +103,8 @@ Doz.fromMode = function(s, m) {
 
 Doz.toCharset = function(str, cs0, cs1) {
 	if (typeof str != "string" || !cs0 || !cs1) return str;
-	var s = str.split("");
-	var p = [];
+	let s = str.split("");
+	let p = [];
 	for (let i = 0; i < 3; i++) {
 		p.push([]);
 		for (let j = 0; j < s.length; j++) {
@@ -120,10 +120,5 @@ Doz.toCharset = function(str, cs0, cs1) {
 }
 
 Doz.log = function() {
-	console.log(Doz.NAME + " version " + z$(Doz.VERSION) + " by " + Doz.AUTHORS[0] + "\nCopyright \u00A9 " + z$(Doz.YEAR, Doz.XE) + " (decimal " + d$(Doz.YEAR) + ")");
+	console.log(Doz.NAME + " version " + Doz(Doz.VERSION, Doz.Z) + " by " + Doz.AUTHORS[0] + "\nCopyright \u00A9 " + Doz(Doz.YEAR, Doz.Z, Doz.XE) + " (decimal " + Doz(Doz.YEAR, Doz.D) + ")");
 }
-
-
-function d$(v)    { return Doz.convert(v, Doz.D);    }
-function z$(v, m) { return Doz.convert(v, Doz.Z, m); }
-function x$(v)    { return Doz.convert(v, Doz.X);    }

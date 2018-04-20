@@ -17,13 +17,13 @@ function setScreen(id) {
 }
 
 function dark(b) {
-	var body = $("body");
-	var d = "dark";
-	if (typeof b != "boolean") var b = !body.hasClass(d);
+	let $body = $("body");
+	let d = "dark";
+	if (typeof b != "boolean") b = !$body.hasClass(d);
 	if (b) {
-		body.addClass(d);
+		$body.addClass(d);
 	} else {
-		body.removeClass(d);
+		$body.removeClass(d);
 	}
 }
 
@@ -39,7 +39,7 @@ $(function() {
 	;
 
 	function item(parent, tag, id) {
-		var i = $("<" + tag + "/>");
+		let i = $("<" + tag + "/>");
 		if (id)  i.attr("id", id);
 		get(parent).append(i);
 		return i;
@@ -55,12 +55,12 @@ $(function() {
 	}
 
 	function div(parent, id) {
-		var i = item(parent, "div", id);
+		let i = item(parent, "div", id);
 		return i;
 	}
 
 	function btn(parent, id, fn, val) {
-		var i = item(parent, "input", id).attr("type", "button");
+		let i = item(parent, "input", id).attr("type", "button");
 		if (val) i.val(val);
 		i.on("click", fn);
 		return i;
@@ -86,17 +86,17 @@ $(function() {
 	div("scr-calc", "div-calc-row-6").addClass("div-row");
 	div("scr-calc", "div-calc-row-7").addClass("div-row");
 	btn("div-calc-row-1", "btn-calc-e",     function() { onOp(opE    ); }, "e");
-	btn("div-calc-row-1", "btn-calc-sin",   function() { onOp(opSin  ); }, "sin(");
-	btn("div-calc-row-1", "btn-calc-cos",   function() { onOp(opCos  ); }, "cos(");
-	btn("div-calc-row-1", "btn-calc-tan",   function() { onOp(opTan  ); }, "tan(");
+	btn("div-calc-row-1", "btn-calc-sin",   function() { onOp(opSin  ); }, "sin");
+	btn("div-calc-row-1", "btn-calc-cos",   function() { onOp(opCos  ); }, "cos");
+	btn("div-calc-row-1", "btn-calc-tan",   function() { onOp(opTan  ); }, "tan");
 	btn("div-calc-row-1", "btn-calc-pi",    function() { onOp(opPi   ); }, "\u03C0");
 	btn("div-calc-row-1", "btn-calc-tau",   function() { onOp(opTau  ); }, "\u03C4");
-	btn("div-calc-row-2", "btn-calc-ln",    function() { onOp(opLn   ); }, "ln(");
-	btn("div-calc-row-2", "btn-calc-log",   function() { onOp(opLog  ); }, "log(");
+	btn("div-calc-row-2", "btn-calc-ln",    function() { onOp(opLn   ); }, "ln");
+	btn("div-calc-row-2", "btn-calc-log",   function() { onOp(opLog  ); }, "log");
 	btn("div-calc-row-2", "btn-calc-lp",    function() { onOp(opLp   ); }, "(");
 	btn("div-calc-row-2", "btn-calc-rp",    function() { onOp(opRp   ); }, ")");
 	btn("div-calc-row-2", "btn-calc-div",   function() { onOp(opDiv  ); }, "\u00F7");
-	btn("div-calc-row-3", "btn-calc-sqrt",  function() { onOp(opSqrt ); }, "\u221A(");
+	btn("div-calc-row-3", "btn-calc-sqrt",  function() { onOp(opSqrt ); }, "\u221A");
 	btn("div-calc-row-3", "btn-calc-7",     function() { onOp(op7    ); }, "7");
 	btn("div-calc-row-3", "btn-calc-8",     function() { onOp(op8    ); }, "8");
 	btn("div-calc-row-3", "btn-calc-9",     function() { onOp(op9    ); }, "9");
@@ -214,7 +214,7 @@ $(function() {
 });
 
 // accuracy in decimal places, optional
-var accuracy = 12;
+let accuracy = 12;
 
 // go home from any other screen
 function gotoHome() {
@@ -229,14 +229,14 @@ function gotoSet() {
 	setScreen("scr-set");
 }
 
-var accentColor;
+let accentColor;
 
 function setAccentColor(color, setTxt) {
 	if (setTxt) get("inp-set-rgb").val(color);
 	accentColor = color;
 
-	var b = function(s) { $(s).css(    "border-color", color); };
-	var t = function(s) { $(s).css(           "color", color); };
+	let b = function(s) { $(s).css(    "border-color", color); };
+	let t = function(s) { $(s).css(           "color", color); };
 
 	b("#phone");
 	b(".div-field");
@@ -252,23 +252,23 @@ function setAccentColor(color, setTxt) {
 	setCC(currentCC);
 }
 
-var DEG  = { btn: "btn-set-au-deg",  v: 2 * Math.PI / 360 };
-var RAD  = { btn: "btn-set-au-rad",  v: 1 };
-var TURN = { btn: "btn-set-au-turn", v: 2 * Math.PI };
-var AUs = [ DEG, RAD, TURN ];
+let DEG  = { btn: "btn-set-au-deg",  v: 2 * Math.PI / 360 };
+let RAD  = { btn: "btn-set-au-rad",  v: 1 };
+let TURN = { btn: "btn-set-au-turn", v: 2 * Math.PI };
+let AUs = [ DEG, RAD, TURN ];
 
-var PI   = { v: Math.PI,     btnCalc: "btn-calc-pi",  btnSet: "btn-set-cc-pi"  };
-var TAU  = { v: 2 * Math.PI, btnCalc: "btn-calc-tau", btnSet: "btn-set-cc-tau" };
-var CCs = [ PI, TAU ];
+let PI   = { v: Math.PI,     btnCalc: "btn-calc-pi",  btnSet: "btn-set-cc-pi"  };
+let TAU  = { v: 2 * Math.PI, btnCalc: "btn-calc-tau", btnSet: "btn-set-cc-tau" };
+let CCs = [ PI, TAU ];
 
-var currentAU;
-var currentCC;
+let currentAU;
+let currentCC;
 
 function setAU(o) {
 	currentAU = o;
 	if (!accentColor) return;
-	for (var i = 0; i < AUs.length; i++) {
-	  var au = AUs[i];
+	for (let i = 0; i < AUs.length; i++) {
+	  let au = AUs[i];
 	  if (au.btn == o.btn) {
 	    get(au.btn).css("color", accentColor);
 	  } else {
@@ -280,8 +280,8 @@ function setAU(o) {
 function setCC(o) {
 	currentCC = o;
 	if (!accentColor) return;
-	for (var i = 0; i < CCs.length; i++) {
-	  var cc = CCs[i];
+	for (let i = 0; i < CCs.length; i++) {
+	  let cc = CCs[i];
 	  if (cc.btnSet == o.btnSet) {
 	    get(cc.btnSet).css("color", accentColor);
 	    get(cc.btnCalc).show();
@@ -301,10 +301,10 @@ function gotoCalc() {
 	onCalcClear();
 }
 
-var entry = []; // array of operations
+let entry = []; // array of operations
 
 // answer last time the enter button was pressed
-var calcAns = 0;
+let calcAns = 0;
 
 // a function that returns a function that returns r
 function rFn(r) {
@@ -313,24 +313,24 @@ function rFn(r) {
 
 // operation functions
 // missing arctrig functions
-var fnSin = function(a) {return Math.sin(a * currentAU.v);};
-var fnCos = function(a) {return Math.cos(a * currentAU.v);};
-var fnTan = function(a) {return Math.tan(a * currentAU.v);};
-var fnLn  = Math.log;
-var fnLog = Math.log10;
-var fnLp = function(a) {return a;};                  // (
+let fnSin = function(a) {return Math.sin(a * currentAU.v);};
+let fnCos = function(a) {return Math.cos(a * currentAU.v);};
+let fnTan = function(a) {return Math.tan(a * currentAU.v);};
+let fnLn  = Math.log;
+let fnLog = Math.log10;
+let fnLp = function(a) {return a;};                  // (
 
-var fnSqrt = function(a) {return Math.pow(a, 1/2);}; // √(, \u221A
-var fnSqr = function(a) {return Math.pow(a, 2);};    // ², \u00B2
-var fnRcp = function(a) {return Math.pow(a, -1);};   // ⁻¹, \u207B\u00B9
-var fnPow = Math.pow;                                // ^
+let fnSqrt = function(a) {return Math.pow(a, 1/2);}; // √(, \u221A
+let fnSqr = function(a) {return Math.pow(a, 2);};    // ², \u00B2
+let fnRcp = function(a) {return Math.pow(a, -1);};   // ⁻¹, \u207B\u00B9
+let fnPow = Math.pow;                                // ^
 
-var fnDiv = function(a, b) {return a / b;}; // ÷, \u00F7
-var fnMlt = function(a, b) {return a * b;}; // ×, \u00D7
-var fnSub = function(a, b) {return a - b;};
-var fnAdd = function(a, b) {return a + b;};
+let fnDiv = function(a, b) {return a / b;}; // ÷, \u00F7
+let fnMlt = function(a, b) {return a * b;}; // ×, \u00D7
+let fnSub = function(a, b) {return a - b;};
+let fnAdd = function(a, b) {return a + b;};
 
-var fnAns = function() {return calcAns;};
+let fnAns = function() {return calcAns;};
 
 // operations
 function Op(str, name, fn) {
@@ -339,58 +339,58 @@ function Op(str, name, fn) {
 	this.fn   = fn;
 }
 
-var opSin   = new Op("sin(",         "sin",   fnSin      ); // sin(
-var opCos   = new Op("cos(",         "cos",   fnCos      ); // cos(
-var opTan   = new Op("tan(",         "tan",   fnTan      ); // tan(
-var opLn    = new Op("ln(",          "ln",    fnLn       ); // ln(
-var opLog   = new Op("log(",         "log",   fnLog      ); // log(
-var opLp    = new Op("(",            "lp",    fnLp       ); // (
-var opSqrt  = new Op("\u221A(",      "sqrt",  fnSqrt     ); // √(, \u221A(
+let opSin   = new Op("sin(",         "sin",   fnSin      ); // sin(
+let opCos   = new Op("cos(",         "cos",   fnCos      ); // cos(
+let opTan   = new Op("tan(",         "tan",   fnTan      ); // tan(
+let opLn    = new Op("ln(",          "ln",    fnLn       ); // ln(
+let opLog   = new Op("log(",         "log",   fnLog      ); // log(
+let opLp    = new Op("(",            "lp",    fnLp       ); // (
+let opSqrt  = new Op("\u221A(",      "sqrt",  fnSqrt     ); // √(, \u221A(
 
-var opRp    = new Op(")",            "rp",    rFn(")")   ); // )
+let opRp    = new Op(")",            "rp",    rFn(")")   ); // )
 
-var opSqr   = new Op("\u00B2",       "sqr",   fnSqr      ); // ², \u00B2
-var opRcp   = new Op("\u207B\u00B9", "rcp",   fnRcp      ); // ⁻¹, \u207B\u00B9
+let opSqr   = new Op("\u00B2",       "sqr",   fnSqr      ); // ², \u00B2
+let opRcp   = new Op("\u207B\u00B9", "rcp",   fnRcp      ); // ⁻¹, \u207B\u00B9
 
-var opDiv   = new Op("/",            "div",   fnDiv      ); // /  // ÷, \u00F7
-var opMlt   = new Op("\u00D7",       "mlt",   fnMlt      ); // ×, \u00D7
-var opSub   = new Op("\u2212",       "sub",   fnSub      ); // −, \u2212
-var opAdd   = new Op("+",            "add",   fnAdd      ); // +
-var opPow   = new Op("^",            "pow",   fnPow      ); // ^
+let opDiv   = new Op("/",            "div",   fnDiv      ); // /  // ÷, \u00F7
+let opMlt   = new Op("\u00D7",       "mlt",   fnMlt      ); // ×, \u00D7
+let opSub   = new Op("\u2212",       "sub",   fnSub      ); // −, \u2212
+let opAdd   = new Op("+",            "add",   fnAdd      ); // +
+let opPow   = new Op("^",            "pow",   fnPow      ); // ^
 
 // numbers and point won't actually use their callback function
 // they will be parsed as strings with parseFloat()
-var opPoint = new Op(".",            "point", rFn(".")   ); // .
-var op0     = new Op("0",            "0",     rFn(0)     ); // 0
-var op1     = new Op("1",            "1",     rFn(1)     ); // 1
-var op2     = new Op("2",            "2",     rFn(2)     ); // 2
-var op3     = new Op("3",            "3",     rFn(3)     ); // 3
-var op4     = new Op("4",            "4",     rFn(4)     ); // 4
-var op5     = new Op("5",            "5",     rFn(5)     ); // 5
-var op6     = new Op("6",            "6",     rFn(6)     ); // 6
-var op7     = new Op("7",            "7",     rFn(7)     ); // 7
-var op8     = new Op("8",            "8",     rFn(8)     ); // 8
-var op9     = new Op("9",            "9",     rFn(9)     ); // 9
+let opPoint = new Op(".",            "point", rFn(".")   ); // .
+let op0     = new Op("0",            "0",     rFn(0)     ); // 0
+let op1     = new Op("1",            "1",     rFn(1)     ); // 1
+let op2     = new Op("2",            "2",     rFn(2)     ); // 2
+let op3     = new Op("3",            "3",     rFn(3)     ); // 3
+let op4     = new Op("4",            "4",     rFn(4)     ); // 4
+let op5     = new Op("5",            "5",     rFn(5)     ); // 5
+let op6     = new Op("6",            "6",     rFn(6)     ); // 6
+let op7     = new Op("7",            "7",     rFn(7)     ); // 7
+let op8     = new Op("8",            "8",     rFn(8)     ); // 8
+let op9     = new Op("9",            "9",     rFn(9)     ); // 9
 
-var opE     = new Op("e",            "e",     rFn(Math.E)); // e
-var opPi    = new Op("\u03C0",       "pi",    rFn(PI.v)  ); // π, \u03C0
-var opTau   = new Op("\u03C4",       "tau",   rFn(TAU.v) ); // τ, \u03C4
-var opAns   = new Op("ans",          "ans",   fnAns      ); // ans
+let opE     = new Op("e",            "e",     rFn(Math.E)); // e
+let opPi    = new Op("\u03C0",       "pi",    rFn(PI.v)  ); // π, \u03C0
+let opTau   = new Op("\u03C4",       "tau",   rFn(TAU.v) ); // τ, \u03C4
+let opAns   = new Op("ans",          "ans",   fnAns      ); // ans
 
 // operations that begin a grouping
-var lps = [ opSin, opCos, opTan, opLn, opLog, opLp, opSqrt ];
+let lps = [ opSin, opCos, opTan, opLn, opLog, opLp, opSqrt ];
 
 // unary operations
-var uns = [ opSqr, opRcp ];
+let uns = [ opSqr, opRcp ];
 
 // binary operations
-var bins = [ opDiv, opMlt, opSub, opAdd, opPow ];
+let bins = [ opDiv, opMlt, opSub, opAdd, opPow ];
 
 // digits
-var digs = [ opPoint, op0, op1, op2, op3, op4, op5, op6, op7, op8, op9 ];
+let digs = [ opPoint, op0, op1, op2, op3, op4, op5, op6, op7, op8, op9 ];
 
 // constants
-var consts = [ opE, opPi, opTau, opAns ];
+let consts = [ opE, opPi, opTau, opAns ];
 
 
 // math button pressed
@@ -423,8 +423,8 @@ function onCalcDel() {
 }
 
 function displayEntry() {
-	var s = "";
-	for (var i = 0; i < entry.length; i++) {
+	let s = "";
+	for (let i = 0; i < entry.length; i++) {
 	  s += entry[i].str;
 	}
 	get("lbl-calc-entry").text(s);
@@ -433,7 +433,7 @@ function displayEntry() {
 
 // Array.prototype.includes() isn't working
 function hasOp(arr, op) {
-	for (var i = 0; i < arr.length; i++) {
+	for (let i = 0; i < arr.length; i++) {
 	  if (arr[i].name === op.name) return true;
 	}
 	return false;
@@ -441,7 +441,7 @@ function hasOp(arr, op) {
 
 // allow answer() to not worry about errors
 function tryToAnswer() {
-	var r;
+	let r;
 	try {
 	  r = answer();
 	} catch (e) {
@@ -464,7 +464,7 @@ function error() {
 function answer() {
 
 	// if the entry doesn't end with something that makes sense, call off the solving then and there
-	var last = entry[entry.length - 1];
+	let last = entry[entry.length - 1];
 	if (hasOp(lps, last) || hasOp(bins, last)) {
 	  error();
 	  return;
@@ -472,9 +472,9 @@ function answer() {
 
 	// test new array
 	function logParsed() {
-	  var log = "";
+	  let log = "";
 	  for (i = 0; i < entered.length; i++) {
-	    var op = entered[i];
+	    let op = entered[i];
 	    if (op.str) {
 	      log += op.str;
 	    } else {
@@ -496,12 +496,12 @@ function answer() {
 	// convert unary operations to grouping operations ("x²" to "sqr(x)") in a copy of entry[]
 
 	// copy of entry[] for parsing
-	var entered = entry.slice();
+	let entered = entry.slice();
 
 	// number of unary operations, for conversion
-	var unCount = 0;
-	for (var i = 0; i < entered.length; i++) {
-	  listUns: for (var j = 0; j < uns.length; j++) {
+	let unCount = 0;
+	for (let i = 0; i < entered.length; i++) {
+	  listUns: for (let j = 0; j < uns.length; j++) {
 	    if (entry[i].name === uns[j].name) {
 	      unCount++;
 	      break listUns;
@@ -519,9 +519,9 @@ function answer() {
 
 	  // find the index of the operation
 
-	  var undex;
-	  var unsFound = 0;
-	  for (var k = 0; k < entered.length; k++) {
+	  let undex;
+	  let unsFound = 0;
+	  for (let k = 0; k < entered.length; k++) {
 	    if (hasOp(uns, entered[k])) {
 	      unsFound++;
 	      if (unsFound === i + 1) {
@@ -530,7 +530,7 @@ function answer() {
 	    }
 	  }
 
-	  var un = entered[undex];
+	  let un = entered[undex];
 
 
 	  // find where the lp should be placed on the left of the function
@@ -545,7 +545,7 @@ function answer() {
 
 	  // if the un is applied to a number, find the start of the number and put it there
 	  } else if (hasOp(digs, entered[undex - 1])) {
-	    var foundIt = false;
+	    let foundIt = false;
 	    findIt: for (k = undex - 2; k >= 0; k--) {
 	      if (!hasOp(digs, entered[k])) {
 	        spliceOp(k + 1, un);
@@ -559,8 +559,8 @@ function answer() {
 
 	  // if the un is applied to a group, find the left grouper and splice there
 	  } else if (entered[undex - 1].name === opRp.name) {
-	    var foundLp = false;
-	    var depth = 1;
+	    let foundLp = false;
+	    let depth = 1;
 	    findLp: for (k = undex - 2; k >= 0; k--) {
 	      if (hasOp(lps, entered[k]) || hasOp(uns, entered[k])) {
 	        depth--;
@@ -588,10 +588,10 @@ function answer() {
 	for (i = 1; i < entered.length; i++) {
 
 	  // compare a pair of operations to see if they need to multiply
-	  var first = entered[i - 1];
-	  var second = entered[i];
+	  let first = entered[i - 1];
+	  let second = entered[i];
 
-	  var spliceAtI = false;
+	  let spliceAtI = false;
 
 	  // if the first is [], then splice if the second is []
 	  if (hasOp(digs, first)) {
@@ -610,15 +610,15 @@ function answer() {
 
 	// array of pairs of indexes, of start and end points of digit strings
 	// if entered is "(23)", digIndexes is [[1,3]]
-	var digIndexes = [];
+	let digIndexes = [];
 	// if last item was a digit
-	var wasOnDig = false;
+	let wasOnDig = false;
 	// beginnig index of last index pair
-	var beginning = 0;
+	let beginning = 0;
 
 	// find digits and convert constants
 	for (i = 0; i < entered.length; i++) {
-	  var op = entered[i];
+	  let op = entered[i];
 
 	  if (hasOp(digs, op)) {
 	    if (!wasOnDig) {
@@ -640,12 +640,12 @@ function answer() {
 
 	// convert digits
 	for (i = digIndexes.length - 1; i >= 0; i--) {
-	  var is = digIndexes[i];
-	  var toParse = "";
-	  for (var l = is[0]; l < is[1]; l++) {
+	  let is = digIndexes[i];
+	  let toParse = "";
+	  for (let l = is[0]; l < is[1]; l++) {
 	    toParse += entered[l].str;
 	  }
-	  var parsed = parseFloat(toParse);
+	  let parsed = parseFloat(toParse);
 	  entered.splice(is[0], is[1] - is[0], parsed);
 	}
 
@@ -657,14 +657,14 @@ function answer() {
 	// find (first) most deeply grouped indexes in entered[]
 	// if array is "(3+2)", function will return [1,4]
 	function deepestPlace() {
-	  var deepest = 0;
-	  var depth = 0;
-	  var prevDepth = 0;
-	  var deepestIndexStart = 0;
-	  var deepestIndexEnd = entered.length;
-	  var inPlace = true;
-	  for (var i = 0; i < entered.length; i++) {
-	    var op = entered[i];
+	  let deepest = 0;
+	  let depth = 0;
+	  let prevDepth = 0;
+	  let deepestIndexStart = 0;
+	  let deepestIndexEnd = entered.length;
+	  let inPlace = true;
+	  for (let i = 0; i < entered.length; i++) {
+	    let op = entered[i];
 
 	    if (op.name) {
 	      if (hasOp(lps, op) || hasOp(uns, op)) depth++;
@@ -686,20 +686,20 @@ function answer() {
 	}
 
 	// evaluate
-	var dontBeInfinite = 0;
+	let dontBeInfinite = 0;
 
 	evaluate: while(entered.length > 1) {
-	  var place = deepestPlace();
+	  let place = deepestPlace();
 
 	  // if the place is one item long , evaluate the grouping function
 	  if (place[0] > 0 && place[1] - place[0] <= 1) {
-	    var y = entered[place[0] - 1].fn(entered[place[0]]);
+	    let y = entered[place[0] - 1].fn(entered[place[0]]);
 	    entered.splice(place[0] - 1, 3, y);
 	    continue evaluate;
 	  }
 
 	  // if the place has any unary minus signs, get 'em
-	  var changedArray = false;
+	  let changedArray = false;
 	  for (i = place[1] - 1; i >= place[0]; i--) {
 	    if (entered[i].name === opSub.name) {
 	      //console.log("minus at " + i);
@@ -714,10 +714,10 @@ function answer() {
 	  // if the place uses binary operations, evaluate them with (G)EMA
 
 	  // M in GEMA
-	  var oopM = [ opMlt, opDiv ];
+	  let oopM = [ opMlt, opDiv ];
 
 	  // A in GEMA
-	  var oopA = [ opAdd, opSub ];
+	  let oopA = [ opAdd, opSub ];
 
 	  // first, opPow
 	  // remember: opPow is right associative (a^b^c = a^(b^c))
@@ -731,7 +731,7 @@ function answer() {
 
 	  // second, multiplication/division
 	  for (i = place[0] + 1; i < place[1] - 1; i++) {
-	    for (var o = 0; o < oopM.length; o++) {
+	    for (let o = 0; o < oopM.length; o++) {
 	      if (entered[i].name === oopM[o].name) {
 	        entered.splice(i - 1, 3, oopM[o].fn(entered[i - 1], entered[i + 1]));
 	        continue evaluate;
@@ -741,7 +741,7 @@ function answer() {
 
 	  // third, addition/subtraction
 	  for (i = place[0] + 1; i < place[1] - 1; i++) {
-	    for (var p = 0; p < oopA.length; p++) {
+	    for (let p = 0; p < oopA.length; p++) {
 	      if (entered[i].name === oopA[p].name) {
 	        entered.splice(i - 1, 3, oopA[p].fn(entered[i - 1], entered[i + 1]));
 	        continue evaluate;
@@ -755,10 +755,10 @@ function answer() {
 	  }
 	}
 
-	var theAnswer;
+	let theAnswer;
 	if (accuracy) {
-		var a = Math.pow(10, accuracy);
-		var theAnswer = Math.round(a * entered[0]) / a;
+		let a = Math.pow(10, accuracy);
+		theAnswer = Math.round(a * entered[0]) / a;
 	} else {
 		theAnswer = entered[0];
 	}
@@ -784,19 +784,19 @@ function gotoHex() {
 }
 
 // pseudo-enum
-var BIN = {r: 0x02, s: "BIN", btn: "btn-hex-bin", lbl: "lbl-hex-bin"};
-var OCT = {r: 0x08, s: "OCT", btn: "btn-hex-oct", lbl: "lbl-hex-oct"};
-var DEC = {r: 0x0A, s: "DEC", btn: "btn-hex-dec", lbl: "lbl-hex-dec"};
-var HEX = {r: 0x10, s: "HEX", btn: "btn-hex-hex", lbl: "lbl-hex-hex"};
-var bases = [BIN, OCT, HEX, DEC];
+let BIN = {r: 0x02, s: "BIN", btn: "btn-hex-bin", lbl: "lbl-hex-bin"};
+let OCT = {r: 0x08, s: "OCT", btn: "btn-hex-oct", lbl: "lbl-hex-oct"};
+let DEC = {r: 0x0A, s: "DEC", btn: "btn-hex-dec", lbl: "lbl-hex-dec"};
+let HEX = {r: 0x10, s: "HEX", btn: "btn-hex-hex", lbl: "lbl-hex-hex"};
+let bases = [BIN, OCT, HEX, DEC];
 
-var bL = "[ ";
-var bR = " ]";
-var currentBase;
+let bL = "[ ";
+let bR = " ]";
+let currentBase;
 
 function colorBases() {
-	for (var i = 0; i < bases.length; i++) {
-	  var base = bases[i];
+	for (let i = 0; i < bases.length; i++) {
+	  let base = bases[i];
 	  if (base.r === currentBase.r) {
 	    get(base.btn).css("color", accentColor);
 	  } else {
@@ -818,7 +818,7 @@ function colorBases() {
 function onHex(n) {
 	if (n >= currentBase.r) return;
 	if (currentBase.r === 2) {
-	  var bin = get(BIN.lbl).text().split(" ").join("");
+	  let bin = get(BIN.lbl).text().split(" ").join("");
 	  if (bin === "") bin = "0000";
 	  bin = parseInt(bin, 2).toString(2);
 	  bin = formatBin(bin + n.toString(2));
@@ -832,8 +832,8 @@ function onHex(n) {
 function setBase(o) {
 	onHexClear();
 	currentBase = o;
-	for (var i = 0; i < bases.length; i++) {
-	  var base = bases[i];
+	for (let i = 0; i < bases.length; i++) {
+	  let base = bases[i];
 	  get(base.btn).val(base.s);
 	}
 	get(o.btn).val(bL + o.s + bR);
@@ -841,11 +841,11 @@ function setBase(o) {
 }
 
 function convertFrom(o) {
-	for (var i = 0; i < bases.length; i++) {
-	  var base = bases[i];
+	for (let i = 0; i < bases.length; i++) {
+	  let base = bases[i];
 	  if (base.r === o.r) continue;
-	  var n = 0;
-	  var str = get(o.lbl).text().split(" ").join("");
+	  let n = 0;
+	  let str = get(o.lbl).text().split(" ").join("");
 	  n = parseInt(str, o.r).toString(base.r).toUpperCase();
 	  if (base.r === 2) {
 	    n = formatBin(n);
@@ -861,7 +861,7 @@ function formatBin(n) {
 }
 
 function onHexClear() {
-	for (var i = 0; i < bases.length; i++) {
+	for (let i = 0; i < bases.length; i++) {
 	  get(bases[i].lbl).text("");
 	}
 }
@@ -875,18 +875,18 @@ function gotoRoman() {
 	setScreen("scr-roman");
 }
 
-var fontSizeSmall = 20;
-var fontSizeNormal = 32;
-var romanMaxLength = 8;
-var lastFieldWasRoman = false; // true if the previous number button pressed was on the Roman side
+let fontSizeSmall = 20;
+let fontSizeNormal = 32;
+let romanMaxLength = 8;
+let lastFieldWasRoman = false; // true if the previous number button pressed was on the Roman side
 
 // Roman numeral character sets
-var UNCIAE    = [];
+let UNCIAE    = [];
 for (let i = 0; i < 12; i++) UNCIAE.push(((i >= 6)? "S" : "") + "\u2022".repeat(i % 6));
-var ONES      = [ "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ];
-var TENS      = [ "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ];
-var HUNDREDS  = [ "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ];
-var THOUSANDS = [ "", "M", "MM", "MMM"];
+let ONES      = [ "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ];
+let TENS      = [ "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ];
+let HUNDREDS  = [ "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ];
+let THOUSANDS = [ "", "M", "MM", "MMM"];
 
 // when you press a Hindu-Arabic button
 function onRomanDigit(n) {
@@ -895,10 +895,10 @@ function onRomanDigit(n) {
 	  get("lbl-roman-dec").text(get("lbl-roman-dec").text() + n);
 	}
 	// convert dec to rom
-	var dec = get("lbl-roman-dec").text();
-	var rom = ""; // output string
+	let dec = get("lbl-roman-dec").text();
+	let rom = ""; // output string
 	if (parseFloat(dec) < 4000) {
-	  var whole = parseInt(dec).toString();
+	  let whole = parseInt(dec).toString();
 	  if (whole > 0) {
 	    while (whole.length < 4) whole = "0" + whole;
 	    rom += THOUSANDS[whole.charAt(0)];
@@ -906,9 +906,9 @@ function onRomanDigit(n) {
 	    rom += TENS[whole.charAt(2)];
 	    rom += ONES[whole.charAt(3)];
 	  }
-	  var fraction = parseFloat(dec) % 1;
+	  let fraction = parseFloat(dec) % 1;
 	  if (fraction) {
-	    var uncia = Math.round(fraction * 12);
+	    let uncia = Math.round(fraction * 12);
 	    if (uncia >= 12) uncia--;
 	    rom += UNCIAE[uncia];
 	  }
@@ -926,24 +926,24 @@ function onRomanNumeral(s) {
 	  get("lbl-roman-rom").text(get("lbl-roman-rom").text() + s);
 	}
 	// convert rom to dec
-	var rom = get("lbl-roman-rom").text();
-	var isANumber = true;
-	var isN;
-	var dec = 0;
+	let rom = get("lbl-roman-rom").text();
+	let isANumber = true;
+	let isN;
+	let dec = 0;
 	if (rom == "N") {
 	  isN = true;
 	  isANumber = false;
 	}
-	var places = [
+	let places = [
 	  {num: THOUSANDS, val: 1000},
 	  {num: HUNDREDS,  val: 100},
 	  {num: TENS,      val: 10},
 	  {num: ONES,      val: 1},
 	  {num: UNCIAE,    val: 1/12}
 	];
-	for (var p = 0; p < places.length; p++) {
-	  var place = places[p];
-	  num: for (var i = place.num.length - 1; i >= 0; i--) {
+	for (let p = 0; p < places.length; p++) {
+	  let place = places[p];
+	  num: for (let i = place.num.length - 1; i >= 0; i--) {
 	    if (rom.substring(0, place.num[i].length) == place.num[i]) {
 	      dec += place.val * i;
 	      rom = rom.substring(place.num[i].length);
@@ -970,8 +970,8 @@ function onRomanClear() {
 
 // adjust field sise
 function romanCheckSizes() {
-	var dec = get("lbl-roman-dec").text();
-	var rom = get("lbl-roman-rom").text();
+	let dec = get("lbl-roman-dec").text();
+	let rom = get("lbl-roman-rom").text();
 	if (dec.length > romanMaxLength) {
 	  get("lbl-roman-dec").css("font-size", fontSizeSmall);
 	} else {

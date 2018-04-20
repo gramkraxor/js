@@ -8,7 +8,7 @@ cols = 7,
 rows = 6,
 connect = 4;
 
-var
+let
 board = [],
 won = false,
 tpm = false,
@@ -146,8 +146,8 @@ function bingo(p) {
 		bingo(1);
 		bingo(2);
 	}
-	var cells = []; // counter, stores winning cells
-	var check = function(a, b) {
+	let cells = []; // counter, stores winning cells
+	let check = function(a, b) {
 		if (board[a][b] == p) {
 			cells.push($cell(a, b));
 			if (cells.length == connect) {
@@ -198,12 +198,12 @@ function ai() {
 }
 
 function dark(b) {
-	var body = $("body");
-	var d = "dark";
-	if (typeof b != "boolean") var b = !body.hasClass(d);
+	let $body = $("body");
+	let d = "dark";
+	if (typeof b != "boolean") b = !$body.hasClass(d);
 	if (b) {
-		body.addClass(d);
+		$body.addClass(d);
 	} else {
-		body.removeClass(d);
+		$body.removeClass(d);
 	}
 }

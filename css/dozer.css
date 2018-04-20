@@ -25,7 +25,24 @@ body {
 	outline: 0;
 }
 
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+sup {
+	top: -0.5em;
+}
+
 input {
+	color: inherit;
 	box-sizing: border-box;
 	border: 0;
 	display: inline;
@@ -34,8 +51,10 @@ input {
 	background: 0;
 	font-size: inherit;
 	line-height: inherit;
+	transition: border 0.25s;
 }
 
+/*
 input[type='button'] {
 	padding: 8px 0;
 	cursor: pointer;
@@ -43,10 +62,10 @@ input[type='button'] {
 	max-width: 12.5%;
 	margin-right: 8px;
 }
+*/
 
 input[type='text'] {
 	border-bottom: 1px solid;
-	transition: border 0.25s;
 	border-bottom-color: rgba(0, 0, 0, 0.25);
 }
 
@@ -54,7 +73,22 @@ input[type='text']:focus {
 	border-bottom-color: #000000;
 }
 
-#bod {
+#custom-base {
+	font-style: italic;
+	border: 1px solid;
+	border-color: rgba(0, 0, 0, 0.25);
+}
+
+#custom-base:focus {
+	border-color: #000000;
+}
+
+#custom-base::placeholder {
+	color: inherit;
+	opacity: 0.5;
+}
+
+#wrapper {
 	padding: 16px;
 	margin: auto;
 	max-width: initial;
@@ -68,7 +102,7 @@ input[type='text']:focus {
 	/*border: 1px solid #000000;*/
 }
 
-#convert, #roman, #roman input {
+#convert, #romulator, #romulator input {
 	text-align: center;
 }
 
@@ -126,7 +160,7 @@ input[type='radio']:focus + label {
   outline: 0;
 }
 
-@media only screen and (orientation: portrait) {
+@media only screen and (max-width: 560px) {
 
 	body {
 		font-size:   5vw;
@@ -134,7 +168,7 @@ input[type='radio']:focus + label {
 		margin: 0;
 	}
 
-	#bod {
+	#wrapper {
 		padding: 10vw 0;
 	}
 
@@ -142,6 +176,7 @@ input[type='radio']:focus + label {
 		padding: 0;
 	}
 
+	/*
 	input[type='button'] {
 		padding: 0;
 		width: 18.75%;
@@ -149,13 +184,20 @@ input[type='radio']:focus + label {
 		height: 15vw;
 		margin: 0;
 	}
+	*/
 
 	input[type='text'] {
 		width: 75%;
 		height: 15vw;
 	}
 
+	#custom-base {
+		height: 10vw;
+		margin-top: 5vw;
+	}
+
 	#mode {
+		margin-top: 5vw;
 		text-align: center;
 		width: 100%;
 		margin: auto;
@@ -178,13 +220,13 @@ input[type='radio']:focus + label {
 		margin-right: 4vw;
 	}
 
-	#roman {
+	#romulator {
 		margin-top: 5vw;
 	}
 
 }
 
-@media only screen and (orientation: landscape) {
+@media only screen and (min-width: 561px) {
 
 	body {
 		font-size: 16px;
@@ -192,7 +234,7 @@ input[type='radio']:focus + label {
 		margin: 128px 0;
 	}
 
-	#bod {
+	#wrapper {
 		max-width: 576px;
 	}
 
@@ -200,8 +242,28 @@ input[type='radio']:focus + label {
 		margin: 8px 12px;
 	}
 
-	input[type='text'] {
+	#convert {
+		text-align: left;
+	}
+
+	input[type='text']{
 		width: 256px;
+	}
+
+	#convert > p > span {
+		display: inline-block;
+		width: 48px;
+		text-align: right;
+		margin-right: 12px;
+	}
+
+	#custom-base {
+		padding: 8px 4px;
+		height: 24px;
+		margin-right: 8px;
+		margin-left: calc(-48px + 4px);
+		text-align: right;
+		width: 96px;
 	}
 
 	#mode p {
@@ -212,11 +274,20 @@ input[type='radio']:focus + label {
 		margin: 8px 0;
 	}
 
-	#doz {
+	#dozer {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 	}
+
+	/*
+	.custom.btn {
+		font-style: italic;
+		margin-left:   -36px;
+		min-width: calc(36px + 36px);
+	}
+	*/
+
 }
 
 /* easter eggs */
@@ -235,6 +306,14 @@ body.dark input[type='text'] {
 
 body.dark input[type='text']:focus {
 	border-bottom-color: #FFFFFF;
+}
+
+body.dark #custom-base {
+	border-color: rgba(255, 255, 255, 0.25);
+}
+
+body.dark #custom-base:focus {
+	border-color: #FFFFFF;
 }
 
 body.dark input[type='radio'] + label:before {
