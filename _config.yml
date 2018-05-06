@@ -1,7 +1,3 @@
-# Jekyll configuation for www.gramkraxor.com/js #
-
-# Live JS projects live in /_projects
-
 url: "https://www.gramkraxor.com"
 baseurl: "/js"
 port: 80
@@ -15,7 +11,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
-  - CNAME
+  - CNAME # because of the baseurl
   - html
 
 collections:

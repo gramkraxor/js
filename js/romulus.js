@@ -7,7 +7,6 @@ const Rom = function(v) { return Rom.convert(v); }
 const Romulus = Rom;
 
 Rom.NAME = "Romulus";
-Rom.VERSION = 4;
 Rom.AUTHORS = [ "Gramkraxor" ];
 Rom.YEAR = 2018;
 
@@ -130,5 +129,5 @@ Rom.getNumber = function(s) {
 
 
 Rom.log = function() {
-	console.log(Rom.NAME + " version " + Rom(Rom.VERSION) + " by " + Rom.AUTHORS[0] + "\nCopyright \u00A9 " + Rom(Rom.YEAR) + " (Hindu-Arabic " + Rom.YEAR + ")");
+	console.log(Rom.NAME + " by " + Rom.AUTHORS[0] + "\nCopyright \u00A9 " + Rom(Rom.YEAR) /*+ " (Hindu-Arabic " + Rom.YEAR + ")"*/);
 }

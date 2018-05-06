@@ -9,7 +9,7 @@
 	bottom: 8px;
 	left: 0;
 	right: 0;
-	opacity: 0.5;
+	/*opacity: 0.5;*/
 	font-size: 12px;
 	line-height: 12px;
 	text-align: center;
@@ -26,8 +26,8 @@ body {
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
 	font-size: 16px;
 	line-height: 20px;
-	color: #000;	
-	background: #FFF;
+	color: #000;
+	background-color: #FFF;
 	margin: 0;
 	padding: 128px 0;
 	border-top: 6px solid #090;
@@ -47,7 +47,7 @@ body {
 	margin: auto;
 }
 
-#doz {
+#eo {
 	text-align: center;
 }
 
@@ -98,15 +98,20 @@ input[type='text']:focus {
 	margin: 24px;
 }
 
+/*
+#title::before {
+	content: "\2605";
+	margin-right: 4px;
+	color: #009900;
+}
+*/
+
 #footer {
 	cursor: pointer;
 }
 
-
-/* easter eggs */
-
 body.dark {
-	background: #000;
+	background-color: #000;
 }
 
 body.dark * {
@@ -127,4 +132,25 @@ body.dark input[type='button'] {
 
 body.dark input[type='button']:hover {
 	border-color: #FFF;
+}
+
+@keyframes cycle {
+	from { opacity: 0; }
+	to   { opacity: 0.125; }
+}
+
+body::before {
+	content: "";
+	display: block;
+	z-index: -1;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	animation: cycle 144s ease-in alternate infinite;
+	background-image: url(../assets/stelo.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 }

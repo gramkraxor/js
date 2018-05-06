@@ -1,5 +1,6 @@
 ---
 css: dozagon
-js: dozagon
+js:
+  - dozagon
 rank: 1000
 ---

@@ -9,15 +9,22 @@ const Doz = function(v, b, x1, x2) { return Doz.convert(v, b, x1, x2); }
 // const Alias = Doz;
 
 Doz.NAME = "Doz";
-Doz.VERSION = "123456789AB01234567".length;
 Doz.AUTHORS = [ "Gramkraxor" ];
 Doz.YEAR = 2018;
 
-Doz.B = "01"              .length;
-Doz.O = "01234567"        .length;
-Doz.D = "0123456789"      .length;
-Doz.Z = "0123456789AB"    .length;
-Doz.X = "0123456789ABCDEF".length;
+Doz.B = 0x02
+Doz.T = 0x03
+Doz.Q = 0x04
+Doz.P = 0x05
+Doz.H = 0x06
+Doz.S = 0x07
+Doz.O = 0x08
+Doz.E = 0x09
+Doz.D = 0x0A
+Doz.L = 0x0B
+Doz.Z = 0x0C
+Doz.X = 0x10;
+Doz.V = 0x14;
 
 Doz.modes = [];
 
@@ -119,6 +126,7 @@ Doz.toCharset = function(str, cs0, cs1) {
 	return s.join("");
 }
 
+
 Doz.log = function() {
-	console.log(Doz.NAME + " version " + Doz(Doz.VERSION, Doz.Z) + " by " + Doz.AUTHORS[0] + "\nCopyright \u00A9 " + Doz(Doz.YEAR, Doz.Z, Doz.XE) + " (decimal " + Doz(Doz.YEAR, Doz.D) + ")");
+	console.log(Doz.NAME + " by " + Doz.AUTHORS[0] + "\nCopyright \u00A9 " + Doz(Doz.YEAR, Doz.Z, Doz.XE) + " (decimal " + Doz(Doz.YEAR, Doz.D) + ")");
 }

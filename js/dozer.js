@@ -3,31 +3,68 @@
  * © 2018 Gramkraxor
  */
 
-//TODO add option to select bases to show (how about two custom bases?)
-
 Doz.log();
 Rom.log();
 
 let
-name = Doz.NAME,
-version = Doz.VERSION,
-title = name,
-copyYear = Doz.YEAR,
-copy = Doz.AUTHORS[0],
+NAME = "Dozer",
+AUTHORS = [ "Gramkraxor" ],
+YEAR = 2018,
+charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+queries = [],
 bases = [],
 labelBase = 12,
 usedModes = [ "AB", "XE", "ZEU" ],
-currentMode = Doz.AB,
-BASE = "base",
-CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-customRadix = 0;
+queryLoaded = false;
 
+function Query(id, defaultVal, fromString, toString) {
+	this.id  = id;
+	this.defaultVal = defaultVal;
+	this.val = defaultVal;
+	this.fromString = fromString;
+	if (toString) this.toString = toString;
+	queries.push(this);
+}
+
+Query.prototype.toString = function() { return this.val.toString(); }
+
+let qCustomRadix  = new Query("c", 0, enterCustomRadix);
+
+let qCurrentMode  = new Query("m",  Doz.AB, setMode, function() {
+	return getModeIndex(this.val).toLowerCase();
+});
+
+let qCurrentEntry = new Query("n",  0, function(v) {
+	enter($("#dec").val(parseFloat(v)));
+});
+
+function getQueryString() {
+	let r = "";
+	for (let i = 0; i < queries.length; i++) {
+		let q = queries[i];
+		if (q.val == q.defaultVal) continue;
+		r += "&" + q.id + "=" + q.toString();
+	}
+	if (r.length) r = "?" + r.substr(1);
+	return r;
+}
+
+function updateQueryString() {
+	if (!queryLoaded) return;
+	history.replaceState({ id: "homepage" }, document.title, location.origin + location.pathname + getQueryString());
+}
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
 
 function Base(c, a) {
-	this.type = BASE;
 	if (typeof c == "number") {
 		this.r = c;
-		this.c = CHARSET.substring(0, this.r);
+		this.c = charset.substring(0, this.r);
 	} else {
 		this.r = c.length;
 		this.c = c;
@@ -64,6 +101,7 @@ $(function() {
 		.prop("spellcheck", false)
 		.append($("<div/>")
 			.attr("id", "title")
+			.text(NAME)
 		)
 		.append($("<div/>")
 			.attr("id", "dozer")
@@ -124,7 +162,7 @@ $(function() {
 			.attr("type", "text")
 			.attr("id", "custom-base")
 			.attr("placeholder", "custom")
-			.on("focus", function() {
+			.focus(function() {
 				let $this = $(this)
 					.one("mouseup.mouseupSelect", function() {
 							$this.select();
@@ -136,37 +174,11 @@ $(function() {
 					})
 				.select();
 			})
+			.focusout(function() {
+				enterCustomRadix();
+			})
 			.keypress(function(e) {
-
-				if (e.which != 13) return;
-
-				let $this = $(this);
-				let radix = $this.val();
-
-				if (cheat(radix)) {
-					$this.val(customRadix ? english[customRadix] : "");
-					return;
-				}
-
-				for (let i = 0; i < english.length; i++) {
-					if (repl(radix, " ", "-") == english[i]) {
-						radix = i;
-						break;
-					}
-				}
-				radix = Math.floor(radix);
-				if (!radix || isNaN(radix)) {
-					// do something clever without resorting to a default
-					$this.val("");
-					customRadix = 0;
-					return;
-				}
-				if (radix < 2)  radix = 2;
-				if (radix > 36) radix = 36;
-
-				$this.val(english[radix]);
-				customRadix = radix;
-
+				if (e.which == 13) enterCustomRadix();
 			})
 		)
 		.append($("<input/>")
@@ -195,7 +207,7 @@ $(function() {
 					.click(function() {
 						setMode(Doz[this.id.toUpperCase()]);
 					})
-					.prop("checked", m == currentMode)
+					.prop("checked", m == qCurrentMode.val)
 				)
 				.append($("<label/>")
 					.attr("for", mIndex.toLowerCase())
@@ -206,6 +218,12 @@ $(function() {
 		);
 	}
 
+	for (let i = 0; i < queries.length; i++) {
+		let q = queries[i];
+		q.fromString(getUrlParameter(q.id));
+	}
+	queryLoaded = true;
+
 	setLabels();
 
 });
@@ -215,18 +233,19 @@ function repl(s, o, n) {
 }
 
 function getModeIndex(x) {
+	if (usedModes.includes(x.toUpperCase())) return x.toUpperCase();
 	for (let i = 0; i < usedModes.length; i++) {
-		if (Doz[usedModes[i]] == x) return usedModes[i];
+		if (x == Doz[usedModes[i]]) return usedModes[i];
 	}
+	return getModeIndex(qCurrentMode.defaultVal);
 }
 
 function setMode(m) {
-	$("#" + getModeIndex(m).toLowerCase()).prop("checked", true)
-	if (usedModes.includes(m)) {
-		m = Doz[m];
-	}
-	currentMode = m;
+	m = getModeIndex(m);
+	$("#" + m.toLowerCase()).prop("checked", true)
+	qCurrentMode.val = Doz[m];
 	setLabels();
+	updateQueryString();
 }
 
 function dozMode(s, m) {
@@ -240,16 +259,16 @@ function dozMode(s, m) {
 }
 
 function getBase(v) {
-	if (v == "roman") return dec;
-	if (v.type == BASE) return v;
+	if (v == "roman") return bDec;
+	if (v instanceof Base) return v;
 	if (typeof v == "string") v = v.toLowerCase();
 	if (typeof v == "number") v = Math.floor(v);
 	for (let i = 0; i < bases.length; i++) {
 		let b = bases[i];
 		if (v == b || v == b.r || b.a.includes(v)) return b;
 	}
-	if (typeof v == "number" && v <= CHARSET.length && v > 1) return new Base(v);
-	return dec;
+	if (typeof v == "number" && v <= charset.length && v > 1) return new Base(v);
+	return bDec;
 }
 
 function enter($input) {
@@ -266,8 +285,11 @@ function enter($input) {
 
 	let radix;
 	if (id == "custom") {
-		if (!customRadix) return;
-		radix = customRadix;
+		if (!qCustomRadix.val) {
+			radix = Doz.D;
+			v = "0";
+		}
+		radix = qCustomRadix.val;
 	} else if (id != "roman") {
 		radix = getBase(id).r;
 	}
@@ -281,15 +303,59 @@ function enter($input) {
 		v = Doz.getNumber(v, radix);
 	}
 
+	if (isNaN(v)) v = 0;
+
 	for (let i = 0; i < bases.length; i++) {
 		let b = bases[i];
 		let val = Doz.getString(v, b.r);
-		if (b.r == 12) val = dozMode(val, currentMode);
+		if (b.r == 12) val = dozMode(val, qCurrentMode.val);
 		if (val == "0") val = "";
 		$("#" + b.a[0]).val(val);
 	}
 	$("#roman").val(repl(Rom.getString(v, true, true), "*", "\u2022")); // replace dozenths (*) with bullet character
-	if (customRadix) $("#custom").val(v != 0 ? Doz(v, customRadix) : "");
+	if (qCustomRadix.val && v != 0) {
+		$("#custom").val(Doz(v, qCustomRadix.val));
+	} else {
+		$("#custom").val("");
+	}
+
+	qCurrentEntry.val = v;
+	updateQueryString();
+}
+
+function enterCustomRadix(radix) {
+
+	let $input = $("#custom-base");
+ 	if (!radix) radix = $input.val();
+
+	if (cheat(radix)) {
+		$input.val(qCustomRadix.val ? english[qCustomRadix.val] : "");
+		return;
+	}
+
+	for (let i = 0; i < english.length; i++) {
+		if (repl(radix, " ", "-") == english[i]) {
+			radix = i;
+			break;
+		}
+	}
+	radix = Math.floor(radix);
+	if (!radix || isNaN(radix)) {
+		// do something clever without resorting to a default
+		$input.val("");
+		qCustomRadix.val = 0;
+		updateQueryString();
+		return;
+	}
+	if (radix < 2)  radix = 2;
+	if (radix > 36) radix = 36;
+
+	$input.val(english[radix]);
+	qCustomRadix.val = radix;
+
+	if (qCustomRadix.val && qCurrentEntry.val) $("#custom").val(Doz(qCurrentEntry.val, qCustomRadix.val));
+
+	updateQueryString();
 }
 
 function setLabels(b) {
@@ -300,15 +366,14 @@ function setLabels(b) {
 	if (b && !r && !c) {
 		labelBase = getBase(b).r;
 	} else if (c) {
-		labelBase = customRadix || labelBase;
+		labelBase = qCustomRadix.val || labelBase;
 	}
 
-	let v = r ? Rom(version)  : Doz(version,  labelBase, z ? currentMode : undefined);
-	let y = r ? Rom(copyYear) : Doz(copyYear, labelBase, z ? currentMode : undefined);
+	//let v = r ? Rom(VERSION)  : Doz(VERSION,  labelBase, z ? qCurrentMode.val : undefined);
+	let y = r ? Rom(YEAR) : Doz(YEAR, labelBase, z ? qCurrentMode.val : undefined);
 
-	$("#title").text(title + " v" + v);
-	$("#footer").text(["\u00A9", y, copy].join(" "));
-	//$("#footer").html("&copy; " + $z(copyYear, currentMode) + " (" + copyYear + ") " + copy);
+	//$("#title").text(NAME + " v" + v);
+	$("#footer").text(["\u00A9", y, AUTHORS[0]].join(" "));
 }
 
 function cheat(v) {

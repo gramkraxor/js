@@ -6,10 +6,9 @@
 Eo.log();
 
 let
-name = Eo.NAME,
-version = Eo.VERSION,
-copyYear = Eo.YEAR,
-copy = Eo.AUTHORS[0];
+NAME = "Eanto",
+AUTHORS = [ "Gramkraksoro" ],
+YEAR = 2018;
 
 $(function() {
 
@@ -18,12 +17,12 @@ $(function() {
 		.prop("spellcheck", false)
 		.append($("<div/>")
 			.attr("id", "title")
-			.text(name + " v" + version)
+			.text(NAME)
 		)
 		.append($("<div/>")
-			.attr("id", "doz")
+			.attr("id", "eo")
 			.append($("<input/>")
-				.attr("id", "konvertu")
+				.attr("id", "konverti")
 				.attr("value", "gx \u2194 \u011D")
 				.attr("type", "button")
 				.attr("tabindex", -1)
@@ -44,10 +43,9 @@ $(function() {
 				.click(function() { kopii(); })
 			)
 		)
-		.append("<br/>")
 		.append($("<div/>")
 			.attr("id", "footer")
-			.text(["\u00A9", copyYear, copy].join(" "))
+			.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
 			.click(function() { dark(); })
 		)
 	);

@@ -7,9 +7,12 @@ css: index
 ---
 
 <div id="list">
-{% for project in site.projects %}
-<p class="{{ project.url | remove: '/' }}" style="order: -{{ project.rank }};">
-	<a href="{{ project.url | relative_url }}">{{ project.url }}</a>
-</p>
+
+{% assign sorted_projects = site.projects | sort: 'rank' | reverse %}
+{% for project in sorted_projects %}
+	<p class="{{ project.url | remove: '/' }}">
+		<a href="{{ project.url | relative_url }}">{{ project.url }}</a>
+	</p>
 {% endfor %}
+
 </div>
