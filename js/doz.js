@@ -112,13 +112,13 @@ Doz.toCharset = function(str, cs0, cs1) {
 	if (typeof str != "string" || !cs0 || !cs1) return str;
 	let s = str.split("");
 	let p = [];
-	for (let i = 0; i < 3; i++) {
+	for (let i = 0; i < cs0.length; i++) {
 		p.push([]);
 		for (let j = 0; j < s.length; j++) {
 			if (s[j] == cs0[i]) p[i].push(j);
 		}
 	}
-	for (let i = 0; i < 3; i++) {
+	for (let i = 0; i < cs0.length; i++) {
 		for (let j = 0; j < p[i].length; j++) {
 			s[p[i][j]] = cs1[i];
 		}

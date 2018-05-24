@@ -237,17 +237,14 @@ let Terminal = function(cmdLineContainer, outputContainer) {
 					return (i < 10) ? "0" + i : i;
 			}
 			let date =
-				d.getFullYear()     + "-" +
-				c(d.getMonth() + 1) + "-" +
-				c(d.getDate())      + " " +
+				d.toISOString().slice(0, 10) +
+				" " +
 				c(d.getHours())    + ":" +
 				c(d.getMinutes())  + ":" +
 				c(d.getSeconds())  + " " +
-				(
-					(d.getTimezoneOffset() <= 0)? "+" : "-") +
-					(c(Math.floor(Math.abs(d.getTimezoneOffset() / 60)))
-				) +
-				c(Math.floor(Math.abs(d.getTimezoneOffset())) % 60);
+				((d.getTimezoneOffset() <= 0)? "+" : "-") +
+				c(Math.floor(Math.abs(d.getTimezoneOffset() / 60))) +
+				c(Math.abs(d.getTimezoneOffset()) % 60);
 
 			let imgSrc = "assets/devx.svg";
 			if (location.protocol == "file:") imgSrc = "../" + imgSrc;

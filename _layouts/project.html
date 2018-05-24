@@ -8,9 +8,9 @@
 	<link rel="canonical" href="{{ page.url | absolute_url }}" />
 
 	{% if page.title_override %}
-	<title>{{ page.title_override | escape }}</title>
+	<title>{{ page.title_override }}</title>
 	{% elsif page.title %}
-	<title>{{ page.title | escape }} - Gramkraxor JS</title>
+	<title>{{ page.title }} - {{ site.title }}</title>
 	{% endif %}
 
 	{% if page.desc %}

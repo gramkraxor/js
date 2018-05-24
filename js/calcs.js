@@ -47,10 +47,7 @@ $(function() {
 
 	function scr(id) {
 		i = $("<div/>").addClass("scr").attr("id", id);
-		$("#phone")
-			//.append(id)
-			.append(i)
-		;
+		$("#phone").append(i);
 		return i;
 	}
 
@@ -61,7 +58,7 @@ $(function() {
 
 	function btn(parent, id, fn, val) {
 		let i = item(parent, "input", id).attr("type", "button");
-		if (val) i.val(val);
+		i.val(val);
 		i.on("click", fn);
 		return i;
 	}
@@ -308,7 +305,7 @@ let calcAns = 0;
 
 // a function that returns a function that returns r
 function rFn(r) {
-	return function() {return r};
+	return function() { return r };
 }
 
 // operation functions

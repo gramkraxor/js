@@ -15,7 +15,8 @@ const AUTHORS = [ "Gramkraxor" ];
 const YEAR = 2018;
 
 // gravity constant
-let G = 7.6;
+//let G = 7.6;
+let G = 7.5 + 0.2 * Math.random();
 
 // ID of setInterval(draw)
 let loopId;
@@ -27,20 +28,6 @@ function und(x) {
 // get the stage's 2d context
 function s() {
 	return $("#stage")[0].getContext("2d");
-}
-
-// object with x and y components
-function Vector(x, y) {
-	this.x = isNaN(x)? 0 : x;
-	this.y = isNaN(y)? 0 : y;
-}
-
-Vector.prototype.plus = function(v) {
-	return new Vector(this.x + v.x, this.y + v.y);
-}
-
-function vect(x, y) {
-	return new Vector(x, y);
 }
 
 // all bodies in the stage
@@ -86,28 +73,28 @@ function draw() {
 		gravity:
 		for (let j = 0; j < bodies.length; j++) {
 			if (j == i) continue gravity;
-				let b1 = bodies[i];
-		 		let b2 = bodies[j];
+			let b1 = bodies[i];
+		 	let b2 = bodies[j];
 
-		 		let m1 = b1.mas;
-		 		let m2 = b2.mas;
+		 	let m1 = b1.mas;
+		 	let m2 = b2.mas;
 
-		 		let Dx = b2.pos.x - b1.pos.x;
-				let Dy = b2.pos.y - b1.pos.y;
+		 	let Dx = b2.pos.x - b1.pos.x;
+			let Dy = b2.pos.y - b1.pos.y;
 
-				let r  = Math.hypot(Dx, Dy);
+			let r  = Math.hypot(Dx, Dy);
 
-				let F  = G * m1 * m2 / Math.pow(r, 2);
+			let F  = G * m1 * m2 / Math.pow(r, 2);
 
-				let Fx = F * Dx / r;
-				let Fy = F * Dy / r;
+			let Fx = F * Dx / r;
+			let Fy = F * Dy / r;
 
-				let ax = Fx / m1;
-				let ay = Fy / m1;
+			let ax = Fx / m1;
+			let ay = Fy / m1;
 
-				let acc = vect(ax, ay);
+			let acc = vect(ax, ay);
 
-				b1.vel = b1.vel.plus(acc);
+			b1.vel = b1.vel.plus(acc);
 		}
 	}
 }

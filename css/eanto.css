@@ -100,7 +100,7 @@ input[type='text']:focus {
 
 /*
 #title::before {
-	content: "\2605";
+	content: '\2605';
 	margin-right: 4px;
 	color: #009900;
 }
@@ -140,7 +140,7 @@ body.dark input[type='button']:hover {
 }
 
 body::before {
-	content: "";
+	content: '';
 	display: block;
 	z-index: -1;
 	position: absolute;

@@ -17,7 +17,7 @@ body {
 	/*
 	font-family: 'Ubuntu Mono', 'Roboto Mono', 'Droid Sans Mono', 'Consolas', monospace;
 	*/
-	font-family: "Gotham 4r", "Montserrat", Arial, sans-serif;
+	font-family: 'Gotham 4r', 'Montserrat', Arial, sans-serif;
 	color: #FFFFFF;
 	background: #000000;
 	font-size: 16px;
@@ -45,7 +45,7 @@ input:focus {
 	outline: 0;
 }
 
-input[type="button"] {
+input[type='button'] {
 	cursor: pointer;
 }
 
@@ -86,7 +86,7 @@ input[type="button"] {
 #scr-home #btn-home-goto-set {
 	width:  40px;
 	height: 40px;
-	background-image: url("../assets/fa-cog.png");
+	background-image: url('../assets/fa-cog.png');
 	background-size: 40px;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -97,7 +97,7 @@ input[type="button"] {
 #btn-hex-home,
 #btn-roman-home,
 #btn-set-home {
-	background-image: url("../assets/fa-home.png");
+	background-image: url('../assets/fa-home.png');
 	background-size: 30px;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -307,7 +307,7 @@ input[type="button"] {
 	margin: 0 -5px;
 	width:  30px;
 	height: 30px;
-	background-image: url("../assets/fa-arrows-h.png");
+	background-image: url('../assets/fa-arrows-h.png');
 	background-size: 30px;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -421,6 +421,6 @@ input[type="button"] {
 	height: 40px;
 }
 
-#scr-set .div-set > input[type="button"]:hover {
+#scr-set .div-set > input[type='button']:hover {
 	background-color: #606060;
 }

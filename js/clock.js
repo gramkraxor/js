@@ -34,21 +34,20 @@ let mMeridian  = new Meter("meridian", function() { return getHours() > 11 ? "PM
 let mMeridian2 = new Meter("meridian", function() { return getHours() > 11 ? "P" : "A"; });
 let mMeridian3 = new Meter("meridian", function() { return getHours() > 11 ? "*" : "\u00A0"; });
 let mHours12   = new Meter("hour",     function() {
-	let h = ((getHours() + 11) % 12) + 1;
-	h = fix(h);
+	let h = fix((getHours() + 11) % 12 + 1);
 	if (h.length < 2) h = "\u00A0" + h;
 	return h;
 });
 
 // https://dozenal.ae-web.ca
-let mBicia = new Meter("second", function() {
-	return fix(getBicia(), 12);
+let mPentciadays = new Meter("second", function() {
+	return fix(getPentciadays(), 12);
 });
-let mNilqua = new Meter("minute", function() {
-	return fix(getNilqua(), 12);
+let mTriciadays = new Meter("minute", function() {
+	return fix(getTriciadays(), 12);
 });
-let mBiqua  = new Meter("hour",   function() {
-	let b = getBiqua();
+let mUnciadays  = new Meter("hour",   function() {
+	let b = getUnciadays();
 	b = fix(b);
 	if (b.length < 2) b = "\u00A0" + b;
 	return b;
@@ -67,7 +66,7 @@ let fStandard = new Face("standard", "standard",   [ mHours, mMinutes, mSeconds 
 //let fAmPm     = new Face("ampm", "AM/PM",      [ mMeridian, mHours12, mMinutes, mSeconds ]);
 let fAP       = new Face("ap", "A/P",        [ mHours12, mMinutes, mSeconds, mMeridian2 ]);
 let fMin      = new Face("min", "min",        [ mHours12, mMinutes ]);
-let fDozenal  = new Face("dozenalist", "dozenalist", [ mBiqua, mNilqua, mBicia ]);
+let fDozenal  = new Face("dozenalist", "dozenalist", [ mUnciadays, mTriciadays, mPentciadays ]);
 
 let settings = [];
 
@@ -219,7 +218,7 @@ function fix(n, max) {
 	return v;
 }
 
-function getBiqua() {
+function getUnciadays() {
 	return Math.floor(getHours() / 2);
 }
 function getMsThisBiqua() {
@@ -232,9 +231,9 @@ function getMsThisBiqua() {
 // there are 1000 * 60 * 60 * 2 ms in a biqua
 // there are 144 nilqua in a biqua
 // there are 144 * 144 bicia in a biqua
-function getNilqua() {
+function getTriciadays() {
 	return Math.floor(getMsThisBiqua() * 144 / (2 * 60 * 60 * 1000));
 }
-function getBicia() {
+function getPentciadays() {
 	return Math.floor((getMsThisBiqua() * (144 * 144) / (2 * 60 * 60 * 1000)) % 144);
 }

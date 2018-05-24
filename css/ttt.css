@@ -261,15 +261,15 @@ sup {
 .x,
 .x-ish .m:hover:not(.o) {
 	background: #FF4000;
-	-webkit-mask-image: url("../assets/x.svg");
-	        mask-image: url("../assets/x.svg");
+	-webkit-mask-image: url('../assets/x.svg');
+	        mask-image: url('../assets/x.svg');
 }
 
 .o,
 .o-ish .m:hover:not(.x) {
 	background: #0040FF;
-	-webkit-mask-image: url("../assets/o.svg");
-	        mask-image: url("../assets/o.svg");
+	-webkit-mask-image: url('../assets/o.svg');
+	        mask-image: url('../assets/o.svg');
 }
 
 .x-ish .m:hover:not(.x):not(.o),

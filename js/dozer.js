@@ -51,14 +51,18 @@ function getQueryString() {
 
 function updateQueryString() {
 	if (!queryLoaded) return;
-	history.replaceState({ id: "homepage" }, document.title, location.origin + location.pathname + getQueryString());
+	history.replaceState(
+		{ id: "homepage" },
+		document.title,
+		location.origin + location.pathname + getQueryString()
+	);
 }
 
 function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
     var results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 };
 
 function Base(c, a) {
@@ -366,7 +370,8 @@ function setLabels(b) {
 	if (b && !r && !c) {
 		labelBase = getBase(b).r;
 	} else if (c) {
-		labelBase = qCustomRadix.val || labelBase;
+		if (!qCustomRadix.val) return;
+		labelBase = qCustomRadix.val;
 	}
 
 	//let v = r ? Rom(VERSION)  : Doz(VERSION,  labelBase, z ? qCurrentMode.val : undefined);
@@ -381,7 +386,7 @@ function cheat(v) {
 	let cheats = [
 		{ s: "light",      f: function() { eggDark(false) } },
 		{ s: "dark",       f: function() { eggDark(true) } },
-		{ s: "jeb_",       f: function() { eggRainbow(!eggRainbowEnabled) } },
+		{ s: "jeb_",       f: function() { eggRainbow(!eggRainbow.enabled) } },
 		{ s: "dinnerbone", f: eggFlip },
 		{ s: "grumm",      f: eggFlip },
 	];
@@ -396,27 +401,23 @@ function cheat(v) {
 	return cheated;
 }
 
-let eggRainbowHue = 0;
-let eggRainbowEnabled = false;
-let eggRainbowLoopId;
-
 function eggRainbow(b) {
 	if (b === false) {
-		eggRainbowEnabled = false;
-		clearInterval(eggRainbowLoopId);
+		eggRainbow.enabled = false;
+		clearInterval(eggRainbow.loopId);
 		$("body").css("background", "");
 	} else {
-		eggRainbowEnabled = true;
-		eggRainbowLoopId = setInterval(eggRainbowLoop, 50);
+		eggRainbow.enabled = true;
+		eggRainbow.loopId = setInterval(eggRainbow.loop, 50);
 	}
 }
-
-function eggRainbowLoop() {
-	eggRainbowHue++;
-	eggRainbowHue %= 360;
-
+eggRainbow.hue = 0;
+eggRainbow.enabled = false;
+eggRainbow.loop = function() {
+	eggRainbow.hue++;
+	eggRainbow.hue %= 360;
 	let l = $("body").hasClass("dark")? 25 : 75;
-	$("body").css("background", "hsl(" + eggRainbowHue + ", 100%, " + l + "%)");
+	$("body").css("background", "hsl(" + eggRainbow.hue + ", 100%, " + l + "%)");
 }
 
 function eggDark(b) {

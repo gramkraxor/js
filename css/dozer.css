@@ -121,7 +121,7 @@ input[type='text']:focus {
 
 /*
 #title::before {
-	content: "2";
+	content: '2';
 	margin-right: 4px;
 	display: inline-block;
 	transform: rotate(0.5turn);
