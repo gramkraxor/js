@@ -5,9 +5,10 @@
 
 
 // namespace object
-const stage = {};
-stage.size = vect(576, 576);
-stage.bg   = "#000000";
+const stage = {
+	size: nV(576, 576),
+	bg: "#000000"
+};
 
 const mspf = 25; // milliseconds per frame
 
@@ -25,18 +26,16 @@ function und(x) {
 	return typeof x == "undefined";
 }
 
-// get the stage's 2d context
-function s() {
-	return $("#stage")[0].getContext("2d");
-}
+// stage context
+let ctx;
 
 // all bodies in the stage
 let bodies = [];
 
 function Body(vpos, vvel, vsiz, nmas, scol) {
-	this.pos = vpos instanceof Vector ? vpos : vect(0, 0);
-	this.vel = vvel instanceof Vector ? vvel : vect(0, 0);
-	this.siz = vsiz instanceof Vector ? vsiz : vect(4, 4);
+	this.pos = vpos instanceof Vector ? vpos : nV(0, 0);
+	this.vel = vvel instanceof Vector ? vvel : nV(0, 0);
+	this.siz = vsiz instanceof Vector ? vsiz : nV(4, 4);
 	this.mas = isNaN(nmas)? 1         : nmas;
 	this.col = und(scol)?   "#FF0000" : scol;
 	bodies.push(this);
@@ -47,25 +46,24 @@ Body.prototype.draw = function() {
 }
 
 stage.fill = function(style) {
-	s().fillStyle = style;
+	ctx.fillStyle = style;
 }
 
 // takes two Vector objects
 // and a color, too
 stage.rect = function(pos, siz, col) {
-	if (!und(col)) s().fillStyle = col;
-	s().fillRect(pos.x, pos.y, siz.x, siz.y);
+	if (!und(col)) ctx.fillStyle = col;
+	ctx.fillRect(pos.x, pos.y, siz.x, siz.y);
 }
 
 // looping refresh drawing function
 function draw() {
-	let ctx = $("#stage")[0].getContext("2d");
 	ctx.fillStyle = stage.bg;
 	ctx.fillRect(0, 0, stage.size.x, stage.size.y);
 
 	for (let i = 0; i < bodies.length; i++) {
 		let b = bodies[i];
-		b.pos = b.pos.plus(b.vel);
+		b.pos = b.pos.add(b.vel);
 		ctx.fillStyle = b.col;
 		ctx.fillRect(b.pos.x - b.siz.x / 2, b.pos.y - b.siz.y / 2, b.siz.x, b.siz.y);
 
@@ -79,22 +77,14 @@ function draw() {
 		 	let m1 = b1.mas;
 		 	let m2 = b2.mas;
 
-		 	let Dx = b2.pos.x - b1.pos.x;
-			let Dy = b2.pos.y - b1.pos.y;
+			let vr = b2.pos.add(b1.pos.scale(-1));
+			let r = vr.length();
 
-			let r  = Math.hypot(Dx, Dy);
+			let F  = G * m1 * m2 / r ** 2;
 
-			let F  = G * m1 * m2 / Math.pow(r, 2);
+			let a = vr.scale(F / r / m1);
 
-			let Fx = F * Dx / r;
-			let Fy = F * Dy / r;
-
-			let ax = Fx / m1;
-			let ay = Fy / m1;
-
-			let acc = vect(ax, ay);
-
-			b1.vel = b1.vel.plus(acc);
+			b1.vel = b1.vel.add(a);
 		}
 	}
 }
@@ -122,6 +112,8 @@ $(function() {
 		)
 	;
 
+	ctx = $("#stage")[0].getContext("2d");
+
 	dark();
 
 	loopId = setInterval(draw, mspf); // loop at proper fps
@@ -140,11 +132,11 @@ function dark(b) {
 }
 
 /*
-body(vect(216, 288), vect(0, 1), vect(10, 10), 1, "#FF00FF");
-body(vect(288, 288), vect(0, -0.1), vect(20, 20), 10, "#00FF00");
+body(nV(216, 288), nV(0, 1), nV(10, 10), 1, "#FF00FF");
+body(nV(288, 288), nV(0, -0.1), nV(20, 20), 10, "#00FF00");
 */
-new Body(vect(216, 288), vect( 0,  1), vect(10, 10), 5, "#FF0000");
-new Body(vect(288, 216), vect(-1,  0), vect(10, 10), 5, "#00FF00");
-new Body(vect(360, 288), vect( 0, -1), vect(10, 10), 5, "#00FFFF");
-new Body(vect(288, 360), vect( 1,  0), vect(10, 10), 5, "#FF00FF");
-new Body(vect(288, 288), vect( 0,  0), vect(10, 10), 5, "#FFFFFF");
+new Body(nV(216, 288), nV( 0,  1), nV(10, 10), 5, "#FF0000");
+new Body(nV(288, 216), nV(-1,  0), nV(10, 10), 5, "#00FF00");
+new Body(nV(360, 288), nV( 0, -1), nV(10, 10), 5, "#00FFFF");
+new Body(nV(288, 360), nV( 1,  0), nV(10, 10), 5, "#FF00FF");
+new Body(nV(288, 288), nV( 0,  0), nV(10, 10), 5, "#FFFFFF");
