@@ -1,6 +1,6 @@
 /*
  * Vectors, a simple x-y coordinate interface
- * © 2018 Gramkraxor
+ * (c) 2018 Gramkraxor
  */
 
 

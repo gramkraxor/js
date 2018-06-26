@@ -1,114 +1,112 @@
 /*
  * Doz, a JS numeral base converter
- * © 1202 (2018) Gramkraxor
+ * (c) 1202 (2018) Gramkraxor
  */
 
-// numbers are in the radix-independent String.prototype.length form
+const doz = function(v, b, x1, x2) { return doz.convert(v, b, x1, x2); }
+// const Alias = doz;
 
-const Doz = function(v, b, x1, x2) { return Doz.convert(v, b, x1, x2); }
-// const Alias = Doz;
+doz.NAME = "Doz";
+doz.AUTHORS = [ "Gramkraxor" ];
+doz.YEAR = 2018;
 
-Doz.NAME = "Doz";
-Doz.AUTHORS = [ "Gramkraxor" ];
-Doz.YEAR = 2018;
+doz.B = 0x02;
+doz.T = 0x03;
+doz.Q = 0x04;
+doz.P = 0x05;
+doz.H = 0x06;
+doz.S = 0x07;
+doz.O = 0x08;
+doz.E = 0x09;
+doz.D = 0x0A;
+doz.L = 0x0B;
+doz.Z = 0x0C;
+doz.X = 0x10;
+doz.V = 0x14;
 
-Doz.B = 0x02
-Doz.T = 0x03
-Doz.Q = 0x04
-Doz.P = 0x05
-Doz.H = 0x06
-Doz.S = 0x07
-Doz.O = 0x08
-Doz.E = 0x09
-Doz.D = 0x0A
-Doz.L = 0x0B
-Doz.Z = 0x0C
-Doz.X = 0x10;
-Doz.V = 0x14;
+doz.modes = [];
 
-Doz.modes = [];
+doz.modes.push(doz.AB  = "AB."); // default
+doz.modes.push(doz.XE  = "XE;");
+doz.modes.push(doz.XEL = "X\u0190;");
+doz.modes.push(doz.XEU = doz.DWIGGINS = "\u218C\u218D;"); // not part of Unicode yet
+doz.modes.push(doz.ZE  = "ZE.");
+doz.modes.push(doz.ZEU = doz.PITMAN   = "\u218A\u218B.");
+doz.modes.push(doz.TE  = "TE;");
+doz.modes.push(doz.DE  = "\u03B4\u03B5;");
 
-Doz.modes.push(Doz.AB  = "AB."); // default
-Doz.modes.push(Doz.XE  = "XE;");
-Doz.modes.push(Doz.XEL = "X\u0190;");
-Doz.modes.push(Doz.XEU = Doz.DWIGGINS = "\u218C\u218D;"); // not part of Unicode yet
-Doz.modes.push(Doz.ZE  = "ZE.");
-Doz.modes.push(Doz.ZEU = Doz.PITMAN   = "\u218A\u218B.");
-Doz.modes.push(Doz.TE  = "TE;");
-Doz.modes.push(Doz.DE  = "\u03B4\u03B5;");
-
-Doz.repl = function(s, o, n) {
+doz.repl = function(s, o, n) {
 	return s.split(o).join(n);
 }
 
-Doz.convert = function(v, b, x1, x2) {
+doz.convert = function(v, b, x1, x2) {
 	if (typeof v != "number" && typeof v != "string") return 0;
 
 	if (typeof v == "string") {
 		if (x1) {
 			if (x2) {
-				return Doz.toMode(Doz.getString(Doz.getNumber(v, b), x1), x2);
+				return doz.toMode(doz.getString(doz.getNumber(v, b), x1), x2);
 			}
 			if (typeof x1 == "string") {
-				return Doz.getNumber(Doz.toMode(v, x1, Doz.AB), b);
+				return doz.getNumber(doz.toMode(v, x1, doz.AB), b);
 			}
-			return Doz.getString(Doz.getNumber(v, b), x1);
+			return doz.getString(doz.getNumber(v, b), x1);
 		}
-		return Doz.getNumber(v, b);
+		return doz.getNumber(v, b);
 	}
 
 	if (x1) {
-		return Doz.toMode(Doz.getString(v, b), x1);
+		return doz.toMode(doz.getString(v, b), x1);
 	}
-	return Doz.getString(v, b);
+	return doz.getString(v, b);
 }
 
-Doz.num = function(v, b) {
-	return Doz.getNumber(v, b);
+doz.num = function(v, b) {
+	return doz.getNumber(v, b);
 }
 
-Doz.str = function(v, b, b1) {
-	if (b1) return Doz.getString(Doz.getNumber(v, b), b1);
-	return Doz.getString(v, b);
+doz.str = function(v, b, b1) {
+	if (b1) return doz.getString(doz.getNumber(v, b), b1);
+	return doz.getString(v, b);
 }
 
-Doz.getInt = function(s, b) {
-	return Doz.getNumber(s, b, true);
+doz.getInt = function(s, b) {
+	return doz.getNumber(s, b, true);
 }
 
-Doz.getNumber = function(s, b, integer) {
+doz.getNumber = function(s, b, integer) {
 	s = s.trim();
 	while (s.startsWith("0") && s.length > 1) s = s.substring(1, s.length);
 	if (s.length == 0) return 0;
-	if (b == Doz.Z) s = Doz.toMode(s, Doz.AB);
+	if (b == doz.Z) s = doz.toMode(s, doz.AB);
 
 	if (!s.includes(".") || integer) return parseInt(s, b);
-	if (s.length - Doz.repl(s, ".", "").length > 1) return parseInt(s, b);
+	if (s.length - doz.repl(s, ".", "").length > 1) return parseInt(s, b);
 
 	// parseFloat() doesn't accept a radix
 	let f = s.length - 1 - s.indexOf(".");
-	s = Doz.repl(s, ".", "");
+	s = doz.repl(s, ".", "");
 	return parseInt(s, b) / (b ** f);
 }
 
-Doz.getString = function(n, b) {
-	if (n == 0 || n > Doz.X ** Doz.Z || isNaN(n)) return "0";
+doz.getString = function(n, b) {
+	if (n == 0 || n > doz.X ** doz.Z || isNaN(n)) return "0";
 	let s = n.toString(b).toUpperCase();
 	return s;
 }
 
-Doz.toMode = function(s, m, m1) {
+doz.toMode = function(s, m, m1) {
 	if (!m1) {
-		return Doz.toCharset(s, Doz.AB, m);
+		return doz.toCharset(s, doz.AB, m);
 	}
-	return Doz.toCharset(s, m, m1);
+	return doz.toCharset(s, m, m1);
 }
 
-Doz.fromMode = function(s, m) {
-	return Doz.toCharset(s, m, Doz.AB);
+doz.fromMode = function(s, m) {
+	return doz.toCharset(s, m, doz.AB);
 }
 
-Doz.toCharset = function(str, cs0, cs1) {
+doz.toCharset = function(str, cs0, cs1) {
 	if (typeof str != "string" || !cs0 || !cs1) return str;
 	let s = str.split("");
 	let p = [];
@@ -127,6 +125,9 @@ Doz.toCharset = function(str, cs0, cs1) {
 }
 
 
-Doz.log = function() {
-	console.log(Doz.NAME + " by " + Doz.AUTHORS[0] + "\nCopyright \u00A9 " + Doz(Doz.YEAR, Doz.Z, Doz.XE) + " (decimal " + Doz(Doz.YEAR, Doz.D) + ")");
+doz.log = function() {
+	console.log(
+		doz.NAME + " by " + doz.AUTHORS[0] + "\nCopyright (c) " +
+		doz(doz.YEAR, doz.Z, doz.XE) + " (decimal " + doz(doz.YEAR, doz.D) + ")"
+	);
 }

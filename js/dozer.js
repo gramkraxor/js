@@ -1,69 +1,29 @@
 /*
  * Dozer, the HTML interface for doz.js and romulus.js
- * © 2018 Gramkraxor
+ * (c) 2018 Gramkraxor
  */
 
-Doz.log();
-Rom.log();
+doz.log();
+rom.log();
 
 let
 NAME = "Dozer",
 AUTHORS = [ "Gramkraxor" ],
 YEAR = 2018,
 charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-queries = [],
 bases = [],
 labelBase = 12,
-usedModes = [ "AB", "XE", "ZEU" ],
-queryLoaded = false;
-
-function Query(id, defaultVal, fromString, toString) {
-	this.id  = id;
-	this.defaultVal = defaultVal;
-	this.val = defaultVal;
-	this.fromString = fromString;
-	if (toString) this.toString = toString;
-	queries.push(this);
-}
-
-Query.prototype.toString = function() { return this.val.toString(); }
+usedModes = [ "AB", "XE", "ZEU" ];
 
 let qCustomRadix  = new Query("c", 0, enterCustomRadix);
 
-let qCurrentMode  = new Query("m",  Doz.AB, setMode, function() {
+let qCurrentMode  = new Query("m",  doz.AB, setMode, function() {
 	return getModeIndex(this.val).toLowerCase();
 });
 
 let qCurrentEntry = new Query("n",  0, function(v) {
 	enter($("#dec").val(parseFloat(v)));
 });
-
-function getQueryString() {
-	let r = "";
-	for (let i = 0; i < queries.length; i++) {
-		let q = queries[i];
-		if (q.val == q.defaultVal) continue;
-		r += "&" + q.id + "=" + q.toString();
-	}
-	if (r.length) r = "?" + r.substr(1);
-	return r;
-}
-
-function updateQueryString() {
-	if (!queryLoaded) return;
-	history.replaceState(
-		{ id: "homepage" },
-		document.title,
-		location.origin + location.pathname + getQueryString()
-	);
-}
-
-function getUrlParameter(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-    var results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-};
 
 function Base(c, a) {
 	if (typeof c == "number") {
@@ -92,10 +52,13 @@ let bHex = new Base(16, [ "hex", "x", "hexadecimal" ]);
 //let bVig = new Base(20, [ "vig", "v", "vigesimal" ]);
 
 let english = [
-	"zero",
-	"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
-	"thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "twenty-one", "twenty-two", "twenty-three", "twenty-four",
-	"twenty-five", "twenty-six", "twenty-seven", "twenty-eight", "twenty-nine", "thirty", "thirty-one", "thirty-two", "thirty-three", "thirty-four", "thirty-five", "thirty-six"
+	"zero",        "one",         "two",        "three",        "four",         "five",
+	"six",         "seven",       "eight",      "nine",         "ten",          "eleven",
+	"twelve",      "thirteen",    "fourteen",   "fifteen",      "sixteen",      "seventeen",
+	"eighteen",    "nineteen",    "twenty",     "twenty-one",   "twenty-two",   "twenty-three",
+	"twenty-four", "twenty-five", "twenty-six", "twenty-seven", "twenty-eight", "twenty-nine",
+	"thirty",      "thirty-one",  "thirty-two", "thirty-three", "thirty-four",  "thirty-five",
+	"thirty-six"
 ]
 
 $(function() {
@@ -126,7 +89,7 @@ $(function() {
 				.attr("type", "text")
 				.attr("id", "roman")
 				.click(function() {
-					if ($(this).val() == Rom.N) $(this).val("");
+					if ($(this).val() == rom.N) $(this).val("");
 					setLabels($(this).attr("id"));
 				})
 				.keypress(function(e) {
@@ -201,7 +164,7 @@ $(function() {
 
 	for (let i = 0; i < usedModes.length; i++) {
 		let mIndex = usedModes[i];
-		let m = Doz[mIndex];
+		let m = doz[mIndex];
 		$("#mode").append(
 			$("<p/>")
 				.append($("<input/>")
@@ -209,7 +172,7 @@ $(function() {
 					.attr("type", "radio")
 					.attr("name", "mode")
 					.click(function() {
-						setMode(Doz[this.id.toUpperCase()]);
+						setMode(doz[this.id.toUpperCase()]);
 					})
 					.prop("checked", m == qCurrentMode.val)
 				)
@@ -222,11 +185,7 @@ $(function() {
 		);
 	}
 
-	for (let i = 0; i < queries.length; i++) {
-		let q = queries[i];
-		q.fromString(getUrlParameter(q.id));
-	}
-	queryLoaded = true;
+	Query.load();
 
 	setLabels();
 
@@ -239,7 +198,7 @@ function repl(s, o, n) {
 function getModeIndex(x) {
 	if (usedModes.includes(x.toUpperCase())) return x.toUpperCase();
 	for (let i = 0; i < usedModes.length; i++) {
-		if (x == Doz[usedModes[i]]) return usedModes[i];
+		if (x == doz[usedModes[i]]) return usedModes[i];
 	}
 	return getModeIndex(qCurrentMode.defaultVal);
 }
@@ -247,15 +206,15 @@ function getModeIndex(x) {
 function setMode(m) {
 	m = getModeIndex(m);
 	$("#" + m.toLowerCase()).prop("checked", true)
-	qCurrentMode.val = Doz[m];
+	qCurrentMode.val = doz[m];
 	setLabels();
-	updateQueryString();
+	Query.updateQueryString();
 }
 
 function dozMode(s, m) {
 	for (let i = 0; i < usedModes.length; i++) {
 		for (let j = 0; j < 3; j++) {
-			let c = Doz[usedModes[i]][j];
+			let c = doz[usedModes[i]][j];
 			s = repl(s, c, m[j]);
 		}
 	}
@@ -290,7 +249,7 @@ function enter($input) {
 	let radix;
 	if (id == "custom") {
 		if (!qCustomRadix.val) {
-			radix = Doz.D;
+			radix = doz.D;
 			v = "0";
 		}
 		radix = qCustomRadix.val;
@@ -299,32 +258,33 @@ function enter($input) {
 	}
 
 	if (id == "roman") {
-		v = Rom(repl(v, "\u2022", "*"));
+		v = rom(repl(v, "\u2022", "*"));
 	} else {
-		if (radix == 12) v = dozMode(v, Doz.AB);
+		if (radix == 12) v = dozMode(v, doz.AB);
 		while (v.startsWith("0") && v.length > 1) v = v.substring(1, v.length);
 		if (v.length == 0) v == "0";
-		v = Doz.getNumber(v, radix);
+		v = doz.getNumber(v, radix);
 	}
 
 	if (isNaN(v)) v = 0;
 
 	for (let i = 0; i < bases.length; i++) {
 		let b = bases[i];
-		let val = Doz.getString(v, b.r);
+		let val = doz.getString(v, b.r);
 		if (b.r == 12) val = dozMode(val, qCurrentMode.val);
 		if (val == "0") val = "";
 		$("#" + b.a[0]).val(val);
 	}
-	$("#roman").val(repl(Rom.getString(v, true, true), "*", "\u2022")); // replace dozenths (*) with bullet character
+	// replace dozenths (*) with bullet character
+	$("#roman").val(repl(rom.getString(v, true, true), "*", "\u2022"));
 	if (qCustomRadix.val && v != 0) {
-		$("#custom").val(Doz(v, qCustomRadix.val));
+		$("#custom").val(doz(v, qCustomRadix.val));
 	} else {
 		$("#custom").val("");
 	}
 
 	qCurrentEntry.val = v;
-	updateQueryString();
+	Query.updateQueryString();
 }
 
 function enterCustomRadix(radix) {
@@ -348,7 +308,7 @@ function enterCustomRadix(radix) {
 		// do something clever without resorting to a default
 		$input.val("");
 		qCustomRadix.val = 0;
-		updateQueryString();
+		Query.updateQueryString();
 		return;
 	}
 	if (radix < 2)  radix = 2;
@@ -357,9 +317,9 @@ function enterCustomRadix(radix) {
 	$input.val(english[radix]);
 	qCustomRadix.val = radix;
 
-	if (qCustomRadix.val && qCurrentEntry.val) $("#custom").val(Doz(qCurrentEntry.val, qCustomRadix.val));
+	if (qCustomRadix.val && qCurrentEntry.val) $("#custom").val(doz(qCurrentEntry.val, qCustomRadix.val));
 
-	updateQueryString();
+	Query.updateQueryString();
 }
 
 function setLabels(b) {
@@ -374,8 +334,8 @@ function setLabels(b) {
 		labelBase = qCustomRadix.val;
 	}
 
-	//let v = r ? Rom(VERSION)  : Doz(VERSION,  labelBase, z ? qCurrentMode.val : undefined);
-	let y = r ? Rom(YEAR) : Doz(YEAR, labelBase, z ? qCurrentMode.val : undefined);
+	//let v = r ? rom(VERSION)  : doz(VERSION,  labelBase, z ? qCurrentMode.val : undefined);
+	let y = r ? rom(YEAR) : doz(YEAR, labelBase, z ? qCurrentMode.val : undefined);
 
 	//$("#title").text(NAME + " v" + v);
 	$("#footer").text(["\u00A9", y, AUTHORS[0]].join(" "));

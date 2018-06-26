@@ -1,6 +1,6 @@
 /*
  * Connect 4 game
- * © 2018 Gramkraxor
+ * (c) 2018 Gramkraxor
  */
 
 const

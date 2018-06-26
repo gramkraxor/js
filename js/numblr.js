@@ -1,6 +1,6 @@
 /*
  * Numblr, a non-floating point, non-radix-denominational system for JS math
- * © 2018 Gramkraxor
+ * (c) 2018 Gramkraxor
  */
 
 // hoping to use Numblr to fix the scientific notation in doz.js

@@ -1,70 +1,73 @@
 /*
  * Romulus, a JS Roman numeral converter
- * © MMXVIII (2018) Gramkraxor
+ * (c) MMXVIII (2018) Gramkraxor
  */
 
-const Rom = function(v) { return Rom.convert(v); }
-const Romulus = Rom;
+const rom = function(v) { return rom.convert(v); }
+const romulus = rom;
 
-Rom.NAME = "Romulus";
-Rom.AUTHORS = [ "Gramkraxor" ];
-Rom.YEAR = 2018;
+rom.NAME = "Romulus";
+rom.AUTHORS = [ "Gramkraxor" ];
+rom.YEAR = 2018;
 
-Rom.N = "N";
-Rom.I = "I";
-Rom.V = "V";
-Rom.X = "X";
-Rom.L = "L";
-Rom.C = "C";
-Rom.D = "D";
-Rom.M = "M";
+rom.N = "N";
+rom.I = "I";
+rom.V = "V";
+rom.X = "X";
+rom.L = "L";
+rom.C = "C";
+rom.D = "D";
+rom.M = "M";
 
-Rom.ONES      = [ "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ];
-Rom.TENS      = [ "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ];
-Rom.HUNDREDS  = [ "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ];
-Rom.THOUSANDS = [ "", "M", "MM", "MMM"];
+rom.ONES      = [ "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ];
+rom.TENS      = [ "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ];
+rom.HUNDREDS  = [ "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ];
+rom.THOUSANDS = [ "", "M", "MM", "MMM"];
 
-Rom.FOURS = [  "IIII",  "XXXX",  "CCCC",  "MMMM" ];
-Rom.NINES = [ "VIIII", "LXXXX", "DCCCC" ]
+rom.FOURS = [  "IIII",  "XXXX",  "CCCC",  "MMMM" ];
+rom.NINES = [ "VIIII", "LXXXX", "DCCCC" ]
 
-Rom.U = "*";
-Rom.S = "S";
+rom.U = "*";
+rom.S = "S";
 
-Rom.UNCIAE  = [ "", "*", "**", "***", "****", "*****", "S", "S*", "S**", "S***", "S****", "S*****" ];
+rom.UNCIAE  = [
+	"",  "*",  "**",  "***",  "****",  "*****",
+	"S", "S*", "S**", "S***", "S****", "S*****"
+];
 
-Rom.places = [];
+rom.places = [];
 
-Rom.Place = function(c) {
+rom.Place = function(c) {
 	this.c = c;
-	Rom.places.push(this);
+	rom.places.push(this);
 }
 
-Rom.mil  = new Rom.Place(Rom.THOUSANDS);
-Rom.cent = new Rom.Place(Rom.HUNDREDS);
-Rom.dec  = new Rom.Place(Rom.TENS);
-Rom.un   = new Rom.Place(Rom.ONES);
+rom.mil  = new rom.Place(rom.THOUSANDS);
+rom.cent = new rom.Place(rom.HUNDREDS);
+rom.dec  = new rom.Place(rom.TENS);
+rom.un   = new rom.Place(rom.ONES);
 
 
-Rom.convert = function(v) {
-	if (typeof v == "string") return Rom.getNumber(v);
-	return Rom.getString(v);
+rom.convert = function(v) {
+	if (typeof v == "string") return rom.getNumber(v);
+	return rom.getString(v);
 }
 
-Rom.str = function(v) {
-	return Rom.getString(v);
+rom.str = function(v) {
+	return rom.getString(v);
 }
 
-Rom.num = function(v) {
-	return Rom.getNumber(v);
+rom.num = function(v) {
+	return rom.getNumber(v);
 }
 
-Rom.getString = function(n, subRule, nulla) { // nulla determines whether to allow "N" as output
+rom.getString = function(n, subRule, nulla) { // nulla determines whether to allow "N" as output
 	if (typeof n != "number" || isNaN(n)) return "";
 
 	if (typeof subRule == "undefined") subRule = true;
 
 	if (n < 0) n *= -1;
-	if (n == 0) return (nulla ? Rom.N : "");
+	if (n == 0) return (nulla ? rom.N : "");
 	remainder = n - Math.floor(n);
 	n = Math.floor(n);
 	if (n >= 4000) return "";
@@ -74,50 +77,50 @@ Rom.getString = function(n, subRule, nulla) { // nulla determines whether to all
 	}
 	let a = n.split("");
 	for (let i = 0; i < a.length; i++) {
-		a[i] = Rom.places[i].c[parseInt(a[i])];
+		a[i] = rom.places[i].c[parseInt(a[i])];
 	}
 	let rem = Math.round(remainder * 12);
-	if (rem >= Rom.UNCIAE.length) rem = Rom.UNCIAE.length - 1;
-	let r = a.join("") + Rom.UNCIAE[rem];
+	if (rem >= rom.UNCIAE.length) rem = rom.UNCIAE.length - 1;
+	let r = a.join("") + rom.UNCIAE[rem];
 	if (!subRule) {
-		for (let i = 0; i < Rom.NINES.length; i++) {
-			r = r.split(Rom.places[Rom.places.length - 1 - i].c[9]).join(Rom.NINES[i]);
+		for (let i = 0; i < rom.NINES.length; i++) {
+			r = r.split(rom.places[rom.places.length - 1 - i].c[9]).join(rom.NINES[i]);
 		}
-		for (let i = 0; i < Rom.FOURS.length; i++) {
-			r = r.split(Rom.places[Rom.places.length - 1 - i].c[4]).join(Rom.FOURS[i]);
+		for (let i = 0; i < rom.FOURS.length; i++) {
+			r = r.split(rom.places[rom.places.length - 1 - i].c[4]).join(rom.FOURS[i]);
 		}
 	}
 	return r;
 }
 
-Rom.getNumber = function(s) {
+rom.getNumber = function(s) {
 	s = s.trim().toUpperCase();
 	let r = 0;
 
-	for (let i = 0; i < Rom.NINES.length; i++) {
-		s = s.split(Rom.NINES[i]).join(Rom.places[Rom.places.length - 1 - i].c[9]);
+	for (let i = 0; i < rom.NINES.length; i++) {
+		s = s.split(rom.NINES[i]).join(rom.places[rom.places.length - 1 - i].c[9]);
 	}
-	for (let i = 0; i < Rom.FOURS.length; i++) {
-		s = s.split(Rom.FOURS[i]).join(Rom.places[Rom.places.length - 1 - i].c[4]);
+	for (let i = 0; i < rom.FOURS.length; i++) {
+		s = s.split(rom.FOURS[i]).join(rom.places[rom.places.length - 1 - i].c[4]);
 	}
 
-	//let places = [ Rom.ONES, Rom.TENS, Rom.HUNDREDS, Rom.THOUSANDS ];
-	for (let p = 0; p < Rom.places.length; p++) {
-		let place = Rom.places[p].c;
+	//let places = [ rom.ONES, rom.TENS, rom.HUNDREDS, rom.THOUSANDS ];
+	for (let p = 0; p < rom.places.length; p++) {
+		let place = rom.places[p].c;
 
 		digit:
 		for (let i = place.length - 1; i >= 0; i--) {
 			if (s.startsWith(place[i])) {
 				s = s.substring(place[i].length);
-				r += i * (10 ** (Rom.places.length - 1 - p));
+				r += i * (10 ** (rom.places.length - 1 - p));
 				break digit;
 			}
 		}
 	}
 
-	for (let i = Rom.UNCIAE.length - 1; i >= 0; i--) {
-		if (s.includes(Rom.UNCIAE[i])) {
-			s = s.substring(Rom.UNCIAE[i].length);
+	for (let i = rom.UNCIAE.length - 1; i >= 0; i--) {
+		if (s.includes(rom.UNCIAE[i])) {
+			s = s.substring(rom.UNCIAE[i].length);
 			r += i / 12;
 			break;
 		}
@@ -128,6 +131,9 @@ Rom.getNumber = function(s) {
 }
 
 
-Rom.log = function() {
-	console.log(Rom.NAME + " by " + Rom.AUTHORS[0] + "\nCopyright \u00A9 " + Rom(Rom.YEAR) /*+ " (Hindu-Arabic " + Rom.YEAR + ")"*/);
+rom.log = function() {
+	console.log(
+		rom.NAME + " by " + rom.AUTHORS[0] + "\nCopyright (c) " +
+		rom(rom.YEAR) /*+ " (Hindu-Arabic " + rom.YEAR + ")"*/
+	);
 }

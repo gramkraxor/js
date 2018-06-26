@@ -7,6 +7,7 @@ js:
   - jquery
   - romulus
   - doz
+  - query
   - dozer
 rank: 7000
 ---

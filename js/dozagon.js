@@ -1,6 +1,6 @@
 /*
  * Dozagon
- * © 2018 Gramkraxor
+ * (c) 2018 Gramkraxor
  */
 
 window.onload = f;

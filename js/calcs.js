@@ -1,6 +1,6 @@
 /*
  * Calculator Supreme
- * © 2018 Gramkraxor
+ * (c) 2018 Gramkraxor
  */
 
 const NAME = "Calculator Supreme"

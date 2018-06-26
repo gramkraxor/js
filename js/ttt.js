@@ -1,6 +1,6 @@
 /*
  * Ultimate Tic Tac Toe game
- * © 2018 Gramkraxor
+ * (c) 2018 Gramkraxor
  */
 
 const ttt = {}; // namespace object

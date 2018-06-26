@@ -1,9 +1,9 @@
 /*
  * Eanto, la HTML-interfaco por eo.js
- * © 2018 Gramkraksoro
+ * (c) 2018 Gramkraksoro
  */
 
-Eo.log();
+eo.log();
 
 let
 NAME = "Eanto",
@@ -54,7 +54,7 @@ $(function() {
 
 function enter(toX) {
 	let v = $("#esperanto").val();
-	v = toX ? Eo.convert(v) : Eo.fromX(v);
+	v = toX ? eo.convert(v) : eo.fromX(v);
 	$("#esperanto").val(v);
 }
 
