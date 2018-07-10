@@ -1,7 +1,7 @@
 url: "https://www.gramkraxor.com"
 baseurl: "/js"
 
-title: "Gramrkaxor JS"
+title: "Gramkraxor JS"
 author: "Gramkraxor"
 google_analytics: "UA-111498946-2"
 jquery: "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
@@ -10,7 +10,6 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
-  - CNAME # because of the baseurl
   - html
 
 collections:

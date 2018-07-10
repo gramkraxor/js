@@ -1,53 +1,43 @@
 <!doctype html>
+<meta charset="utf-8">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
 
-<html>
+{%- if page.title_override %}
+<title>{{ page.title_override }}</title>
+{% elsif page.title %}
+<title>{{ page.title }} - {{ site.title }}</title>
+{% endif -%}
 
-<head>
-	<meta charset="utf-8" />
+{%- if page.desc -%}
+<meta name="description" content="{{ page.desc | escape }}">
+{% endif -%}
 
-	<link rel="canonical" href="{{ page.url | absolute_url }}" />
+{%- if page.meta_viewport -%}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% endif -%}
 
-	{% if page.title_override %}
-	<title>{{ page.title_override }}</title>
-	{% elsif page.title %}
-	<title>{{ page.title }} - {{ site.title }}</title>
-	{% endif %}
+{%- if page.icon -%}
+<link rel="icon" href="{{ '/assets/' | append: page.icon | relative_url }}">
+{% endif -%}
 
-	{% if page.desc %}
-	<meta name="description" content="{{ page.desc | escape }}" />
-	{% endif %}
+{%- if page.css -%}
+{%- for link in page.css -%}
+<link rel="stylesheet" href="{{ '/css/' | append: link | append: '.css' | relative_url }}">
+{% endfor -%}
+{%- endif -%}
 
-	{% if page.icon %}
-	<link rel="icon" href="{{ '/assets/' | append: page.icon | relative_url }}" />
-	{% endif %}
+{%- if page.js -%}
+{%- for link in page.js -%}
+{%- if link == 'jquery' -%}
+<script src="{{ site.jquery }}"></script>
+{% else -%}
+<script src="{{ 'js/' | append: link | append: '.js' | relative_url }}"></script>
+{% endif -%}
+{%- endfor -%}
+{%- endif -%}
 
-	{% if page.meta_viewport %}
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	{% endif %}
+{%- if jekyll.environment == 'production' and site.google_analytics -%}
+{%- include google-analytics.html -%}
+{%- endif -%}
 
-	{%- if page.css -%}
-	{% for link in page.css %}
-	<link rel="stylesheet" href="{{ '/css/' | append: link | append: '.css' | relative_url }}" />
-	{% endfor %}
-	{%- endif -%}
-
-	{%- if page.js -%}
-	{%- for link in page.js -%}
-	{% if link == 'jquery' %}
-	<script src="{{ site.jquery }}"></script>
-	{% else %}
-	<script src="{{ '/js/' | append: link | append: '.js' | relative_url }}"></script>
-	{% endif %}
-	{%- endfor -%}
-	{%- endif -%}
-
-	{% if jekyll.environment == 'production' and site.google_analytics %}
-	{% include google-analytics.html %}
-	{% endif %}
-</head>
-
-<body>
-	{{ content }}
-</body>
-
-</html>
+{{- content -}}
