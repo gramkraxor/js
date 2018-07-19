@@ -23,17 +23,17 @@ function getPrompt() {
 $(function() {
 
 	// Get the document set up
-	$(document.body).append($("<div/>")
+	$(document.body).append($("<div>")
 		.attr("id", "container")
-		.append($("<output/>"))
-		.append($("<div/>")
+		.append($("<output>"))
+		.append($("<div>")
 			.attr("id", "input-line")
 			.attr("class", "input-line")
-			.append($("<div/>")
+			.append($("<div>")
 				.attr("class", "prompt")
 			)
-			.append($("<div/>")
-				.append($("<input/>")
+			.append($("<div>")
+				.append($("<input>")
 					.attr("class", "cmdline")
 					.prop("autofocus", true)
 				)
@@ -248,7 +248,7 @@ let Terminal = function(cmdLineContainer, outputContainer) {
 
 			let imgSrc = "assets/devx.svg";
 			if (location.protocol == "file:") imgSrc = "../" + imgSrc;
-			output("<img align='left' src='" + imgSrc + "' width='100' height='100' style='padding: 0px 10px 20px 0px'><h2 style='letter-spacing: 4px'>DEVX Terminal</h2><p>" + date + "</p><p>Enter 'help' for more information.</p><br/>");
+			output("<img align='left' src='" + imgSrc + "' width='100' height='100' style='padding: 0px 10px 20px 0px'><h2 style='letter-spacing: 4px'>DEVX Terminal</h2><p>" + date + "</p><p>Enter 'help' for more information.</p><br>");
 		},
 		//output: output
 	}

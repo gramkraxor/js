@@ -138,22 +138,22 @@ let utc = false;
 $(function() {
 	$("body")
 		.append(
-			$("<div/>", {id: "clock"})
+			$("<div>", {id: "clock"})
 				.append(
-					$("<div/>", {id: "face"})
+					$("<div>", {id: "face"})
 				)
 		)
 		.append(
-			$("<div/>", {id: "settings"})
+			$("<div>", {id: "settings"})
 		)
 		.append(
-			$("<div/>", {id: "footer"})
+			$("<div>", {id: "footer"})
 				.text(["\u00A9", YEAR, AUTHORS[0]].join(" ")
 			)
 	);
 	for (let i = 0; i < settings.length; i++) {
 		let s = settings[i];
-		$("#settings").append($("<input/>")
+		$("#settings").append($("<input>")
 				.attr("id", s.id)
 				.attr("type", "submit")
 				.attr("value", s.options[s.setting].str)
@@ -181,7 +181,7 @@ function setFace(f) {
 	$("#face").empty();
 	for (let i = 0; i < face.m.length; i++) {
 		$("#face").append(
-			$("<span/>", {id: face.m[i].id})
+			$("<span>", {id: face.m[i].id})
 		);
 	}
 }

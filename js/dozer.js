@@ -63,29 +63,29 @@ let english = [
 
 $(function() {
 
-	$("body").append($("<div/>")
+	$("body").append($("<div>")
 		.attr("id", "wrapper")
 		.prop("spellcheck", false)
-		.append($("<div/>")
+		.append($("<div>")
 			.attr("id", "title")
 			.text(NAME)
 		)
-		.append($("<div/>")
+		.append($("<div>")
 			.attr("id", "dozer")
-			.append($("<div/>")
+			.append($("<div>")
 				.attr("id", "convert")
 			)
-			.append($("<div/>")
+			.append($("<div>")
 				.attr("id", "mode")
-				.append($("<p/>")
+				.append($("<p>")
 					.attr("id", "mode-title")
 					.html("Transdecimals")
 				)
 			)
 		)
-		.append($("<div/>")
+		.append($("<div>")
 			.attr("id", "romulator")
-			.append($("<input/>")
+			.append($("<input>")
 				.attr("type", "text")
 				.attr("id", "roman")
 				.click(function() {
@@ -97,8 +97,8 @@ $(function() {
 				})
 			)
 		)
-		.append("<br/>")
-		.append($("<div/>")
+		.append("<br>")
+		.append($("<div>")
 			.attr("id", "footer")
 		)
 	);
@@ -106,11 +106,11 @@ $(function() {
 	for (let i = 0; i < bases.length; i++) {
 		let b = bases[i];
 		$("#convert").append(
-			$("<p/>")
-				.append($("<span/>")
+			$("<p>")
+				.append($("<span>")
 					.text(b.a[0])
 				)
-				.append($("<input/>")
+				.append($("<input>")
 					.attr("type", "text")
 					.addClass("dozee")
 					.attr("id", b.a[0])
@@ -124,8 +124,8 @@ $(function() {
 		);
 	}
 
-	$("#convert").append($("<p/>")
-		.append($("<input/>")
+	$("#convert").append($("<p>")
+		.append($("<input>")
 			.attr("type", "text")
 			.attr("id", "custom-base")
 			.attr("placeholder", "custom")
@@ -148,7 +148,7 @@ $(function() {
 				if (e.which == 13) enterCustomRadix();
 			})
 		)
-		.append($("<input/>")
+		.append($("<input>")
 			.attr("type", "text")
 			.addClass("dozee")
 			.attr("id", "custom")
@@ -166,8 +166,8 @@ $(function() {
 		let mIndex = usedModes[i];
 		let m = doz[mIndex];
 		$("#mode").append(
-			$("<p/>")
-				.append($("<input/>")
+			$("<p>")
+				.append($("<input>")
 					.attr("id", mIndex.toLowerCase())
 					.attr("type", "radio")
 					.attr("name", "mode")
@@ -176,9 +176,9 @@ $(function() {
 					})
 					.prop("checked", m == qCurrentMode.val)
 				)
-				.append($("<label/>")
+				.append($("<label>")
 					.attr("for", mIndex.toLowerCase())
-					.append($("<span/>")
+					.append($("<span>")
 						.html(m[0] + " " + m[1])
 					)
 				)

@@ -19,19 +19,19 @@ const YEAR = 2018;
 
 $(function() {
 
-	$("body").append($("<div/>")
+	$("body").append($("<div>")
 		.attr("id", "wrapper")
-		.append($("<div/>")
+		.append($("<div>")
 			.attr("id", "turn")
 			.text("P1")
 		)
-		.append($("<div/>")
+		.append($("<div>")
 			.attr("id", "board")
 			.attr("class", "red")
 		)
-		.append($("<div/>")
+		.append($("<div>")
 			.attr("id", "options")
-			.append($("<span/>")
+			.append($("<span>")
 				.attr("id", "mode")
 				.click(function() {
 					tpm = !tpm;
@@ -47,21 +47,21 @@ $(function() {
 					}
 				})
 			)
-			.append($("<span/>")
+			.append($("<span>")
 				.attr("id", "reset")
 				.text("RESET")
 				.click(function() { reset(); })
 			)
 		)
 	)
-	.append($("<div/>")
+	.append($("<div>")
 		.attr("id", "footer")
 		.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
 		.click(function() { dark(); })
 	);
 	$("#mode").click();
 	for (let x = 0; x < cols; x++) {
-		$("#board").append($("<div/>")
+		$("#board").append($("<div>")
 			.attr("id", "col-" + x) // columns are divs with id col-x
 			.addClass("col")        // and class col
 			.click(function() { onClick(x); })
@@ -69,10 +69,10 @@ $(function() {
 		board[x] = [];
 		for (let y = 0; y < rows; y++) {
 			board[x][y] = 0;
-			$("#col-" + x).append($("<div/>")
+			$("#col-" + x).append($("<div>")
 				.attr("class", "row-" + y + " cell") // cells are divs with id cxry
 				.attr("id", "c" + x + "r" + y)       // and id cxry
-				.append($("<span/>"))
+				.append($("<span>"))
 			);
 		}
 	}

@@ -1,0 +1,15 @@
+---
+title_override: JS Projects by Gramkraxor
+desc: "Tools, games, and concept pieces built with simple JavaScript and CSS."
+layout: project
+css: index
+---
+
+<div id='list'>
+{%- assign sorted_projects = site.projects | sort: "rank" | reverse -%}
+{%- for project in sorted_projects %}
+	<p class='{{ project.url | remove: "/" }}'>
+		<a href='{{ project.url | relative_url }}'>{{ project.url }}</a>
+	</p>
+{%- endfor %}
+</div>

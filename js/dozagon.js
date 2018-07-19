@@ -3,10 +3,8 @@
  * (c) 2018 Gramkraxor
  */
 
-window.onload = f;
-
-function f() {
-	let size = 96;//768;
+window.onload = function() {
+	let size = 96;
 	z = function(n) {
 		return parseInt(n, 0xC);
 	}

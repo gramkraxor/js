@@ -30,8 +30,8 @@ function dark(b) {
 $(function() {
 
 	$("body")
-		.append($("<div/>", {id: "phone"}))
-		.append($("<div/>", {id: "footer"})
+		.append($("<div>", {id: "phone"}))
+		.append($("<div>", {id: "footer"})
 			.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
 			.click(dark)
 			.click()
@@ -39,14 +39,14 @@ $(function() {
 	;
 
 	function item(parent, tag, id) {
-		let i = $("<" + tag + "/>");
+		let i = $("<" + tag + ">");
 		if (id)  i.attr("id", id);
 		get(parent).append(i);
 		return i;
 	}
 
 	function scr(id) {
-		i = $("<div/>").addClass("scr").attr("id", id);
+		i = $("<div>").addClass("scr").attr("id", id);
 		$("#phone").append(i);
 		return i;
 	}
@@ -65,7 +65,7 @@ $(function() {
 
 	scr("scr-home");
 	div("scr-home", "lbl-home-title-1").addClass("lbl-title").text("Calculator");
-	div("scr-home", "lbl-home-title-2").addClass("lbl-title").text("Supreme").append($("<span/>").text("Supreme"));
+	div("scr-home", "lbl-home-title-2").addClass("lbl-title").text("Supreme").append($("<span>").text("Supreme"));
 	btn("scr-home", "btn-home-goto-calc",  gotoCalc,  "Calculator");
 	btn("scr-home", "btn-home-goto-hex",   gotoHex,   "Programmer");
 	btn("scr-home", "btn-home-goto-roman", gotoRoman, "Roman Numeral");

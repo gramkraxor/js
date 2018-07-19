@@ -39,14 +39,14 @@ function setScreen(id) {
 $(function() {
 
 	function item(parent, tag, id) {
-		var i = $("<" + tag + "/>");
+		var i = $("<" + tag + ">");
 		if (id)  i.attr("id", id);
 		get(parent).append(i);
 		return i;
 	}
 
 	function scr(id) {
-		i = $("<div/>").addClass("scr").attr("id", id);
+		i = $("<div>").addClass("scr").attr("id", id);
 		$("body")
 			//.append(id)
 			.append(i)
