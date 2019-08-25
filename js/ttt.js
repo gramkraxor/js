@@ -269,7 +269,7 @@ function newDomBoard() {
 
 // when a small square gets clicked
 function onClick(gx, gy, mx, my) {
-	if (!has(posPos, [gx, gy] || mboard[gx][gy][mx][my] !== open)) return;
+	if (!has(posPos, [gx, gy]) || mboard[gx][gy][mx][my] !== open) return;
 	prevData = getData();
 	let whoseTurn = getWhoseTurn();
 	justReset = false;
