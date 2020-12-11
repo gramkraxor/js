@@ -1,9 +1,10 @@
 /*
- * Romulus, a JS Roman numeral converter
- * (c) MMXVIII (2018) Gramkraxor
+ * romulus.js v2.0.0
+ * Roman numeral converter
+ * (c) MMXVIII Gramkraxor
  */
 
-const rom = function(v) { return rom.convert(v); }
+const rom = function(v) { return rom.convert(v); };
 const romulus = rom;
 
 rom.NAME = "Romulus";
@@ -35,39 +36,30 @@ rom.UNCIAE  = [
 	"S", "S*", "S**", "S***", "S****", "S*****"
 ];
 
-rom.places = [];
-
-rom.Place = function(c) {
-	this.c = c;
-	rom.places.push(this);
-}
-
-rom.mil  = new rom.Place(rom.THOUSANDS);
-rom.cent = new rom.Place(rom.HUNDREDS);
-rom.dec  = new rom.Place(rom.TENS);
-rom.un   = new rom.Place(rom.ONES);
+rom.PLACES = [ rom.THOUSANDS, rom.HUNDREDS, rom.TENS, rom.ONES ];
 
 
 rom.convert = function(v) {
-	if (typeof v == "string") return rom.getNumber(v);
+	if (typeof v === "string") return rom.getNumber(v);
 	return rom.getString(v);
-}
+};
 
 rom.str = function(v) {
 	return rom.getString(v);
-}
+};
 
 rom.num = function(v) {
 	return rom.getNumber(v);
-}
+};
 
-rom.getString = function(n, subRule, nulla) { // nulla determines whether to allow "N" as output
-	if (typeof n != "number" || isNaN(n)) return "";
-
-	if (typeof subRule == "undefined") subRule = true;
+rom.getString = function(n, subRule, useN) {
+	if (typeof n !== "number" || isNaN(n)) return "";
+	if (typeof o !== "object") o = {};
+	if (typeof o.subRule !== "boolean") o.subRule = true;
+	if (typeof o.useN !== "boolean") o.useN = false;
 
 	if (n < 0) n *= -1;
-	if (n == 0) return (nulla ? rom.N : "");
+	if (n == 0) return (o.useN ? rom.N : "");
 	remainder = n - Math.floor(n);
 	n = Math.floor(n);
 	if (n >= 4000) return "";
@@ -77,42 +69,42 @@ rom.getString = function(n, subRule, nulla) { // nulla determines whether to all
 	}
 	let a = n.split("");
 	for (let i = 0; i < a.length; i++) {
-		a[i] = rom.places[i].c[parseInt(a[i])];
+		a[i] = rom.PLACES[i][parseInt(a[i])];
 	}
 	let rem = Math.round(remainder * 12);
 	if (rem >= rom.UNCIAE.length) rem = rom.UNCIAE.length - 1;
 	let r = a.join("") + rom.UNCIAE[rem];
-	if (!subRule) {
+	if (!o.subRule) {
 		for (let i = 0; i < rom.NINES.length; i++) {
-			r = r.split(rom.places[rom.places.length - 1 - i].c[9]).join(rom.NINES[i]);
+			r = r.split(rom.PLACES[rom.PLACES.length - 1 - i][9]).join(rom.NINES[i]);
 		}
 		for (let i = 0; i < rom.FOURS.length; i++) {
-			r = r.split(rom.places[rom.places.length - 1 - i].c[4]).join(rom.FOURS[i]);
+			r = r.split(rom.PLACES[rom.PLACES.length - 1 - i][4]).join(rom.FOURS[i]);
 		}
 	}
 	return r;
-}
+};
 
 rom.getNumber = function(s) {
 	s = s.trim().toUpperCase();
 	let r = 0;
 
 	for (let i = 0; i < rom.NINES.length; i++) {
-		s = s.split(rom.NINES[i]).join(rom.places[rom.places.length - 1 - i].c[9]);
+		s = s.split(rom.NINES[i]).join(rom.PLACES[rom.PLACES.length - 1 - i][9]);
 	}
 	for (let i = 0; i < rom.FOURS.length; i++) {
-		s = s.split(rom.FOURS[i]).join(rom.places[rom.places.length - 1 - i].c[4]);
+		s = s.split(rom.FOURS[i]).join(rom.PLACES[rom.PLACES.length - 1 - i][4]);
 	}
 
 	//let places = [ rom.ONES, rom.TENS, rom.HUNDREDS, rom.THOUSANDS ];
-	for (let p = 0; p < rom.places.length; p++) {
-		let place = rom.places[p].c;
+	for (let p = 0; p < rom.PLACES.length; p++) {
+		let place = rom.PLACES[p];
 
 		digit:
 		for (let i = place.length - 1; i >= 0; i--) {
 			if (s.startsWith(place[i])) {
-				s = s.substring(place[i].length);
-				r += i * (10 ** (rom.places.length - 1 - p));
+				s = s.slice(place[i].length);
+				r += i * (10 ** (rom.PLACES.length - 1 - p));
 				break digit;
 			}
 		}
@@ -120,7 +112,7 @@ rom.getNumber = function(s) {
 
 	for (let i = rom.UNCIAE.length - 1; i >= 0; i--) {
 		if (s.includes(rom.UNCIAE[i])) {
-			s = s.substring(rom.UNCIAE[i].length);
+			s = s.slice(rom.UNCIAE[i].length);
 			r += i / 12;
 			break;
 		}
@@ -128,12 +120,12 @@ rom.getNumber = function(s) {
 
 	if (s.length > 0) return 0;
 	return r;
-}
+};
 
 
 rom.log = function() {
 	console.log(
-		rom.NAME + " by " + rom.AUTHORS[0] + "\nCopyright (c) " +
-		rom(rom.YEAR) /*+ " (Hindu-Arabic " + rom.YEAR + ")"*/
+		rom.NAME + " by " + rom.AUTHORS[0] +
+		"\nCopyright (c) " + rom(rom.YEAR)
 	);
-}
+};

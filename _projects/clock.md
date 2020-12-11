@@ -1,5 +1,5 @@
 ---
-title: Clock
+title: "Clock"
 css: clock
 js:
   - jquery

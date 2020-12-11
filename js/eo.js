@@ -3,7 +3,7 @@
  * (c) 2018 Gramkraksoro
  */
 
-const eo = function(s) { return eo.convert(s); }
+const eo = function(s) { return eo.convert(s); };
 // const Alias = eo;
 
 eo.NAME = "Eo";
@@ -19,7 +19,7 @@ eo.Signo = function(l, u) {
 	this.l = l;
 	this.u = u;
 	eo.signoj.push(this);
-}
+};
 
 eo.CX = new eo.Signo("c", "\u0109");
 eo.GX = new eo.Signo("g", "\u011D");
@@ -32,7 +32,7 @@ eo.UX = new eo.Signo("u", "\u016D");
 
 eo.repl = function(s, o, n) {
 	return s.split(o).join(n);
-}
+};
 
 eo.fromX = function(s) {
 	s = eo.repl(s, eo.X.toUpperCase(), eo.X);
@@ -42,7 +42,7 @@ eo.fromX = function(s) {
 		s = eo.repl(s, signo.l.toUpperCase() + eo.X, signo.u.toUpperCase());
 	}
 	return s;
-}
+};
 
 eo.toX = function(s) {
 	for (let i = 0; i < eo.signoj.length; i++) {
@@ -51,7 +51,7 @@ eo.toX = function(s) {
 		s = eo.repl(s, signo.u.toUpperCase(), signo.l.toUpperCase() + eo.X);
 	}
 	return s;
-}
+};
 
 eo.convert = function(s) {
 	for (let i = 0; i < eo.signoj.length; i++) {
@@ -61,9 +61,9 @@ eo.convert = function(s) {
 	}
 
 	return eo.toX(s);
-}
+};
 
 
 eo.log = function() {
 	console.log(eo.NAME + " de " + eo.AUTHORS[0] + "\nKopirajto (c) " + eo.YEAR);
-}
+};

@@ -96,19 +96,19 @@ sup {
 	color: #0040FF;
 }
 
-body.pale #buttons > div:hover {
+body.muted #buttons > div:hover {
 	color: #405080;
 }
 
-body.pale.dark #buttons > div:hover {
+body.muted.dark #buttons > div:hover {
 	color: #80A0FF;
 }
 
 @media (pointer: coarse) {
 
 	#buttons > div:hover,
-	body.pale #buttons > div:hover,
-	body.pale.dark #buttons > div:hover {
+	body.muted #buttons > div:hover,
+	body.muted.dark #buttons > div:hover {
 		color: inherit;
 	}
 
@@ -192,23 +192,23 @@ body.pale.dark #buttons > div:hover {
 	        mask-image: url('../assets/o.svg');
 }
 
-body.pale .x,
-body.pale .x-ish .m:hover:not(.o) {
+body.muted .x,
+body.muted .x-ish .m:hover:not(.o) {
 	background: #805040;
 }
 
-body.pale .o,
-body.pale .o-ish .m:hover:not(.x) {
+body.muted .o,
+body.muted .o-ish .m:hover:not(.x) {
 	background: #405080;
 }
 
-body.pale.dark .x,
-body.pale.dark .x-ish .m:hover:not(.o) {
+body.muted.dark .x,
+body.muted.dark .x-ish .m:hover:not(.o) {
 	background: #FFA080;
 }
 
-body.pale.dark .o,
-body.pale.dark .o-ish .m:hover:not(.x) {
+body.muted.dark .o,
+body.muted.dark .o-ish .m:hover:not(.x) {
 	background: #80A0FF;
 }
 
@@ -231,25 +231,25 @@ body.pale.dark .o-ish .m:hover:not(.x) {
 	border-color: #0040FFC0;
 }
 
-body.pale .g.x-ish {
+body.muted .g.x-ish {
 	border-color: #805040C0;
 }
 
-body.pale .g.o-ish {
+body.muted .g.o-ish {
 	border-color: #405080C0;
 }
 
-body.pale.dark .g.x-ish {
+body.muted.dark .g.x-ish {
 	border-color: #FFA080C0;
 }
 
-body.pale.dark .g.o-ish {
+body.muted.dark .g.o-ish {
 	border-color: #80A0FFC0;
 }
 
 .g.nope,
-body.pale .g.nope,
-body.pale.dark .g.nope {
+body.muted .g.nope,
+body.muted.dark .g.nope {
 	border-color: transparent;
 }
 

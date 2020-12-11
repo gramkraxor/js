@@ -1,5 +1,5 @@
 ---
-title: Connect 4
+title: "Connect 4"
 css: connect4
 js:
   - jquery

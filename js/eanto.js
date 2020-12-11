@@ -5,10 +5,9 @@
 
 eo.log();
 
-let
-NAME = "Eanto",
-AUTHORS = [ "Gramkraksoro" ],
-YEAR = 2018;
+let NAME = "Eanto";
+let AUTHORS = [ "Gramkraksoro" ];
+let YEAR = 2018;
 
 $(function() {
 

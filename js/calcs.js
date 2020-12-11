@@ -19,7 +19,7 @@ function setScreen(id) {
 function dark(b) {
 	let $body = $("body");
 	let d = "dark";
-	if (typeof b != "boolean") b = !$body.hasClass(d);
+	if (typeof b !== "boolean") b = !$body.hasClass(d);
 	if (b) {
 		$body.addClass(d);
 	} else {
@@ -197,7 +197,7 @@ $(function() {
 	div("div-set-cc", "lbl-set-cc").text("Circle Constant");
 	item("div-set-rgb", "input", "inp-set-rgb").attr("type", "text");
 	get("inp-set-rgb").on("change", function() {
-	  setAccentColor(get("inp-set-rgb").val());
+		setAccentColor(get("inp-set-rgb").val());
 	});
 	btn("div-set-au", "btn-set-au-turn", function() { setAU(TURN); }, "turn");
 	btn("div-set-au", "btn-set-au-deg",  function() { setAU(DEG);  }, "deg");
@@ -232,8 +232,8 @@ function setAccentColor(color, setTxt) {
 	if (setTxt) get("inp-set-rgb").val(color);
 	accentColor = color;
 
-	let b = function(s) { $(s).css(    "border-color", color); };
-	let t = function(s) { $(s).css(           "color", color); };
+	let b = function(s) { $(s).css("border-color", color); };
+	let t = function(s) { $(s).css(       "color", color); };
 
 	b("#phone");
 	b(".div-field");
@@ -265,12 +265,12 @@ function setAU(o) {
 	currentAU = o;
 	if (!accentColor) return;
 	for (let i = 0; i < AUs.length; i++) {
-	  let au = AUs[i];
-	  if (au.btn == o.btn) {
-	    get(au.btn).css("color", accentColor);
-	  } else {
-	    get(au.btn).css("color", "#FFFFFF");
-	  }
+		let au = AUs[i];
+		if (au.btn === o.btn) {
+			get(au.btn).css("color", accentColor);
+		} else {
+			get(au.btn).css("color", "#FFFFFF");
+		}
 	}
 }
 
@@ -278,14 +278,14 @@ function setCC(o) {
 	currentCC = o;
 	if (!accentColor) return;
 	for (let i = 0; i < CCs.length; i++) {
-	  let cc = CCs[i];
-	  if (cc.btnSet == o.btnSet) {
-	    get(cc.btnSet).css("color", accentColor);
-	    get(cc.btnCalc).show();
-	  } else {
-	    get(cc.btnSet).css("color", "#FFFFFF");
-	    get(cc.btnCalc).hide();
-	  }
+		let cc = CCs[i];
+		if (cc.btnSet === o.btnSet) {
+			get(cc.btnSet).css("color", accentColor);
+			get(cc.btnCalc).show();
+		} else {
+			get(cc.btnSet).css("color", "#FFFFFF");
+			get(cc.btnCalc).hide();
+		}
 	}
 }
 
@@ -413,16 +413,16 @@ function onCalcEnter() {
 function onCalcDel() {
 	entry.pop();
 	if (entry.length === 0) {
-	  onCalcClear();
+		onCalcClear();
 	} else {
-	  displayEntry();
+		displayEntry();
 	}
 }
 
 function displayEntry() {
 	let s = "";
 	for (let i = 0; i < entry.length; i++) {
-	  s += entry[i].str;
+		s += entry[i].str;
 	}
 	get("lbl-calc-entry").text(s);
 	tryToAnswer();
@@ -431,7 +431,7 @@ function displayEntry() {
 // Array.prototype.includes() isn't working
 function hasOp(arr, op) {
 	for (let i = 0; i < arr.length; i++) {
-	  if (arr[i].name === op.name) return true;
+		if (arr[i].name === op.name) return true;
 	}
 	return false;
 }
@@ -440,14 +440,14 @@ function hasOp(arr, op) {
 function tryToAnswer() {
 	let r;
 	try {
-	  r = answer();
+		r = answer();
 	} catch (e) {
-	  error();
-	  r = 0;
+		error();
+		r = 0;
 	}
 	if (isNaN(r)) {
-	  error();
-	  r = 0;
+		error();
+		r = 0;
 	}
 	return r;
 }
@@ -463,23 +463,23 @@ function answer() {
 	// if the entry doesn't end with something that makes sense, call off the solving then and there
 	let last = entry[entry.length - 1];
 	if (hasOp(lps, last) || hasOp(bins, last)) {
-	  error();
-	  return;
+		error();
+		return;
 	}
 
 	// test new array
 	function logParsed() {
-	  let log = "";
-	  for (i = 0; i < entered.length; i++) {
-	    let op = entered[i];
-	    if (op.str) {
-	      log += op.str;
-	    } else {
-	      log += op;
-	    }
-	  }
-	  log = log.split(opSqr.str).join("sqr(").split(opRcp.str).join("rcp(").split(opDiv.str).join("/");
-	  console.log(log);
+		let log = "";
+		for (i = 0; i < entered.length; i++) {
+			let op = entered[i];
+			if (op.str) {
+				log += op.str;
+			} else {
+				log += op;
+			}
+		}
+		log = log.split(opSqr.str).join("sqr(").split(opRcp.str).join("rcp(").split(opDiv.str).join("/");
+		console.log(log);
 	}
 
 	// PROCEDURE
@@ -498,83 +498,83 @@ function answer() {
 	// number of unary operations, for conversion
 	let unCount = 0;
 	for (let i = 0; i < entered.length; i++) {
-	  listUns: for (let j = 0; j < uns.length; j++) {
-	    if (entry[i].name === uns[j].name) {
-	      unCount++;
-	      break listUns;
-	    }
-	  }
+		listUns: for (let j = 0; j < uns.length; j++) {
+			if (entry[i].name === uns[j].name) {
+				unCount++;
+				break listUns;
+			}
+		}
 	}
 
 	// splice something into entered[]
 	function spliceOp(index, op) {
-	  entered.splice(index, 0, op);
+		entered.splice(index, 0, op);
 	}
 
 	// now convert all uns to more lps
 	for (i = 0; i < unCount; i++) {
 
-	  // find the index of the operation
+		// find the index of the operation
 
-	  let undex;
-	  let unsFound = 0;
-	  for (let k = 0; k < entered.length; k++) {
-	    if (hasOp(uns, entered[k])) {
-	      unsFound++;
-	      if (unsFound === i + 1) {
-	        undex = k;
-	      }
-	    }
-	  }
+		let undex;
+		let unsFound = 0;
+		for (let k = 0; k < entered.length; k++) {
+			if (hasOp(uns, entered[k])) {
+				unsFound++;
+				if (unsFound === i + 1) {
+					undex = k;
+				}
+			}
+		}
 
-	  let un = entered[undex];
+		let un = entered[undex];
 
 
-	  // find where the lp should be placed on the left of the function
+		// find where the lp should be placed on the left of the function
 
-	  // switch the un to an rp
-	  // this has to go before the rest of entered[] in modified
-	  entered[undex] = opRp;
+		// switch the un to an rp
+		// this has to go before the rest of entered[] in modified
+		entered[undex] = opRp;
 
-	  // if the un is applied to a constant, put the lp right before the constant
-	  if (hasOp(consts, entered[undex - 1])) {
-	    spliceOp(undex - 1, un);
+		// if the un is applied to a constant, put the lp right before the constant
+		if (hasOp(consts, entered[undex - 1])) {
+			spliceOp(undex - 1, un);
 
-	  // if the un is applied to a number, find the start of the number and put it there
-	  } else if (hasOp(digs, entered[undex - 1])) {
-	    let foundIt = false;
-	    findIt: for (k = undex - 2; k >= 0; k--) {
-	      if (!hasOp(digs, entered[k])) {
-	        spliceOp(k + 1, un);
-	        foundIt = true;
-	        break findIt;
-	      }
-	    }
-	    if (!foundIt) {
-	      spliceOp(0, un);
-	    }
+		// if the un is applied to a number, find the start of the number and put it there
+		} else if (hasOp(digs, entered[undex - 1])) {
+			let foundIt = false;
+			findIt: for (k = undex - 2; k >= 0; k--) {
+				if (!hasOp(digs, entered[k])) {
+					spliceOp(k + 1, un);
+					foundIt = true;
+					break findIt;
+				}
+			}
+			if (!foundIt) {
+				spliceOp(0, un);
+			}
 
-	  // if the un is applied to a group, find the left grouper and splice there
-	  } else if (entered[undex - 1].name === opRp.name) {
-	    let foundLp = false;
-	    let depth = 1;
-	    findLp: for (k = undex - 2; k >= 0; k--) {
-	      if (hasOp(lps, entered[k]) || hasOp(uns, entered[k])) {
-	        depth--;
-	        if (depth === 0) {
-	          spliceOp(k, un);
-	          foundLp = true;
-	          break findLp;
-	        }
-	      } else if (entered[k].name === opRp.name) {
-	        depth++;
-	      }
-	    }
-	    if (!foundLp) {
-	      spliceOp(0, un);
-	    }
+		// if the un is applied to a group, find the left grouper and splice there
+		} else if (entered[undex - 1].name === opRp.name) {
+			let foundLp = false;
+			let depth = 1;
+			findLp: for (k = undex - 2; k >= 0; k--) {
+				if (hasOp(lps, entered[k]) || hasOp(uns, entered[k])) {
+					depth--;
+					if (depth === 0) {
+						spliceOp(k, un);
+						foundLp = true;
+						break findLp;
+					}
+				} else if (entered[k].name === opRp.name) {
+					depth++;
+				}
+			}
+			if (!foundLp) {
+				spliceOp(0, un);
+			}
 
-	  }
+		}
 	}
 
 
@@ -584,20 +584,20 @@ function answer() {
 
 	for (i = 1; i < entered.length; i++) {
 
-	  // compare a pair of operations to see if they need to multiply
-	  let first = entered[i - 1];
-	  let second = entered[i];
+		// compare a pair of operations to see if they need to multiply
+		let first = entered[i - 1];
+		let second = entered[i];
 
-	  let spliceAtI = false;
+		let spliceAtI = false;
 
-	  // if the first is [], then splice if the second is []
-	  if (hasOp(digs, first)) {
-	    spliceAtI = hasOp(lps, second) || hasOp(uns, second) || hasOp(consts, second);
-	  } else if (hasOp(consts, first) || opRp.name === first.name) {
-	    spliceAtI = hasOp(lps, second) || hasOp(uns, second) || hasOp(consts, second) || hasOp(digs, second);
-	  }
+		// if the first is [], then splice if the second is []
+		if (hasOp(digs, first)) {
+			spliceAtI = hasOp(lps, second) || hasOp(uns, second) || hasOp(consts, second);
+		} else if (hasOp(consts, first) || opRp.name === first.name) {
+			spliceAtI = hasOp(lps, second) || hasOp(uns, second) || hasOp(consts, second) || hasOp(digs, second);
+		}
 
-	  if (spliceAtI) spliceOp(i, opMlt);
+		if (spliceAtI) spliceOp(i, opMlt);
 
 	}
 
@@ -615,35 +615,35 @@ function answer() {
 
 	// find digits and convert constants
 	for (i = 0; i < entered.length; i++) {
-	  let op = entered[i];
+		let op = entered[i];
 
-	  if (hasOp(digs, op)) {
-	    if (!wasOnDig) {
-	      beginning = i;
-	    }
-	    wasOnDig = true;
-	  } else {
-	    if (wasOnDig) {
-	      digIndexes.push([beginning, i]);
-	    }
-	    wasOnDig = false;
-	  }
+		if (hasOp(digs, op)) {
+			if (!wasOnDig) {
+				beginning = i;
+			}
+			wasOnDig = true;
+		} else {
+			if (wasOnDig) {
+				digIndexes.push([beginning, i]);
+			}
+			wasOnDig = false;
+		}
 
-	  if (hasOp(consts, op)) entered[i] = op.fn();
+		if (hasOp(consts, op)) entered[i] = op.fn();
 	}
 	if (wasOnDig) {
-	  digIndexes.push([beginning, entered.length]);
+		digIndexes.push([beginning, entered.length]);
 	}
 
 	// convert digits
 	for (i = digIndexes.length - 1; i >= 0; i--) {
-	  let is = digIndexes[i];
-	  let toParse = "";
-	  for (let l = is[0]; l < is[1]; l++) {
-	    toParse += entered[l].str;
-	  }
-	  let parsed = parseFloat(toParse);
-	  entered.splice(is[0], is[1] - is[0], parsed);
+		let is = digIndexes[i];
+		let toParse = "";
+		for (let l = is[0]; l < is[1]; l++) {
+			toParse += entered[l].str;
+		}
+		let parsed = parseFloat(toParse);
+		entered.splice(is[0], is[1] - is[0], parsed);
 	}
 
 
@@ -654,102 +654,102 @@ function answer() {
 	// find (first) most deeply grouped indexes in entered[]
 	// if array is "(3+2)", function will return [1,4]
 	function deepestPlace() {
-	  let deepest = 0;
-	  let depth = 0;
-	  let prevDepth = 0;
-	  let deepestIndexStart = 0;
-	  let deepestIndexEnd = entered.length;
-	  let inPlace = true;
-	  for (let i = 0; i < entered.length; i++) {
-	    let op = entered[i];
+		let deepest = 0;
+		let depth = 0;
+		let prevDepth = 0;
+		let deepestIndexStart = 0;
+		let deepestIndexEnd = entered.length;
+		let inPlace = true;
+		for (let i = 0; i < entered.length; i++) {
+			let op = entered[i];
 
-	    if (op.name) {
-	      if (hasOp(lps, op) || hasOp(uns, op)) depth++;
-	      if (opRp.name === op.name)            depth--;
-	    }
+			if (op.name) {
+				if (hasOp(lps, op) || hasOp(uns, op)) depth++;
+				if (opRp.name === op.name)            depth--;
+			}
 
-	    if (depth > deepest) {
-	      deepest = depth;
-	      deepestIndexStart = i + 1;
-	      inPlace = true;
-	    } else if (prevDepth === deepest && depth === deepest - 1 && inPlace) {
-	      deepestIndexEnd = i;
-	      inPlace = false;
-	    }
+			if (depth > deepest) {
+				deepest = depth;
+				deepestIndexStart = i + 1;
+				inPlace = true;
+			} else if (prevDepth === deepest && depth === deepest - 1 && inPlace) {
+				deepestIndexEnd = i;
+				inPlace = false;
+			}
 
-	    prevDepth = depth;
-	  }
-	  return [deepestIndexStart, deepestIndexEnd];
+			prevDepth = depth;
+		}
+		return [deepestIndexStart, deepestIndexEnd];
 	}
 
 	// evaluate
 	let dontBeInfinite = 0;
 
 	evaluate: while(entered.length > 1) {
-	  let place = deepestPlace();
+		let place = deepestPlace();
 
-	  // if the place is one item long , evaluate the grouping function
-	  if (place[0] > 0 && place[1] - place[0] <= 1) {
-	    let y = entered[place[0] - 1].fn(entered[place[0]]);
-	    entered.splice(place[0] - 1, 3, y);
-	    continue evaluate;
-	  }
+		// if the place is one item long , evaluate the grouping function
+		if (place[0] > 0 && place[1] - place[0] <= 1) {
+			let y = entered[place[0] - 1].fn(entered[place[0]]);
+			entered.splice(place[0] - 1, 3, y);
+			continue evaluate;
+		}
 
-	  // if the place has any unary minus signs, get 'em
-	  let changedArray = false;
-	  for (i = place[1] - 1; i >= place[0]; i--) {
-	    if (entered[i].name === opSub.name) {
-	      //console.log("minus at " + i);
-	      if (i === 0 || hasOp(lps, entered[i - 1]) || hasOp(uns, entered[i - 1]) || hasOp(bins, entered[i - 1])) {
-	        changedArray = true;
-	        entered.splice(i, 2, entered[i + 1] * -1);
-	      }
-	    }
-	  }
-	  if (changedArray) continue evaluate;
+		// if the place has any unary minus signs, get 'em
+		let changedArray = false;
+		for (i = place[1] - 1; i >= place[0]; i--) {
+			if (entered[i].name === opSub.name) {
+				//console.log("minus at " + i);
+				if (i === 0 || hasOp(lps, entered[i - 1]) || hasOp(uns, entered[i - 1]) || hasOp(bins, entered[i - 1])) {
+					changedArray = true;
+					entered.splice(i, 2, entered[i + 1] * -1);
+				}
+			}
+		}
+		if (changedArray) continue evaluate;
 
-	  // if the place uses binary operations, evaluate them with (G)EMA
+		// if the place uses binary operations, evaluate them with (G)EMA
 
-	  // M in GEMA
-	  let oopM = [ opMlt, opDiv ];
+		// M in GEMA
+		let oopM = [ opMlt, opDiv ];
 
-	  // A in GEMA
-	  let oopA = [ opAdd, opSub ];
+		// A in GEMA
+		let oopA = [ opAdd, opSub ];
 
-	  // first, opPow
-	  // remember: opPow is right associative (a^b^c = a^(b^c))
-	  for (i = place[1] - 2; i > place[0]; i--) {
-	    if (entered[i].name === opPow.name) {
-	      entered.splice(i - 1, 3, opPow.fn(entered[i - 1], entered[i + 1]));
-	      changedArray = true;
-	    }
-	  }
-	  if (changedArray) continue evaluate;
+		// first, opPow
+		// remember: opPow is right associative (a^b^c = a^(b^c))
+		for (i = place[1] - 2; i > place[0]; i--) {
+			if (entered[i].name === opPow.name) {
+				entered.splice(i - 1, 3, opPow.fn(entered[i - 1], entered[i + 1]));
+				changedArray = true;
+			}
+		}
+		if (changedArray) continue evaluate;
 
-	  // second, multiplication/division
-	  for (i = place[0] + 1; i < place[1] - 1; i++) {
-	    for (let o = 0; o < oopM.length; o++) {
-	      if (entered[i].name === oopM[o].name) {
-	        entered.splice(i - 1, 3, oopM[o].fn(entered[i - 1], entered[i + 1]));
-	        continue evaluate;
-	      }
-	    }
-	  }
+		// second, multiplication/division
+		for (i = place[0] + 1; i < place[1] - 1; i++) {
+			for (let o = 0; o < oopM.length; o++) {
+				if (entered[i].name === oopM[o].name) {
+					entered.splice(i - 1, 3, oopM[o].fn(entered[i - 1], entered[i + 1]));
+					continue evaluate;
+				}
+			}
+		}
 
-	  // third, addition/subtraction
-	  for (i = place[0] + 1; i < place[1] - 1; i++) {
-	    for (let p = 0; p < oopA.length; p++) {
-	      if (entered[i].name === oopA[p].name) {
-	        entered.splice(i - 1, 3, oopA[p].fn(entered[i - 1], entered[i + 1]));
-	        continue evaluate;
-	      }
-	    }
-	  }
+		// third, addition/subtraction
+		for (i = place[0] + 1; i < place[1] - 1; i++) {
+			for (let p = 0; p < oopA.length; p++) {
+				if (entered[i].name === oopA[p].name) {
+					entered.splice(i - 1, 3, oopA[p].fn(entered[i - 1], entered[i + 1]));
+					continue evaluate;
+				}
+			}
+		}
 
-	  if (dontBeInfinite++ > 1024) {
-	    console.warn("Prevented infinite loop!");
-	    break evaluate;
-	  }
+		if (dontBeInfinite++ > 1024) {
+			console.warn("Prevented infinite loop!");
+			break evaluate;
+		}
 	}
 
 	let theAnswer;
@@ -793,12 +793,12 @@ let currentBase;
 
 function colorBases() {
 	for (let i = 0; i < bases.length; i++) {
-	  let base = bases[i];
-	  if (base.r === currentBase.r) {
-	    get(base.btn).css("color", accentColor);
-	  } else {
-	    get(base.btn).css("color", "");
-	  }
+		let base = bases[i];
+		if (base.r === currentBase.r) {
+			get(base.btn).css("color", accentColor);
+		} else {
+			get(base.btn).css("color", "");
+		}
 	}
 
 	// highlight digit buttons
@@ -815,13 +815,13 @@ function colorBases() {
 function onHex(n) {
 	if (n >= currentBase.r) return;
 	if (currentBase.r === 2) {
-	  let bin = get(BIN.lbl).text().split(" ").join("");
-	  if (bin === "") bin = "0000";
-	  bin = parseInt(bin, 2).toString(2);
-	  bin = formatBin(bin + n.toString(2));
-	  get(BIN.lbl).text(bin);
+		let bin = get(BIN.lbl).text().split(" ").join("");
+		if (bin === "") bin = "0000";
+		bin = parseInt(bin, 2).toString(2);
+		bin = formatBin(bin + n.toString(2));
+		get(BIN.lbl).text(bin);
 	} else {
-	  get(currentBase.lbl).text(get(currentBase.lbl).text() + n.toString(currentBase.r).toUpperCase());
+		get(currentBase.lbl).text(get(currentBase.lbl).text() + n.toString(currentBase.r).toUpperCase());
 	}
 	convertFrom(currentBase);
 }
@@ -830,8 +830,8 @@ function setBase(o) {
 	onHexClear();
 	currentBase = o;
 	for (let i = 0; i < bases.length; i++) {
-	  let base = bases[i];
-	  get(base.btn).val(base.s);
+		let base = bases[i];
+		get(base.btn).val(base.s);
 	}
 	get(o.btn).val(bL + o.s + bR);
 	colorBases();
@@ -839,15 +839,15 @@ function setBase(o) {
 
 function convertFrom(o) {
 	for (let i = 0; i < bases.length; i++) {
-	  let base = bases[i];
-	  if (base.r === o.r) continue;
-	  let n = 0;
-	  let str = get(o.lbl).text().split(" ").join("");
-	  n = parseInt(str, o.r).toString(base.r).toUpperCase();
-	  if (base.r === 2) {
-	    n = formatBin(n);
-	  }
-	  get(base.lbl).text(n);
+		let base = bases[i];
+		if (base.r === o.r) continue;
+		let n = 0;
+		let str = get(o.lbl).text().split(" ").join("");
+		n = parseInt(str, o.r).toString(base.r).toUpperCase();
+		if (base.r === 2) {
+			n = formatBin(n);
+		}
+		get(base.lbl).text(n);
 	}
 }
 
@@ -859,7 +859,7 @@ function formatBin(n) {
 
 function onHexClear() {
 	for (let i = 0; i < bases.length; i++) {
-	  get(bases[i].lbl).text("");
+		get(bases[i].lbl).text("");
 	}
 }
 
@@ -888,30 +888,30 @@ let THOUSANDS = [ "", "M", "MM", "MMM"];
 // when you press a Hindu-Arabic button
 function onRomanDigit(n) {
 	lastFieldWasRoman = false;
-	if (n !== undefined && !(n == "." && get("lbl-roman-dec").text().includes("."))) {
-	  get("lbl-roman-dec").text(get("lbl-roman-dec").text() + n);
+	if (n !== undefined && !(n === "." && get("lbl-roman-dec").text().includes("."))) {
+		get("lbl-roman-dec").text(get("lbl-roman-dec").text() + n);
 	}
 	// convert dec to rom
 	let dec = get("lbl-roman-dec").text();
 	let rom = ""; // output string
 	if (parseFloat(dec) < 4000) {
-	  let whole = parseInt(dec).toString();
-	  if (whole > 0) {
-	    while (whole.length < 4) whole = "0" + whole;
-	    rom += THOUSANDS[whole.charAt(0)];
-	    rom += HUNDREDS[whole.charAt(1)];
-	    rom += TENS[whole.charAt(2)];
-	    rom += ONES[whole.charAt(3)];
-	  }
-	  let fraction = parseFloat(dec) % 1;
-	  if (fraction) {
-	    let uncia = Math.round(fraction * 12);
-	    if (uncia >= 12) uncia--;
-	    rom += UNCIAE[uncia];
-	  }
-	  get("lbl-roman-rom").text(rom);
+		let whole = parseInt(dec).toString();
+		if (whole > 0) {
+			while (whole.length < 4) whole = "0" + whole;
+			rom += THOUSANDS[whole.charAt(0)];
+			rom += HUNDREDS[whole.charAt(1)];
+			rom += TENS[whole.charAt(2)];
+			rom += ONES[whole.charAt(3)];
+		}
+		let fraction = parseFloat(dec) % 1;
+		if (fraction) {
+			let uncia = Math.round(fraction * 12);
+			if (uncia >= 12) uncia--;
+			rom += UNCIAE[uncia];
+		}
+		get("lbl-roman-rom").text(rom);
 	} else {
-	  get("lbl-roman-rom").text("");
+		get("lbl-roman-rom").text("");
 	}
 	romanCheckSizes();
 }
@@ -920,41 +920,41 @@ function onRomanDigit(n) {
 function onRomanNumeral(s) {
 	lastFieldWasRoman = true;
 	if (s) {
-	  get("lbl-roman-rom").text(get("lbl-roman-rom").text() + s);
+		get("lbl-roman-rom").text(get("lbl-roman-rom").text() + s);
 	}
 	// convert rom to dec
 	let rom = get("lbl-roman-rom").text();
 	let isANumber = true;
 	let isN;
 	let dec = 0;
-	if (rom == "N") {
-	  isN = true;
-	  isANumber = false;
+	if (rom === "N") {
+		isN = true;
+		isANumber = false;
 	}
 	let places = [
-	  {num: THOUSANDS, val: 1000},
-	  {num: HUNDREDS,  val: 100},
-	  {num: TENS,      val: 10},
-	  {num: ONES,      val: 1},
-	  {num: UNCIAE,    val: 1/12}
+		{num: THOUSANDS, val: 1000},
+		{num: HUNDREDS,  val: 100},
+		{num: TENS,      val: 10},
+		{num: ONES,      val: 1},
+		{num: UNCIAE,    val: 1/12}
 	];
 	for (let p = 0; p < places.length; p++) {
-	  let place = places[p];
-	  num: for (let i = place.num.length - 1; i >= 0; i--) {
-	    if (rom.substring(0, place.num[i].length) == place.num[i]) {
-	      dec += place.val * i;
-	      rom = rom.substring(place.num[i].length);
-	      break num;
-	    }
-	  }
+		let place = places[p];
+		num: for (let i = place.num.length - 1; i >= 0; i--) {
+			if (rom.slice(0, place.num[i].length) === place.num[i]) {
+				dec += place.val * i;
+				rom = rom.slice(place.num[i].length);
+				break num;
+			}
+		}
 	}
 	if (rom !== "") isANumber = false;
 	if (isANumber) {
-	  get("lbl-roman-dec").text(Math.round(100 * dec) / 100);
+		get("lbl-roman-dec").text(Math.round(100 * dec) / 100);
 	} else if (isN) {
-	  get("lbl-roman-dec").text(0);
+		get("lbl-roman-dec").text(0);
 	} else {
-	  get("lbl-roman-dec").text("");
+		get("lbl-roman-dec").text("");
 	}
 	romanCheckSizes();
 }
@@ -970,14 +970,14 @@ function romanCheckSizes() {
 	let dec = get("lbl-roman-dec").text();
 	let rom = get("lbl-roman-rom").text();
 	if (dec.length > romanMaxLength) {
-	  get("lbl-roman-dec").css("font-size", fontSizeSmall);
+		get("lbl-roman-dec").css("font-size", fontSizeSmall);
 	} else {
-	  get("lbl-roman-dec").css("font-size", fontSizeNormal);
+		get("lbl-roman-dec").css("font-size", fontSizeNormal);
 	}
 	if (rom.length > romanMaxLength) {
-	  get("lbl-roman-rom").css("font-size", fontSizeSmall);
+		get("lbl-roman-rom").css("font-size", fontSizeSmall);
 	} else {
-	  get("lbl-roman-rom").css("font-size", fontSizeNormal);
+		get("lbl-roman-rom").css("font-size", fontSizeNormal);
 	}
 }
 

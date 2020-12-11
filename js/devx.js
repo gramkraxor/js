@@ -14,7 +14,7 @@ trm.name = "DEVX"
 user.name = "";
 
 function getPrompt() {
-	if (user.name != "") {
+	if (user.name !== "") {
 		return user.name + "@" + trm.name.toLowerCase() + " # ";
 	}
 	return "d/";
@@ -133,7 +133,7 @@ let Terminal = function(cmdLineContainer, outputContainer) {
 	// history handler
 	$cmdLine.addEventListener("keydown", function(e) {
 		if (history.length) {
-			if (e.keyCode == 38 || e.keyCode == 40) {
+			if (e.keyCode === 38 || e.keyCode === 40) {
 				if (history[histpos]) {
 					history[histpos] = this.value;
 				} else {
@@ -141,19 +141,19 @@ let Terminal = function(cmdLineContainer, outputContainer) {
 				}
 			}
 
-			if (e.keyCode == 38) { // up
+			if (e.keyCode === 38) { // up
 				histpos--;
 				if (histpos < 0) {
 					histpos = 0;
 				}
-			} else if (e.keyCode == 40) { // down
+			} else if (e.keyCode === 40) { // down
 				histpos++;
 				if (histpos > history.length) {
 					histpos = history.length;
 				}
 			}
 
-			if (e.keyCode == 38 || e.keyCode == 40) {
+			if (e.keyCode === 38 || e.keyCode === 40) {
 				e.preventDefault();
 				this.value = history[histpos] ? history[histpos] : histtemp;
 				this.value = this.value; // set cursor to end of input
@@ -164,10 +164,10 @@ let Terminal = function(cmdLineContainer, outputContainer) {
 	// command entry handler
 	$cmdLine.addEventListener("keydown", function(e) {
 
-		if (e.keyCode == 9) { // tab
+		if (e.keyCode === 9) { // tab
 			e.preventDefault();
 			// implement tab suggest
-		} else if (e.keyCode == 13) { // enter
+		} else if (e.keyCode === 13) { // enter
 			// save shell history
 			if (this.value) {
 				history[history.length] = this.value;
@@ -193,13 +193,13 @@ let Terminal = function(cmdLineContainer, outputContainer) {
 			}
 
 			for (let i = 0; i <= cmds.length; i++) {
-				if (i == cmds.length) {
+				if (i === cmds.length) {
 					if (cmd) {
 						output(cmd + ": command not found");
 					}
 					continue;
 				}
-				if (cmds[i].name == cmd) {
+				if (cmds[i].name === cmd) {
 					cmds[i].run(args);
 					break;
 				}
@@ -247,8 +247,8 @@ let Terminal = function(cmdLineContainer, outputContainer) {
 				c(Math.abs(d.getTimezoneOffset()) % 60);
 
 			let imgSrc = "assets/devx.svg";
-			if (location.protocol == "file:") imgSrc = "../" + imgSrc;
-			output("<img align='left' src='" + imgSrc + "' width='100' height='100' style='padding: 0px 10px 20px 0px'><h2 style='letter-spacing: 4px'>DEVX Terminal</h2><p>" + date + "</p><p>Enter 'help' for more information.</p><br>");
+			if (location.protocol === "file:") imgSrc = "../" + imgSrc;
+			output("<img align='left' src='" + imgSrc + "' width='100' height='100' style='padding: 0px 10px 20px 0px'><h2 style='letter-spacing: 4px'>DEVX Terminal</h2><p>" + date + "</p><p>Enter \"help\" for more information.</p><br>");
 		},
 		//output: output
 	}

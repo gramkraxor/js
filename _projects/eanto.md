@@ -1,6 +1,5 @@
 ---
-title: Tajpu
-lang: eo
+title: "Tajpu - Eanto"
 icon: stelo.png
 css: eanto
 js:

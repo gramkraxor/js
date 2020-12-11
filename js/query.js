@@ -3,7 +3,6 @@
  * (c) 2018 Gramkraxor
  */
 
-
 function Query(id, defaultVal, fromString, toString) {
 	this.id = id;
 	this.defaultVal = defaultVal;
@@ -13,7 +12,7 @@ function Query(id, defaultVal, fromString, toString) {
 	Query.queries.push(this);
 }
 
-Query.prototype.toString = function() { return this.val.toString(); }
+Query.prototype.toString = function() { return this.val.toString(); };
 
 Query.queries = [];
 Query.hasLoaded = false;
@@ -22,12 +21,12 @@ Query.getQueryString = function() {
 	let r = "";
 	for (let i = 0; i < Query.queries.length; i++) {
 		let q = Query.queries[i];
-		if (q.val == q.defaultVal) continue;
+		if (q.val === q.defaultVal) continue;
 		r += "&" + q.id + "=" + q.toString();
 	}
 	if (r.length) r = "?" + r.substr(1);
 	return r;
-}
+};
 
 Query.updateQueryString = function() {
 	if (!Query.hasLoaded) return;
@@ -36,14 +35,14 @@ Query.updateQueryString = function() {
 		document.title,
 		location.origin + location.pathname + Query.getQueryString()
 	);
-}
+};
 
 Query.getUrlParameter = function(name) {
 	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
 	var results = regex.exec(location.search);
 	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
+};
 
 Query.load = function() {
 	for (let i = 0; i < Query.queries.length; i++) {
@@ -51,4 +50,4 @@ Query.load = function() {
 		q.fromString(Query.getUrlParameter(q.id));
 	}
 	Query.hasLoaded = true;
-}
+};

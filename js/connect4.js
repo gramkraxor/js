@@ -3,16 +3,14 @@
  * (c) 2018 Gramkraxor
  */
 
-const
-cols = 7,
-rows = 6,
-connect = 4;
+const cols = 7;
+const rows = 6;
+const connect = 4;
 
-let
-board = [],
-won = false,
-tpm = false,
-turn = 1;
+let board = [];
+let won = false;
+let tpm = false;
+let turn = 1;
 
 const AUTHORS = [ "Gramkraxor" ];
 const YEAR = 2018;
@@ -80,7 +78,7 @@ $(function() {
 });
 
 function def(x) {
-	return typeof x != "undefined";
+	return typeof x !== "undefined";
 }
 
 function cell(col, row) {
@@ -121,7 +119,7 @@ function onClick(col) {
 				updateTurn();
 			}
 			return;
-		} else if (turn == 1) {
+		} else if (turn === 1) {
 			if (drop(col, 1)) ai();
 		}
 	}
@@ -131,7 +129,7 @@ function onClick(col) {
 // returns false if game over
 function drop(col, p) {
 	for (let row = 0; row < rows; row++) {
-		if (board[col][row] == 0) {
+		if (board[col][row] === 0) {
 			board[col][row] = p;
 			$cell(col, row).addClass("p" + p)
 			return !bingo(p);
@@ -148,9 +146,9 @@ function bingo(p) {
 	}
 	let cells = []; // counter, stores winning cells
 	let check = function(a, b) {
-		if (board[a][b] == p) {
+		if (board[a][b] === p) {
 			cells.push($cell(a, b));
-			if (cells.length == connect) {
+			if (cells.length === connect) {
 				win(p, cells);
 				return true;
 			}
@@ -158,7 +156,7 @@ function bingo(p) {
 			cells = [];
 		}
 		return false;
-	}
+	};
 	// check for horizontal wins
 	for (let y = 0; y < rows; y++) {
 		for (let x = 0; x < cols; x++) if (check(x, y)) return true;
@@ -193,17 +191,11 @@ function win(p, cells) {
 }
 
 function ai() {
-	while(!drop(Math.floor(Math.random() * (cols)), 2) && !won) {} // randomly drop a piece, try again if it didn't work
-
+	// randomly drop a piece, try again if it didn't work
+	while(!drop(Math.floor(Math.random() * (cols)), 2) && !won) {
+	}
 }
 
 function dark(b) {
-	let $body = $("body");
-	let d = "dark";
-	if (typeof b != "boolean") b = !$body.hasClass(d);
-	if (b) {
-		$body.addClass(d);
-	} else {
-		$body.removeClass(d);
-	}
+	$("body").toggleClass("dark", b);
 }

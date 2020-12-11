@@ -3,17 +3,15 @@
  * (c) 2018 Gramkraxor
  */
 
-doz.log();
 rom.log();
 
-let
-NAME = "Dozer",
-AUTHORS = [ "Gramkraxor" ],
-YEAR = 2018,
-charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-bases = [],
-labelBase = 12,
-usedModes = [ "AB", "XE", "ZEU" ];
+let NAME = "Dozer";
+let AUTHORS = [ "Gramkraxor" ];
+let YEAR = 2018;
+let charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+let bases = [];
+let labelBase = 12;
+let usedModes = [ "AB", "XE", "ZEU" ];
 
 let qCustomRadix  = new Query("c", 0, enterCustomRadix);
 
@@ -26,9 +24,9 @@ let qCurrentEntry = new Query("n",  0, function(v) {
 });
 
 function Base(c, a) {
-	if (typeof c == "number") {
+	if (typeof c === "number") {
 		this.r = c;
-		this.c = charset.substring(0, this.r);
+		this.c = charset.slice(0, this.r);
 	} else {
 		this.r = c.length;
 		this.c = c;
@@ -38,7 +36,7 @@ function Base(c, a) {
 		for (let i = 0; i < a.length; i++) {
 			this.a.push(a[i].toLowerCase());
 		}
-	} else if (typeof a == "string") {
+	} else if (typeof a === "string") {
 		this.a.push(a);
 	}
 	bases.push(this);
@@ -89,11 +87,11 @@ $(function() {
 				.attr("type", "text")
 				.attr("id", "roman")
 				.click(function() {
-					if ($(this).val() == rom.N) $(this).val("");
+					if ($(this).val() === rom.N) $(this).val("");
 					setLabels($(this).attr("id"));
 				})
 				.keypress(function(e) {
-					if (e.which == 13) enter($(this));
+					if (e.which === 13) enter($(this));
 				})
 			)
 		)
@@ -118,7 +116,7 @@ $(function() {
 						setLabels($(this).attr("id"));
 					})
 					.keypress(function(e) {
-						if (e.which == 13) enter($(this));
+						if (e.which === 13) enter($(this));
 					})
 				)
 		);
@@ -145,7 +143,7 @@ $(function() {
 				enterCustomRadix();
 			})
 			.keypress(function(e) {
-				if (e.which == 13) enterCustomRadix();
+				if (e.which === 13) enterCustomRadix();
 			})
 		)
 		.append($("<input>")
@@ -156,7 +154,7 @@ $(function() {
 				setLabels($(this).attr("id"));
 			})
 			.keypress(function(e) {
-				if (e.which == 13) enter($(this));
+				if (e.which === 13) enter($(this));
 			})
 		)
 
@@ -174,7 +172,7 @@ $(function() {
 					.click(function() {
 						setMode(doz[this.id.toUpperCase()]);
 					})
-					.prop("checked", m == qCurrentMode.val)
+					.prop("checked", m === qCurrentMode.val)
 				)
 				.append($("<label>")
 					.attr("for", mIndex.toLowerCase())
@@ -198,7 +196,7 @@ function repl(s, o, n) {
 function getModeIndex(x) {
 	if (usedModes.includes(x.toUpperCase())) return x.toUpperCase();
 	for (let i = 0; i < usedModes.length; i++) {
-		if (x == doz[usedModes[i]]) return usedModes[i];
+		if (x === doz[usedModes[i]]) return usedModes[i];
 	}
 	return getModeIndex(qCurrentMode.defaultVal);
 }
@@ -222,15 +220,15 @@ function dozMode(s, m) {
 }
 
 function getBase(v) {
-	if (v == "roman") return bDec;
+	if (v === "roman") return bDec;
 	if (v instanceof Base) return v;
-	if (typeof v == "string") v = v.toLowerCase();
-	if (typeof v == "number") v = Math.floor(v);
+	if (typeof v === "string") v = v.toLowerCase();
+	if (typeof v === "number") v = Math.floor(v);
 	for (let i = 0; i < bases.length; i++) {
 		let b = bases[i];
 		if (v == b || v == b.r || b.a.includes(v)) return b;
 	}
-	if (typeof v == "number" && v <= charset.length && v > 1) return new Base(v);
+	if (typeof v === "number" && v <= charset.length && v > 1) return new Base(v);
 	return bDec;
 }
 
@@ -247,23 +245,21 @@ function enter($input) {
 	setLabels(id);
 
 	let radix;
-	if (id == "custom") {
+	if (id === "custom") {
 		if (!qCustomRadix.val) {
-			radix = doz.D;
+			radix = 10;
 			v = "0";
 		}
 		radix = qCustomRadix.val;
-	} else if (id != "roman") {
+	} else if (id !== "roman") {
 		radix = getBase(id).r;
 	}
 
-	if (id == "roman") {
+	if (id === "roman") {
 		v = rom(repl(v, "\u2022", "*"));
 	} else {
-		if (radix == 12) v = dozMode(v, doz.AB);
-		while (v.startsWith("0") && v.length > 1) v = v.substring(1, v.length);
-		if (v.length == 0) v == "0";
-		v = doz.getNumber(v, radix);
+		if (radix === 12) v = dozMode(v, doz.AB);
+		v = doz(v, radix);
 	}
 
 	if (isNaN(v)) v = 0;
@@ -271,13 +267,13 @@ function enter($input) {
 	for (let i = 0; i < bases.length; i++) {
 		let b = bases[i];
 		let val = doz.getString(v, b.r);
-		if (b.r == 12) val = dozMode(val, qCurrentMode.val);
-		if (val == "0") val = "";
+		if (b.r === 12) val = dozMode(val, qCurrentMode.val);
+		if (val === "0") val = "";
 		$("#" + b.a[0]).val(val);
 	}
 	// replace dozenths (*) with bullet character
-	$("#roman").val(repl(rom.getString(v, true, true), "*", "\u2022"));
-	if (qCustomRadix.val && v != 0) {
+	$("#roman").val(repl(rom.getString(v, { useN: true }), "*", "\u2022"));
+	if (qCustomRadix.val && v !== 0) {
 		$("#custom").val(doz(v, qCustomRadix.val));
 	} else {
 		$("#custom").val("");
@@ -298,7 +294,7 @@ function enterCustomRadix(radix) {
 	}
 
 	for (let i = 0; i < english.length; i++) {
-		if (repl(radix, " ", "-") == english[i]) {
+		if (repl(radix, " ", "-") === english[i]) {
 			radix = i;
 			break;
 		}
@@ -323,9 +319,9 @@ function enterCustomRadix(radix) {
 }
 
 function setLabels(b) {
-	let r = (b == "roman");
-	let c = (b == "custom");
-	let z = (b == "doz");
+	let r = (b === "roman");
+	let c = (b === "custom");
+	let z = (b === "doz");
 
 	if (b && !r && !c) {
 		labelBase = getBase(b).r;
@@ -335,7 +331,7 @@ function setLabels(b) {
 	}
 
 	//let v = r ? rom(VERSION)  : doz(VERSION,  labelBase, z ? qCurrentMode.val : undefined);
-	let y = r ? rom(YEAR) : doz(YEAR, labelBase, z ? qCurrentMode.val : undefined);
+	let y = r ? rom(YEAR) : doz.toMode(doz(YEAR, labelBase), z ? qCurrentMode.val : undefined);
 
 	//$("#title").text(NAME + " v" + v);
 	$("#footer").text(["\u00A9", y, AUTHORS[0]].join(" "));
@@ -378,21 +374,12 @@ eggRainbow.loop = function() {
 	eggRainbow.hue %= 360;
 	let l = $("body").hasClass("dark")? 25 : 75;
 	$("body").css("background", "hsl(" + eggRainbow.hue + ", 100%, " + l + "%)");
-}
+};
 
 function eggDark(b) {
-	let c = "dark";
-	if (b) {
-		$("body").addClass(c);
-	} else {
-		$("body").removeClass(c);
-	}
+	$("body").toggleClass("dark", b);
 }
 
 function eggFlip() {
-	if ($("body").hasClass("flip")) {
-		$("body").removeClass("flip");
-	} else {
-		$("body").addClass("flip");
-	}
+	$("body").toggleClass("flip");
 }

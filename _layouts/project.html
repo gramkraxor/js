@@ -1,6 +1,6 @@
 <!doctype html>
-<meta charset='utf-8'>
-<link rel='canonical' href='{{ page.url | absolute_url }}'>
+<meta charset="utf-8">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
 
 {%- if page.title_override %}
 <title>{{ page.title_override }}</title>
@@ -9,31 +9,31 @@
 {% endif -%}
 
 {%- if page.desc -%}
-<meta name='description' content='{{ page.desc | escape }}'>
+<meta name="description" content="{{ page.desc | escape }}">
 {% endif -%}
 
 {%- if page.meta_viewport -%}
-<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 {% endif -%}
 
 {%- if page.icon -%}
-<link rel='icon' href='{{ "/assets/" | append: page.icon | relative_url }}'>
+<link rel="icon" href="{{ '/assets/' | append: page.icon | relative_url }}">
 {% endif -%}
 
-{%- if page.css -%}
 {%- for link in page.css -%}
-<link rel='stylesheet' href='{{ "/css/" | append: link | append: ".css" | relative_url }}'>
+<link rel="stylesheet" href="{{ '/css/' | append: link | append: '.css' | relative_url }}">
 {% endfor -%}
-{%- endif -%}
 
-{%- if page.js -%}
 {%- for link in page.js -%}
-{%- if link == "jquery" -%}
-<script src='{{ site.jquery }}'></script>
+{%- if link == 'jquery' -%}
+<script src="{{ site.jquery }}"></script>
 {% else -%}
-<script src='{{ "js/" | append: link | append: ".js" | relative_url }}'></script>
+<script src="{{ '/js/' | append: link | append: '.js' | relative_url }}"></script>
 {% endif -%}
 {%- endfor -%}
-{%- endif -%}
+
+{%- for link in page.js_defer -%}
+<script defer src="{{ '/js/' | append: link | append: '.js' | relative_url }}"></script>
+{%- endfor -%}
 
 {{- content -}}

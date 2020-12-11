@@ -1,6 +1,7 @@
 ---
+title: "Dozagon"
 css: dozagon
-js:
+js_defer:
   - dozagon
 rank: 1000
 ---

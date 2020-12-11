@@ -1,9 +1,10 @@
 ---
-title: "&phi;"
+title: "&Phi;"
 css: phi
 js:
   - jquery
-  - vectors
+  - v
+js_defer:
   - phi
 rank: 2000
 ---

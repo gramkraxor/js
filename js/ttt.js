@@ -1,19 +1,19 @@
 /*
- * js/ttt v2.0.0
+ * js/ttt v2.0.1
  * Ultimate Tic Tac Toe game
  * (c) 2018 Gramkraxor
  */
 
 const NAME = "Ultimate Tic Tac Toe";
 const ID = "js/ttt";
-const VERSION = "2.0.0";
+const VERSION = "2.0.1";
 const AUTHORS = [ "Gramkraxor" ];
 const YEAR = 2018;
 
 const players = [ "x", "o" ];
 const open = "_";
 
-const colorClasses = [ "dark", "pale" ];
+const colorClasses = [ "dark", "muted" ];
 
 const boardSizes = [ 2, 3, 4, 5 ];
 const defaultBoardSizesIndex = 1;
@@ -30,21 +30,19 @@ let turnsTaken;
 let beenUndone;
 let prevData;
 
-$(() => {
-	$("body")
-		.append($("<div>", { id: "wrapper" })
-			.append($("<div>", { id: "board" }))
-			.append($("<div>", { id: "buttons" })
-				.append($("<div>", { id: "undo",    text:  "Undo",   click: onUndo    }))
-				.append($("<div>", { id: "reset",   text:  "Reset",  click: onReset   }))
-				.append($("<div>", { id: "resize",                   click: onResize  }))
-				.append($("<div>", { id: "recolor", html:  "&nbsp;", click: onRecolor }))
-			)
+$("body")
+	.append($("<div>", { id: "wrapper" })
+		.append($("<div>", { id: "board" }))
+		.append($("<div>", { id: "buttons" })
+			.append($("<div>", { id: "undo",    text:  "Undo",   click: onUndo    }))
+			.append($("<div>", { id: "reset",   text:  "Reset",  click: onReset   }))
+			.append($("<div>", { id: "resize",                   click: onResize  }))
+			.append($("<div>", { id: "recolor", html:  "&nbsp;", click: onRecolor }))
 		)
-		.append($("<div>", { id: "v", text: "v" + VERSION }))
-		.append($("<div>", { id: "gk", text: "\u00A9 " + AUTHORS[0] }));
-	onStart();
-});
+	)
+	.append($("<div>", { id: "v", text: "v" + VERSION }))
+	.append($("<div>", { id: "gk", text: "\u00A9 " + AUTHORS[0] }));
+onStart();
 
 
 function copy(arr) {
@@ -258,7 +256,7 @@ function newDomBoard() {
 						.append($("<div>", {
 							id: getName(gx, gy, mx, my),
 							class: "m",
-							click: () => onClick(gx, gy, mx, my)
+							click: function() { onClick(gx, gy, mx, my) }
 						}))
 					);
 				}
@@ -402,14 +400,14 @@ function wipeish() {
 
 
 function displayBoard(arr) {
-	let addCell = (cell) => {
+	let addCell = function(cell) {
 		if (cell === "cat") {
 			r += "="
 		} else {
 			r += cell;
 		}
 		r += " ";
-	}
+	};
 	let r = "Local Boards:\n";
 
 	for (let gy = 0; gy < getBoardSize(); gy++) {

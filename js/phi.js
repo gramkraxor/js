@@ -3,58 +3,48 @@
  * (c) 2018 Gramkraxor
  */
 
+const AUTHORS = [ "Gramkraxor" ];
+const YEAR = 2018;
 
 // namespace object
 const stage = {
-	size: nV(576, 576),
+	size: V(576, 576),
 	bg: "#000000"
 };
 
 const mspf = 25; // milliseconds per frame
 
-const AUTHORS = [ "Gramkraxor" ];
-const YEAR = 2018;
-
 // gravity constant
 //let G = 7.6;
 let G = 7.5 + 0.2 * Math.random();
+//let G = 3.9 + 0.2 * Math.random();
 
-// ID of setInterval(draw)
-let loopId;
-
-function und(x) {
-	return typeof x == "undefined";
-}
-
-// stage context
-let ctx;
-
-// all bodies in the stage
 let bodies = [];
 
+
 function Body(vpos, vvel, vsiz, nmas, scol) {
-	this.pos = vpos instanceof Vector ? vpos : nV(0, 0);
-	this.vel = vvel instanceof Vector ? vvel : nV(0, 0);
-	this.siz = vsiz instanceof Vector ? vsiz : nV(4, 4);
-	this.mas = isNaN(nmas)? 1         : nmas;
-	this.col = und(scol)?   "#FF0000" : scol;
+	this.pos = vpos instanceof V ? vpos : V(0, 0);
+	this.vel = vvel instanceof V ? vvel : V(0, 0);
+	this.siz = vsiz instanceof V ? vsiz : V(4, 4);
+	this.mas = isNaN(nmas)? 1 : nmas;
+	this.col = scol || "#FF0000";
 	bodies.push(this);
 }
 
 Body.prototype.draw = function() {
 	stage.rect(this.pos, this.siz, this.col);
-}
+};
 
 stage.fill = function(style) {
 	ctx.fillStyle = style;
-}
+};
 
-// takes two Vector objects
+// takes two V objects
 // and a color, too
 stage.rect = function(pos, siz, col) {
-	if (!und(col)) ctx.fillStyle = col;
+	if (col) ctx.fillStyle = col;
 	ctx.fillRect(pos.x, pos.y, siz.x, siz.y);
-}
+};
 
 // looping refresh drawing function
 function draw() {
@@ -67,15 +57,19 @@ function draw() {
 		ctx.fillStyle = b.col;
 		ctx.fillRect(b.pos.x - b.siz.x / 2, b.pos.y - b.siz.y / 2, b.siz.x, b.siz.y);
 
+/*
+	}for (let i = 0; i < bodies.length; i++) {
+		let b = bodies[i];
+//*/
 
 		gravity:
 		for (let j = 0; j < bodies.length; j++) {
-			if (j == i) continue gravity;
+			if (j === i) continue gravity;
 			let b1 = bodies[i];
-		 	let b2 = bodies[j];
+			let b2 = bodies[j];
 
-		 	let m1 = b1.mas;
-		 	let m2 = b2.mas;
+			let m1 = b1.mas;
+			let m2 = b2.mas;
 
 			let vr = b2.pos.add(b1.pos.scale(-1));
 			let r = vr.length();
@@ -89,54 +83,50 @@ function draw() {
 	}
 }
 
-// on document load
-$(function() {
-
-	$("body")
-		.append($("<div>")
-			.append($("<div>")
-				.attr("id", "title")
-				//.text("\u03c6")
-				.append("&phi;")
-			)
-			.append($("<canvas>")
-				.attr("id", "stage")
-				.attr("width",  stage.size.x)
-				.attr("height", stage.size.y)
-			)
-		)
-		.append($("<div>")
-			.attr("id", "footer")
-			.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
-			.click(dark)
-		)
-	;
-
-	ctx = $("#stage")[0].getContext("2d");
-
-	dark();
-
-	loopId = setInterval(draw, mspf); // loop at proper fps
-
-});
-
 function dark(b) {
-	let $body = $("body");
-	let d = "dark";
-	if (typeof b != "boolean") b = !$body.hasClass(d);
-	if (b) {
-		$body.addClass(d);
-	} else {
-		$body.removeClass(d);
-	}
+	$("body").toggleClass("dark", b);
 }
 
+new Body(V(288, 288), V( 0,  0), V(10, 10), 5, "#ffffff");
+
+new Body(V(288, 216), V(-1,  0), V(10, 10), 5, "#ff0000");
+new Body(V(360, 288), V( 0, -1), V(10, 10), 5, "#80ff00");
+new Body(V(288, 360), V( 1,  0), V(10, 10), 5, "#00ffff");
+new Body(V(216, 288), V( 0,  1), V(10, 10), 5, "#8000ff");
+
 /*
-body(nV(216, 288), nV(0, 1), nV(10, 10), 1, "#FF00FF");
-body(nV(288, 288), nV(0, -0.1), nV(20, 20), 10, "#00FF00");
-*/
-new Body(nV(216, 288), nV( 0,  1), nV(10, 10), 5, "#FF0000");
-new Body(nV(288, 216), nV(-1,  0), nV(10, 10), 5, "#00FF00");
-new Body(nV(360, 288), nV( 0, -1), nV(10, 10), 5, "#00FFFF");
-new Body(nV(288, 360), nV( 1,  0), nV(10, 10), 5, "#FF00FF");
-new Body(nV(288, 288), nV( 0,  0), nV(10, 10), 5, "#FFFFFF");
+let off = (x, y) => V(288, 288).add(72 * x, 72 * y);
+let lil = Math.sin(2*Math.PI / 12);
+let big = Math.cos(2*Math.PI / 12);
+new Body(off( lil, -big), V(-big, -lil), V(10, 10), 5, "#ff8000");
+new Body(off( big, -lil), V(-lil, -big), V(10, 10), 5, "#ffff00");
+new Body(off( big,  lil), V( lil, -big), V(10, 10), 5, "#00ff00");
+new Body(off( lil,  big), V( big, -lil), V(10, 10), 5, "#00ff80");
+new Body(off(-lil,  big), V( big,  lil), V(10, 10), 5, "#0080ff");
+new Body(off(-big,  lil), V( lil,  big), V(10, 10), 5, "#0000ff");
+new Body(off(-big, -lil), V(-lil,  big), V(10, 10), 5, "#ff00ff");
+new Body(off(-lil, -big), V(-big,  lil), V(10, 10), 5, "#ff0080");
+//*/
+
+$("body")
+	.append($("<div>")
+		.append($("<div>")
+			.attr("id", "title")
+			.html("&phi;")
+		)
+		.append($("<canvas>")
+			.attr("id", "stage")
+			.attr("width",  stage.size.x)
+			.attr("height", stage.size.y)
+		)
+	)
+	.append($("<div>")
+		.attr("id", "footer")
+		.text(["\u00A9", YEAR, AUTHORS[0]].join(" "))
+		.click(dark)
+		.click()
+	)
+;
+
+let ctx = $("#stage")[0].getContext("2d");
+let loopId = setInterval(draw, mspf);
