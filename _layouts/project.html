@@ -23,10 +23,11 @@
 {%- for link in page.css -%}
 <link rel="stylesheet" href="{{ '/css/' | append: link | append: '.css' | relative_url }}">
 {% endfor -%}
+<link rel="stylesheet" href="{{ '/lib/font/ubuntu-mono.css' | relative_url }}">
 
 {%- for link in page.js -%}
 {%- if link == 'jquery' -%}
-<script src="{{ site.jquery }}"></script>
+<script src="{{ '/lib/jquery.min.js' | relative_url }}"></script>
 {% else -%}
 <script src="{{ '/js/' | append: link | append: '.js' | relative_url }}"></script>
 {% endif -%}
